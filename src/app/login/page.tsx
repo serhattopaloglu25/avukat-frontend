@@ -164,16 +164,6 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-
-        {/* Demo Credentials */}
-        <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-lg text-center">
-          <p className="text-white/60 text-sm mb-2">Demo hesap bilgileri:</p>
-          <p className="text-white/80 text-sm">
-            <strong>Kullanıcı:</strong> admin<br />
-            <strong>Şifre:</strong> 123456
-          </p>
-        </div>
       </div>
-    </div>
   );
 }

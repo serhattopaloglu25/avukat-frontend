@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronRight, Calendar, Users, FileText, BarChart3, Shield, Clock, Star, Menu, X } from 'lucide-react';
 
@@ -75,9 +76,9 @@ export default function LandingPage() {
               <a href="#features" className="text-white/80 hover:text-white transition-colors">ozellikler</a>
               <a href="#testimonials" className="text-white/80 hover:text-white transition-colors">Referanslar</a>
               <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Fiyatlar</a>
-              <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+              <Link href="/login" className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
                 Giris Yap
-              </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -99,9 +100,9 @@ export default function LandingPage() {
               <a href="#features" className="block text-white/80 hover:text-white">ozellikler</a>
               <a href="#testimonials" className="block text-white/80 hover:text-white">Referanslar</a>
               <a href="#pricing" className="block text-white/80 hover:text-white">Fiyatlar</a>
-              <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg">
+              <Link href="/login" className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg">
                 Giris Yap
-              </button>
+              </Link>
             </div>
           </div>
         )}
