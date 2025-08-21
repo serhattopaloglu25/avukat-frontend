@@ -3,58 +3,58 @@ import { useState } from 'react';
 import { ChevronRight, Calendar, Users, FileText, BarChart3, Shield, Clock, Star, Menu, X } from 'lucide-react';
 
 export default function LandingPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setisMenuOpen] = useState(false);
 
   const features = [
     {
       icon: Calendar,
-      title: "Akıllı Randevu Sistemi",
-      description: "Çakışma kontrolü ile otomatik randevu yönetimi. Müşterilerinizle kolay iletişim."
+      title: "Akilli Randevu Sistemi",
+      description: "cakisma kontrolu ile otomatik randevu yonetimi. Musterilerinizle kolay iletisim."
     },
     {
       icon: Users,
-      title: "Müşteri Yönetimi",
-      description: "Tüm müşteri bilgilerini tek yerden yönetin. Detaylı kayıtlar ve hızlı arama."
+      title: "Musteri Yonetimi",
+      description: "Tum musteri bilgilerini tek yerden yonetin. Detayli kayitlar ve hizli arama."
     },
     {
       icon: FileText,
       title: "Dava Takip Sistemi",
-      description: "Davalarınızı, duruşmalarınızı ve belgelerinizi sistematik olarak takip edin."
+      description: "Davalarinizi, durusmalarinizi ve belgelerinizi sistematik olarak takip edin."
     },
     {
       icon: BarChart3,
       title: "Analitik Raporlar",
-      description: "İş performansınızı analiz edin. Detaylı raporlar ve istatistikler."
+      description: "İs performansinizi analiz edin. Detayli raporlar ve istatistikler."
     },
     {
       icon: Shield,
-      title: "Güvenli Veri Saklama",
-      description: "Müşteri bilgileri güvenle saklanır. KVKK uyumlu veri yönetimi."
+      title: "Guvenli Veri Saklama",
+      description: "Musteri bilgileri guvenle saklanir. KVKK uyumlu veri yonetimi."
     },
     {
       icon: Clock,
-      title: "7/24 Erişim",
-      description: "İstediğiniz yerden, istediğiniz zaman sisteminize erişin."
+      title: "7/24 Erisim",
+      description: "İstediginiz yerden, istediginiz zaman sisteminize erisin."
     }
   ];
 
   const testimonials = [
     {
-      name: "Av. Mehmet Yılmaz",
-      title: "Ticaret Hukuku Uzmanı",
-      content: "Avukat Ajanda sayesinde iş süreçlerim daha verimli. Müşteri memnuniyeti arttı.",
+      name: "Av. Mehmet Yilmaz",
+      title: "Ticaret Hukuku Uzmani",
+      content: "Avukat Ajanda sayesinde is sureclerim daha verimli. Musteri memnuniyeti artti.",
       rating: 5
     },
     {
-      name: "Av. Ayşe Demir",
-      title: "Aile Hukuku Avukatı",
-      content: "Dava takibi hiç bu kadar kolay olmamıştı. Tüm bilgilerim düzenli ve erişilebilir.",
+      name: "Av. Ayse Demir",
+      title: "Aile Hukuku Avukati",
+      content: "Dava takibi hic bu kadar kolay olmamisti. Tum bilgilerim duzenli ve erisilebilir.",
       rating: 5
     },
     {
-      name: "Av. Can Özkan",
-      title: "Ceza Hukuku Uzmanı",
-      content: "Randevu sistemi mükemmel. Artık çifte rezervasyon sorunları yaşamıyorum.",
+      name: "Av. Can ozkan",
+      title: "Ceza Hukuku Uzmani",
+      content: "Randevu sistemi mukemmel. Artik cifte rezervasyon sorunlari yasamiyorum.",
       rating: 5
     }
   ];
@@ -72,18 +72,18 @@ export default function LandingPage() {
             
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-white/80 hover:text-white transition-colors">Özellikler</a>
+              <a href="#features" className="text-white/80 hover:text-white transition-colors">ozellikler</a>
               <a href="#testimonials" className="text-white/80 hover:text-white transition-colors">Referanslar</a>
               <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Fiyatlar</a>
               <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
-                Giriş Yap
+                Giris Yap
               </button>
             </div>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onClick={() => setisMenuOpen(!isMenuOpen)}
                 className="text-white p-2"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -96,11 +96,11 @@ export default function LandingPage() {
         {isMenuOpen && (
           <div className="md:hidden bg-black/20 backdrop-blur-md border-t border-white/20">
             <div className="px-4 py-4 space-y-4">
-              <a href="#features" className="block text-white/80 hover:text-white">Özellikler</a>
+              <a href="#features" className="block text-white/80 hover:text-white">ozellikler</a>
               <a href="#testimonials" className="block text-white/80 hover:text-white">Referanslar</a>
               <a href="#pricing" className="block text-white/80 hover:text-white">Fiyatlar</a>
               <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg">
-                Giriş Yap
+                Giris Yap
               </button>
             </div>
           </div>
@@ -112,18 +112,18 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Avukatlar İçin
+              Avukatlar İcin
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent block">
-                Akıllı Ajanda
+                Akilli Ajanda
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed">
-              Müşterilerinizi, randevularınızı ve davalarınızı tek platformda yönetin. 
-              Hukuk pratiğinizi dijitalleştirin, verimliliğinizi artırın.
+              Musterilerinizi, randevularinizi ve davalarinizi tek platformda yonetin. 
+              Hukuk pratiginizi dijitallestirin, verimliliginizi artirin.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
-                <span>Ücretsiz Deneyin</span>
+                <span>ucretsiz Deneyin</span>
                 <ChevronRight size={20} />
               </button>
               <button className="border-2 border-white/30 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 transition-all duration-300">
@@ -139,10 +139,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Güçlü Özellikler
+              Guclu ozellikler
             </h2>
             <p className="text-xl text-white/70 max-w-3xl mx-auto">
-              Avukatlık pratiğinizi kolaylaştıracak, zamandan tasarruf ettirecek akıllı araçlar
+              Avukatlik pratiginizi kolaylastiracak, zamandan tasarruf ettirecek akilli araclar
             </p>
           </div>
 
@@ -168,10 +168,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Müşteri Yorumları
+              Musteri Yorumlari
             </h2>
             <p className="text-xl text-white/70">
-              Avukat Ajandayı kullanan meslektaşlarımızın deneyimleri
+              Avukat Ajandayi kullanan meslektaslarimizin deneyimleri
             </p>
           </div>
 
@@ -203,14 +203,14 @@ export default function LandingPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Hemen Başlayın
+            Hemen Baslayin
           </h2>
           <p className="text-xl text-white/70 mb-8">
-            Avukat Ajanda ile hukuk pratiğinizi modernleştirin. 
-            Ücretsiz deneme sürümü ile risksiz başlayın.
+            Avukat Ajanda ile hukuk pratiginizi modernlestirin. 
+            ucretsiz deneme surumu ile risksiz baslayin.
           </p>
           <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-12 py-4 rounded-xl text-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
-            Ücretsiz Hesap Oluşturun
+            ucretsiz Hesap Olusturun
           </button>
         </div>
       </section>
@@ -224,7 +224,7 @@ export default function LandingPage() {
               <span className="text-white font-bold text-xl">AvukatAjanda</span>
             </div>
             <p className="text-white/60">
-              © 2024 AvukatAjanda. Tüm hakları saklıdır.
+              © 2024 AvukatAjanda. Tum haklari saklidir.
             </p>
           </div>
         </div>
