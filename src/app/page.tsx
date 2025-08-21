@@ -41,19 +41,19 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      name: "Av. Mehmet Yilmaz",
+      name: "Av. M***",
       title: "Ticaret Hukuku Uzmani",
       content: "Avukat Ajanda sayesinde is sureclerim daha verimli. Musteri memnuniyeti artti.",
       rating: 5
     },
     {
-      name: "Av. Ayse Demir",
+      name: "Av. A***",
       title: "Aile Hukuku Avukati",
       content: "Dava takibi hic bu kadar kolay olmamisti. Tum bilgilerim duzenli ve erisilebilir.",
       rating: 5
     },
     {
-      name: "Av. Can ozkan",
+      name: "Av. C***",
       title: "Ceza Hukuku Uzmani",
       content: "Randevu sistemi mukemmel. Artik cifte rezervasyon sorunlari yasamiyorum.",
       rating: 5
