@@ -171,7 +171,7 @@ export default function LandingPage() {
               Müşteri Yorumları
             </h2>
             <p className="text-xl text-white/70">
-              Avukat Ajanda'yı kullanan meslektaşlarımızın deneyimleri
+              Avukat Ajandayı kullanan meslektaşlarımızın deneyimleri
             </p>
           </div>
 
