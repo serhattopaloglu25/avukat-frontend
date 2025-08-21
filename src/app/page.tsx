@@ -42,7 +42,7 @@ export default function LandingPage() {
     {
       name: "Av. Mehmet Yılmaz",
       title: "Ticaret Hukuku Uzmanı",
-      content: "Avukat Ajanda sayesinde iş süreçlerim %50 daha verimli. Müşteri memnuniyeti arttı.",
+      content: "Avukat Ajanda sayesinde iş süreçlerim daha verimli. Müşteri memnuniyeti arttı.",
       rating: 5
     },
     {
