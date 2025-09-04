@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
 export default function DashboardPage() {
@@ -25,13 +26,24 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold">AvukatAjanda Dashboard</h1>
+            <div className="flex items-center space-x-8">
+              <h1 className="text-xl font-semibold">AvukatAjanda</h1>
+              <div className="flex space-x-4">
+                <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
+                  Dashboard
+                </Link>
+                <Link href="/clients" className="text-gray-700 hover:text-gray-900">
+                  Clients
+                </Link>
+                <Link href="/cases" className="text-gray-700 hover:text-gray-900">
+                  Cases
+                </Link>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Welcome, {user.name}</span>
+              <span className="text-gray-700">{user.name}</span>
               <button
                 onClick={logout}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
@@ -44,29 +56,18 @@ export default function DashboardPage() {
       </nav>
       
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-lg font-medium text-gray-900">User Information</h2>
-              <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Email</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.email}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Role</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.role}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">User ID</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.id}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Name</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.name}</dd>
-                </div>
-              </dl>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Link href="/clients" className="bg-white p-6 rounded-lg shadow hover:shadow-lg">
+            <h2 className="text-lg font-semibold mb-2">Clients</h2>
+            <p className="text-gray-600">Manage your clients</p>
+          </Link>
+          <Link href="/cases" className="bg-white p-6 rounded-lg shadow hover:shadow-lg">
+            <h2 className="text-lg font-semibold mb-2">Cases</h2>
+            <p className="text-gray-600">Manage your cases</p>
+          </Link>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-lg font-semibold mb-2">Profile</h2>
+            <p className="text-gray-600">{user.email}</p>
           </div>
         </div>
       </main>
