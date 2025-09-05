@@ -19,3 +19,12 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+
+// Add org header to all requests
+api.interceptors.request.use((config) => {
+  const orgId = localStorage.getItem('currentOrgId');
+  if (orgId) {
+    config.headers['X-Org-Id'] = orgId;
+  }
+  return config;
+});
