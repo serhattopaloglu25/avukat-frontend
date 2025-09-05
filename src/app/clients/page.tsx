@@ -1,15 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { clientService } from '@/services/api';
 import { useRouter } from 'next/navigation';
 
 export default function ClientsPage() {
   const router = useRouter();
-  const { user } = useAuth();
   const [clients, setClients] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -19,148 +15,136 @@ export default function ClientsPage() {
   });
 
   useEffect(() => {
-    if (!user) {
+    // Token kontrolü
+    const token = localStorage.getItem('token');
+    if (!token) {
       router.push('/login');
       return;
     }
     fetchClients();
-  }, [user]);
+  }, []);
 
   const fetchClients = async () => {
     try {
-      const data = await clientService.getAll();
-      setClients(data.data || []);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com'}/api/clients`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setClients(data.data || []);
+      }
     } catch (error) {
-      console.error('Failed to fetch clients:', error);
-    } finally {
-      setLoading(false);
+      console.error('Failed to fetch clients');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await clientService.create(formData);
-      setShowForm(false);
-      setFormData({ name: '', email: '', phone: '', address: '' });
-      fetchClients();
-    } catch (error) {
-      console.error('Failed to create client:', error);
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (confirm('Are you sure?')) {
-      try {
-        await clientService.delete(id);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com'}/api/clients`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setShowForm(false);
+        setFormData({ name: '', email: '', phone: '', address: '' });
         fetchClients();
-      } catch (error) {
-        console.error('Failed to delete client:', error);
       }
+    } catch (error) {
+      console.error('Failed to create client');
     }
   };
-
-  if (loading) return <div className="p-8">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Clients</h1>
+          <h1 className="text-3xl font-bold">Müvekkillerim</h1>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
-            Add Client
+            Yeni Müvekkil Ekle
           </button>
         </div>
 
         {showForm && (
-          <div className="bg-white p-6 rounded shadow mb-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-6">
+            <div className="grid md:grid-cols-2 gap-4">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Ad Soyad"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full px-3 py-2 border rounded"
+                className="px-4 py-2 border rounded-lg"
               />
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="E-posta"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full px-3 py-2 border rounded"
+                className="px-4 py-2 border rounded-lg"
               />
               <input
                 type="tel"
-                placeholder="Phone"
+                placeholder="Telefon"
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                className="w-full px-3 py-2 border rounded"
+                className="px-4 py-2 border rounded-lg"
               />
               <input
                 type="text"
-                placeholder="Address (optional)"
+                placeholder="Adres"
                 value={formData.address}
                 onChange={(e) => setFormData({...formData, address: e.target.value})}
-                className="w-full px-3 py-2 border rounded"
+                className="px-4 py-2 border rounded-lg"
               />
-              <div className="flex gap-2">
-                <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-                  Save
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="bg-gray-400 text-white px-4 py-2 rounded"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg">
+                Kaydet
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setShowForm(false)}
+                className="bg-gray-400 text-white px-4 py-2 rounded-lg"
+              >
+                İptal
+              </button>
+            </div>
+          </form>
         )}
 
-        <div className="bg-white rounded shadow">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left p-4">Name</th>
-                <th className="text-left p-4">Email</th>
-                <th className="text-left p-4">Phone</th>
-                <th className="text-left p-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="text-center p-8 text-gray-500">
-                    No clients found
-                  </td>
-                </tr>
-              ) : (
-                clients.map((client) => (
-                  <tr key={client.id} className="border-b hover:bg-gray-50">
-                    <td className="p-4">{client.name}</td>
-                    <td className="p-4">{client.email}</td>
-                    <td className="p-4">{client.phone}</td>
-                    <td className="p-4">
-                      <button
-                        onClick={() => handleDelete(client.id)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+        <div className="bg-white rounded-lg shadow">
+          {clients.length === 0 ? (
+            <p className="p-8 text-center text-gray-500">Henüz müvekkil eklenmemiş</p>
+          ) : (
+            <div className="divide-y">
+              {clients.map(client => (
+                <div key={client.id} className="p-4 hover:bg-gray-50">
+                  <div className="flex justify-between">
+                    <div>
+                      <h3 className="font-semibold">{client.name}</h3>
+                      <p className="text-sm text-gray-600">{client.email}</p>
+                      <p className="text-sm text-gray-600">{client.phone}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
