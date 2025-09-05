@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /clients/
+Disallow: /cases/
+Disallow: /invoices/
+Disallow: /settings/
+
+Sitemap: https://avukatajanda.com/sitemap.xml
