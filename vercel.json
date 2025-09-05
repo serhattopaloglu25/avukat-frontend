@@ -1,22 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url"
-  },
   "build": {
     "env": {
-      "NEXT_PUBLIC_API_URL": "@api_url"
+      "NEXT_PUBLIC_API_URL": "https://avukat-ajanda-backend.onrender.com"
     }
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" }
-      ]
-    }
-  ]
+  }
 }
