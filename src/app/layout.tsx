@@ -1,16 +1,27 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Analytics } from '@/components/Analytics'
+import { CookieConsent } from '@/components/CookieConsent'
 
 export const metadata: Metadata = {
   title: 'AvukatAjanda - Hukuk Büroları için Dijital Çözüm',
   description: 'Dava takibi, müvekkil yönetimi ve randevu hatırlatmaları tek platformda.',
-  metadataBase: new URL('https://avukatajanda.com'),
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#2563eb',
+  keywords: 'avukat yazılımı, hukuk bürosu yönetimi, dava takibi, müvekkil yönetimi',
+  authors: [{ name: 'AvukatAjanda' }],
   robots: 'index, follow',
+  openGraph: {
+    title: 'AvukatAjanda - Hukuk Büroları için Dijital Çözüm',
+    description: 'Modern hukuk bürosu yönetim yazılımı',
+    url: 'https://avukatajanda.com',
+    siteName: 'AvukatAjanda',
+    locale: 'tr_TR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AvukatAjanda',
+    description: 'Hukuk büroları için dijital çözüm',
+  },
 }
 
 export default function RootLayout({
@@ -20,7 +31,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr">
-      <body className={inter.className}>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <CookieConsent />
+      </body>
     </html>
   )
 }

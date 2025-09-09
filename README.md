@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Google Search Console Doğrulama
+
+1. Google Search Console'a gidin: https://search.google.com/search-console
+2. Mülk ekle → URL öneki → https://avukatajanda.com
+3. HTML dosyası doğrulama yöntemini seçin
+4. İndirilen dosyayı public/ klasörüne koyun
+5. Deploy edin ve doğrulayın
+
+## Analytics Kurulumu
+
+Environment variable'ları Vercel'de ayarlayın:
+- NEXT_PUBLIC_GA_ID: Google Analytics ID (G-XXXXXXXXX)
+- NEXT_PUBLIC_PLAUSIBLE_DOMAIN: (Opsiyonel) Plausible domain
+
+vercel env add NEXT_PUBLIC_GA_ID production
+# G-1RTWPD8X79 girin
