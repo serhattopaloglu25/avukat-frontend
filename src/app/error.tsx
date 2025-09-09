@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { Button } from '@/components/ui/button';
 
 export default function Error({
@@ -11,15 +12,18 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Error occurred:', error);
+    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+      Sentry.captureException(error);
+    }
+    console.error('Application error:', error);
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center p-8">
-        <h2 className="text-2xl font-bold mb-4">Bir şeyler yanlış gitti</h2>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="text-center max-w-md">
+        <h2 className="text-2xl font-bold mb-4">Bir hata oluştu</h2>
         <p className="text-gray-600 mb-6">
-          Beklenmeyen bir hata oluştu. Sorun devam ederse lütfen destek ekibimizle iletişime geçin.
+          Beklenmeyen bir sorun yaşandı. Lütfen tekrar deneyin.
         </p>
         <Button onClick={reset}>Tekrar Dene</Button>
       </div>

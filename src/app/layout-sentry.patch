@@ -1,0 +1,13 @@
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,6 +1,12 @@
+ import type { Metadata } from 'next'
+ import './globals.css'
++import { initSentry } from '@/lib/sentry'
++
++// Initialize Sentry if DSN is provided
++if (typeof window === 'undefined') {
++  initSentry();
++}
+
+ export default function RootLayout({
