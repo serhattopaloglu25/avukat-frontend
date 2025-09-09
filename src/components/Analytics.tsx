@@ -21,72 +21,53 @@ export function Analytics() {
     setConsentGiven(consent === 'true');
   }, []);
 
-  // Event tracking helper
-  useEffect(() => {
-    if (typeof window !== 'undefined' && consentGiven) {
-      window.gtag = function() {
-        if (window.dataLayer) {
-          window.dataLayer.push(arguments);
-        }
-      };
-    }
-  }, [consentGiven]);
-
-  if (consentGiven === false || consentGiven === null) {
-    return null;
-  }
+  if (!consentGiven) return null;
 
   return (
     <>
-      {/* Google Analytics 4 */}
-      {gaId && !window.dataLayer && (
+      {gaId && (
         <>
           <Script
-            id="google-analytics-script"
+            id="ga-script"
             strategy="afterInteractive"
             src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           />
           <Script
-            id="google-analytics-init"
+            id="ga-init"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${gaId}', {
-                  page_path: window.location.pathname,
-                });
+                gtag('config', '${gaId}');
               `,
             }}
           />
         </>
       )}
-
-      {/* Plausible Analytics */}
-      {plausibleDomain && !window.plausible && (
+      {plausibleDomain && (
         <Script
           defer
           data-domain={plausibleDomain}
           src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
         />
       )}
     </>
   );
 }
 
-// Event tracking utilities
-export function trackEvent(eventName: string, parameters?: Record<string, any>) {
+export function trackEvent(category: string, action: string, label?: string, value?: number) {
   if (typeof window !== 'undefined') {
-    // Google Analytics
     if (window.gtag) {
-      window.gtag('event', eventName, parameters);
+      window.gtag('event', action, {
+        event_category: category,
+        event_label: label,
+        value: value,
+      });
     }
-    
-    // Plausible
     if (window.plausible) {
-      window.plausible(eventName, { props: parameters });
+      window.plausible(action, { props: { category, label } });
     }
   }
 }

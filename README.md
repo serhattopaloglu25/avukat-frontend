@@ -59,3 +59,19 @@ Environment variable'ları Vercel'de ayarlayın:
 
 vercel env add NEXT_PUBLIC_GA_ID production
 # G-1RTWPD8X79 girin
+
+## Analytics Events
+
+### Tracked Events:
+| Event | Category | Action | Label | Where |
+|-------|----------|--------|-------|-------|
+| CTA Click | cta | click | hero/pricing/features | All "Ücretsiz Başla" buttons |
+| Contact Submit | contact | submit | contact_page | /iletisim form |
+| Nav Click | navigation | click | [page_name] | Header navigation |
+| Login Click | auth | click | header | "Giriş Yap" button |
+
+### Testing:
+1. Open DevTools > Network
+2. Filter: "gtag" or "plausible"
+3. Trigger events
+4. Verify requests with correct parameters

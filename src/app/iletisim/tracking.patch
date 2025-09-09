@@ -1,0 +1,11 @@
+--- a/src/app/iletisim/page.tsx
++++ b/src/app/iletisim/page.tsx
+@@ -1,6 +1,7 @@
+ 'use client';
+ 
+ import { useState } from 'react';
++import { trackEvent } from '@/components/Analytics';
+ 
+ const handleSubmit = (e: React.FormEvent) => {
+   e.preventDefault();
++  trackEvent('contact', 'submit', 'contact_page');
