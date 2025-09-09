@@ -1,135 +1,152 @@
 'use client';
 
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { Container } from '@/components/ui/container';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import {
-  FileText,
-  Users,
-  Calendar,
-  FolderOpen,
-  Receipt,
-  BarChart3,
-  Shield,
-  Clock,
-  Globe,
-  Check,
-  ArrowRight,
-} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Check } from 'lucide-react';
 
-export default function HomePage() {
+export default function LandingPage() {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const router = useRouter();
+
+  const handleSignupSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Analytics event (if consent given)
+    if (typeof window !== 'undefined' && localStorage.getItem('analytics-consent') === 'true') {
+      console.log('Analytics: landing_signup_click', { email, name });
+    }
+    
+    // Redirect to register page with prefilled data
+    const params = new URLSearchParams();
+    if (email) params.append('email', email);
+    if (name) params.append('name', name);
+    
+    router.push(`/register?${params.toString()}`);
+  };
+
   const features = [
-    {
-      icon: FileText,
-      title: 'Dava Takibi',
-      description:
-        'Tüm davalarınızı tek merkezden yönetin. Duruşma tarihleri ve otomatik hatırlatmalar.',
-    },
-    {
-      icon: Users,
-      title: 'Müvekkil Yönetimi',
-      description:
-        'Müvekkil bilgilerini güvenle saklayın. İletişim geçmişi ve dosya ilişkilendirme.',
-    },
-    {
-      icon: Calendar,
-      title: 'Akıllı Takvim',
-      description: 'Önemli tarihleri kaçırmayın. E-posta ve SMS bildirimleri.',
-    },
-    {
-      icon: FolderOpen,
-      title: 'Dosya Yönetimi',
-      description: 'Belgelerinizi bulutta güvenle saklayın. Hızlı arama ve erişim.',
-    },
-    {
-      icon: Receipt,
-      title: 'Faturalama',
-      description: 'Kolay fatura oluşturma ve tahsilat takibi.',
-    },
-    {
-      icon: BarChart3,
-      title: 'Raporlama',
-      description: 'Detaylı raporlar ve performans analizleri.',
-    },
+    'Müvekkil takibi ve yönetimi',
+    'Dava dosyası organizasyonu',
+    'Ajanda ve duruşma takibi',
+    'Otomatik hatırlatmalar',
+    'Güvenli dosya saklama',
+    'Fatura ve tahsilat takibi',
   ];
 
   return (
-    <>
-      <Header />
-      <main>
-        <section className="py-20 lg:py-32 bg-gradient-to-br from-blue-50 via-white to-gray-50">
-          <Container>
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Hukuk Büronuz İçin
-                <span className="text-primary block mt-2">Dijital Çözüm Ortağı</span>
-              </h1>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Dava takibi, müvekkil yönetimi ve ajanda özellikleriyle büronuzun verimliliğini
-                artırın. Tüm süreçlerinizi tek platformdan yönetin.
-              </p>
-              <div className="flex gap-4 justify-center">
-                <Link href="/register">
-                  <Button size="lg" className="shadow-lg hover:shadow-xl">
-                    14 Gün Ücretsiz Dene <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <Link href="/demo">
-                  <Button size="lg" variant="outline">
-                    Demo İste
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </Container>
-        </section>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header */}
+      <header className="container mx-auto px-4 py-6">
+        <nav className="flex justify-between items-center">
+          <div className="text-2xl font-bold text-primary">AvukatAjanda</div>
+          <div className="flex items-center space-x-6">
+            <Link href="/ozellikler" className="text-gray-600 hover:text-gray-900">
+              Özellikler
+            </Link>
+            <Link href="/fiyatlandirma" className="text-gray-600 hover:text-gray-900">
+              Fiyatlandırma
+            </Link>
+            <Link href="/login">
+              <Button variant="outline">Giriş Yap</Button>
+            </Link>
+          </div>
+        </nav>
+      </header>
 
-        <section className="py-20">
-          <Container>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Öne Çıkan Özellikler</h2>
-              <p className="text-xl text-gray-600">Modern hukuk büroları için tasarlandı</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              Hukuk Büronuz İçin
+              <span className="text-primary block">Akıllı Ajanda Sistemi</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin.
+              Büronuzun verimliliğini artırın.
+            </p>
+            <ul className="space-y-3 mb-8">
               {features.map((feature, index) => (
-                <Card
-                  key={index}
-                  className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <CardHeader>
-                    <feature.icon className="w-12 h-12 text-primary mb-4" />
-                    <CardTitle>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                <li key={index} className="flex items-center">
+                  <Check className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">{feature}</span>
+                </li>
               ))}
-            </div>
-          </Container>
-        </section>
+            </ul>
+          </div>
 
-        <section className="py-20 bg-primary text-white">
-          <Container>
-            <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Hemen Başlayın</h2>
-              <p className="text-xl mb-8 text-blue-100">
-                14 gün ücretsiz deneme. Kredi kartı gerekmez.
+          <Card className="p-8 shadow-xl">
+            <h2 className="text-2xl font-bold mb-6">14 Gün Ücretsiz Deneyin</h2>
+            <form onSubmit={handleSignupSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="signup-name" className="block text-sm font-medium mb-2">
+                  Ad Soyad
+                </label>
+                <input
+                  id="signup-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Adınız Soyadınız"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="signup-email" className="block text-sm font-medium mb-2">
+                  E-posta
+                </label>
+                <input
+                  id="signup-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="ornek@email.com"
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" size="lg">
+                Ücretsiz Başla
+              </Button>
+              <p className="text-center text-sm text-gray-500">
+                Kredi kartı gerekmez • İstediğiniz zaman iptal edin
               </p>
-              <Link href="/register">
-                <Button size="lg" variant="secondary" className="shadow-xl">
-                  Ücretsiz Hesap Oluştur
-                </Button>
-              </Link>
+            </form>
+          </Card>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="bg-primary text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold mb-2">500+</div>
+              <div className="text-xl">Aktif Büro</div>
             </div>
-          </Container>
-        </section>
-      </main>
-      <Footer />
-    </>
+            <div>
+              <div className="text-4xl font-bold mb-2">10,000+</div>
+              <div className="text-xl">Yönetilen Dava</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">%99</div>
+              <div className="text-xl">Müşteri Memnuniyeti</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2025 AvukatAjanda. Tüm hakları saklıdır.</p>
+        </div>
+      </footer>
+    </div>
   );
 }
