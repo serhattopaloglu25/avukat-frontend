@@ -1,8 +1,5 @@
 'use client';
 
-'use client';
-
-import { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Container } from '@/components/ui/container';
@@ -13,16 +10,6 @@ import {
   FileText, Users, Calendar, FolderOpen, Receipt, BarChart3, 
   Shield, Clock, Globe, Check, ArrowRight, Lock, Cloud, RefreshCw 
 } from 'lucide-react';
-
-export const metadata: Metadata = {
-  title: 'Özellikler | AvukatAjanda - Hukuk Bürosu Yönetim Yazılımı',
-  description: 'Dava takibi, müvekkil yönetimi, ajanda, dosya paylaşımı ve raporlama özellikleriyle hukuk büronuzun dijital dönüşümü.',
-  openGraph: {
-    title: 'AvukatAjanda Özellikleri',
-    description: 'Modern hukuk bürosu yönetimi için ihtiyacınız olan tüm özellikler',
-    url: 'https://avukatajanda.com/ozellikler',
-  },
-};
 
 export default function OzelliklerPage() {
   const features = [
@@ -117,7 +104,7 @@ export default function OzelliklerPage() {
                 Modern teknoloji ile hukuk büronuzun verimliliğini artırın. 
                 Tüm süreçlerinizi tek platformdan yönetin.
               </p>
-              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
+              <Link href="/register">
                 <Button size="lg" className="shadow-lg hover:shadow-xl transition-all">
                   Ücretsiz Başla <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -215,7 +202,7 @@ export default function OzelliklerPage() {
               <p className="text-xl mb-8 text-blue-100">
                 14 gün ücretsiz deneme. Kredi kartı gerekmez.
               </p>
-              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
+              <Link href="/register">
                 <Button size="lg" variant="secondary" className="shadow-xl hover:shadow-2xl">
                   Ücretsiz Başla
                 </Button>
@@ -225,34 +212,6 @@ export default function OzelliklerPage() {
         </section>
       </main>
       <Footer />
-
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "AvukatAjanda",
-            "description": "Hukuk büroları için dijital yönetim platformu",
-            "brand": {
-              "@type": "Brand",
-              "name": "AvukatAjanda"
-            },
-            "offers": {
-              "@type": "AggregateOffer",
-              "priceCurrency": "TRY",
-              "lowPrice": "299",
-              "offerCount": "3"
-            },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.8",
-              "reviewCount": "127"
-            }
-          })
-        }}
-      />
     </>
   );
 }
