@@ -4,7 +4,7 @@ import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { CheckCircle, Users, Calendar, FileText, Shield, BarChart3 } from 'lucide-react';
+import { Check, Users, Calendar, FileText, Shield, BarChart3 } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -88,15 +88,15 @@ export default function HomePage() {
                 <CardContent>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Detaylı müvekkil kartları</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>İletişim geçmişi takibi</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Dosya ve belge yönetimi</span>
                     </li>
                   </ul>
@@ -114,15 +114,15 @@ export default function HomePage() {
                 <CardContent>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Dava durumu takibi</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Duruşma takvimi</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Belge arşivleme</span>
                     </li>
                   </ul>
@@ -140,15 +140,15 @@ export default function HomePage() {
                 <CardContent>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Otomatik hatırlatmalar</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>SMS ve e-posta bildirimleri</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
+                      <Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                       <span>Takvim senkronizasyonu</span>
                     </li>
                   </ul>
