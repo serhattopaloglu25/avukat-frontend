@@ -1,0 +1,37 @@
+--- a/src/app/dashboard/page.tsx
++++ b/src/app/dashboard/page.tsx
+@@ -2,6 +2,7 @@
+ 
+ import { useEffect, useState } from 'react';
+ import { useRouter } from 'next/navigation';
++import { analytics } from '@/lib/analytics';
+ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+ 
+@@ -100,7 +101,11 @@
+               tabIndex={0}
+               aria-label={`${stat.title}: ${stat.value}. Tıklayarak detaylara gidin.`}
+               className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
+-              onClick={() => router.push(stat.href)}
++              onClick={() => {
++                analytics.trackStatClick(stat.title, stat.href);
++                router.push(stat.href);
++              }}
+               onKeyDown={(e) => {
+                 if (e.key === 'Enter' || e.key === ' ') {
+                   e.preventDefault();
++                  analytics.trackStatClick(stat.title, stat.href);
+                   router.push(stat.href);
+@@ -137,7 +142,11 @@
+             {quickLinks.map((link, index) => (
+               <button
+                 key={index}
+-                onClick={() => router.push(link.href)}
++                onClick={() => {
++                  analytics.trackQuickAction(link.title, link.href);
++                  router.push(link.href);
++                }}
+                 onKeyDown={(e) => {
+                   if (e.key === 'Enter' || e.key === ' ') {
+                     e.preventDefault();
++                    analytics.trackQuickAction(link.title, link.href);
+                     router.push(link.href);
