@@ -1,0 +1,28 @@
+--- a/src/app/iletisim/page.tsx
++++ b/src/app/iletisim/page.tsx
+@@ -1,10 +1,25 @@
+ const handleSubmit = async (e: React.FormEvent) => {
+   e.preventDefault();
+   trackEvent('contact', 'submit', 'contact_page');
+   
+-  const webhookUrl = process.env.NEXT_PUBLIC_CONTACT_WEBHOOK;
++  try {
++    const response = await fetch('https://avukat-ajanda-backend.onrender.com/api/contact', {
++      method: 'POST',
++      headers: { 'Content-Type': 'application/json' },
++      body: JSON.stringify(formData),
++    });
++    
++    if (response.ok) {
++      alert('Mesajınız başarıyla gönderildi!');
++      setFormData({ name: '', email: '', subject: '', message: '' });
++    } else if (response.status === 429) {
++      alert('Çok fazla istek. Lütfen daha sonra tekrar deneyin.');
++    } else {
++      throw new Error('Failed to send');
++    }
++  } catch (error) {
++    // Fallback to mailto
++    const mailtoLink = `mailto:destek@avukatajanda.com?subject=${encodeURIComponent(formData.subject)}`;
++    window.location.href = mailtoLink;
++  }
