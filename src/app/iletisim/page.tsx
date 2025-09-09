@@ -99,8 +99,8 @@ export default function IletisimPage() {
                   <CardTitle className="text-lg">Telefon</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <a href="tel:+908503334455" className="text-primary hover:underline">
-                    0850 333 44 55
+                  <a href="tel:+905443252500" className="text-primary hover:underline">
+                    0544 325 25 00
                   </a>
                 </CardContent>
               </Card>
@@ -242,7 +242,7 @@ export default function IletisimPage() {
             "url": "https://avukatajanda.com",
             "contactPoint": {
               "@type": "ContactPoint",
-              "telephone": "+90-850-333-4455",
+              "telephone": "+90-544-325-2500",
               "contactType": "customer service",
               "email": "destek@avukatajanda.com",
               "areaServed": "TR",
