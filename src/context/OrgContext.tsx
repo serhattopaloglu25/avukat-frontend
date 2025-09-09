@@ -55,7 +55,7 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
   };
 
   const switchOrg = (orgId: number) => {
-    const org = organizations.find(o => o.id === orgId);
+    const org = organizations.find((o) => o.id === orgId);
     if (org) {
       setCurrentOrg(org);
     }

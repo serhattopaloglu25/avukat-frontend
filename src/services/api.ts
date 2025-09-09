@@ -20,7 +20,7 @@ export const clientService = {
   async delete(id: number) {
     const response = await api.delete(`/api/clients/${id}`);
     return response.data;
-  }
+  },
 };
 
 export const caseService = {
@@ -45,5 +45,5 @@ export const caseService = {
   async delete(id: number) {
     const response = await api.delete(`/api/cases/${id}`);
     return response.data;
-  }
+  },
 };

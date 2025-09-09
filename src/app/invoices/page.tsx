@@ -50,21 +50,31 @@ export default function InvoicesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'sent': return 'bg-blue-100 text-blue-800';
-      case 'overdue': return 'bg-red-100 text-red-800';
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'paid':
+        return 'bg-green-100 text-green-800';
+      case 'sent':
+        return 'bg-blue-100 text-blue-800';
+      case 'overdue':
+        return 'bg-red-100 text-red-800';
+      case 'draft':
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'paid': return 'Ödendi';
-      case 'sent': return 'Gönderildi';
-      case 'overdue': return 'Gecikmiş';
-      case 'draft': return 'Taslak';
-      default: return status;
+      case 'paid':
+        return 'Ödendi';
+      case 'sent':
+        return 'Gönderildi';
+      case 'overdue':
+        return 'Gecikmiş';
+      case 'draft':
+        return 'Taslak';
+      default:
+        return status;
     }
   };
 
@@ -82,10 +92,18 @@ export default function InvoicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <nav className="flex space-x-8">
-              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Panel</a>
-              <a href="/clients" className="text-gray-500 hover:text-gray-900">Müvekkiller</a>
-              <a href="/cases" className="text-gray-500 hover:text-gray-900">Davalar</a>
-              <a href="/invoices" className="text-gray-900 font-medium">Faturalar</a>
+              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">
+                Panel
+              </a>
+              <a href="/clients" className="text-gray-500 hover:text-gray-900">
+                Müvekkiller
+              </a>
+              <a href="/cases" className="text-gray-500 hover:text-gray-900">
+                Davalar
+              </a>
+              <a href="/invoices" className="text-gray-900 font-medium">
+                Faturalar
+              </a>
             </nav>
             <Button onClick={() => router.push('/dashboard')} variant="ghost">
               Dashboard

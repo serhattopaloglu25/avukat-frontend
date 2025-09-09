@@ -30,16 +30,13 @@ export function FileList({ caseId }: FileListProps) {
       const token = localStorage.getItem('token');
       const params = new URLSearchParams();
       if (caseId) params.append('caseId', caseId.toString());
-      
-      const response = await fetch(
-        `https://avukat-ajanda-backend.onrender.com/files?${params}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      
+
+      const response = await fetch(`https://avukat-ajanda-backend.onrender.com/files?${params}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       if (response.ok) {
         const data = await response.json();
         setFiles(data);

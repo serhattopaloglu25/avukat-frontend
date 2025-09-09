@@ -24,20 +24,20 @@ export default function IletisimPage() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Webhook varsa kullan
     const webhookUrl = process.env.NEXT_PUBLIC_CONTACT_WEBHOOK;
-    
+
     if (webhookUrl) {
       fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       }).catch(console.error);
     } else {
       // Fallback: mailto
@@ -49,9 +49,9 @@ export default function IletisimPage() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -114,7 +114,8 @@ export default function IletisimPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Pazartesi - Cuma<br />
+                    Pazartesi - Cuma
+                    <br />
                     09:00 - 18:00
                   </p>
                 </CardContent>
@@ -129,7 +130,8 @@ export default function IletisimPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Levent, Büyükdere Cad.<br />
+                    Levent, Büyükdere Cad.
+                    <br />
                     34394 Şişli/İstanbul
                   </p>
                 </CardContent>
@@ -140,9 +142,7 @@ export default function IletisimPage() {
             <Card className="max-w-2xl mx-auto">
               <CardHeader>
                 <CardTitle className="text-2xl">Bize Mesaj Gönderin</CardTitle>
-                <p className="text-gray-600">
-                  Formu doldurun, en kısa sürede size dönüş yapalım.
-                </p>
+                <p className="text-gray-600">Formu doldurun, en kısa sürede size dönüş yapalım.</p>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -178,7 +178,7 @@ export default function IletisimPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium mb-2">
                       Konu *
@@ -194,7 +194,7 @@ export default function IletisimPage() {
                       placeholder="Mesajınızın konusu"
                     />
                   </div>
-                  
+
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium mb-2">
                       Mesajınız *
@@ -210,15 +210,18 @@ export default function IletisimPage() {
                       placeholder="Mesajınızı buraya yazın..."
                     />
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-600">
                     <p>
-                      <strong>KVKK Aydınlatma:</strong> Formu doldurarak kişisel verilerinizin 
-                      işlenmesine ilişkin <a href="/kvkk" className="text-primary hover:underline">
-                      Aydınlatma Metni</a>'ni okuduğunuzu ve kabul ettiğinizi beyan edersiniz.
+                      <strong>KVKK Aydınlatma:</strong> Formu doldurarak kişisel verilerinizin
+                      işlenmesine ilişkin{' '}
+                      <a href="/kvkk" className="text-primary hover:underline">
+                        Aydınlatma Metni
+                      </a>
+                      'ni okuduğunuzu ve kabul ettiğinizi beyan edersiniz.
                     </p>
                   </div>
-                  
+
                   <Button type="submit" size="lg" className="w-full">
                     <Send className="mr-2 w-5 h-5" />
                     Mesajı Gönder
@@ -236,27 +239,27 @@ export default function IletisimPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "AvukatAjanda",
-            "url": "https://avukatajanda.com",
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+90-544-325-2500",
-              "contactType": "customer service",
-              "email": "destek@avukatajanda.com",
-              "areaServed": "TR",
-              "availableLanguage": ["Turkish"]
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'AvukatAjanda',
+            url: 'https://avukatajanda.com',
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+90-544-325-2500',
+              contactType: 'customer service',
+              email: 'destek@avukatajanda.com',
+              areaServed: 'TR',
+              availableLanguage: ['Turkish'],
             },
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "Levent, Büyükdere Cad.",
-              "addressLocality": "Şişli",
-              "addressRegion": "İstanbul",
-              "postalCode": "34394",
-              "addressCountry": "TR"
-            }
-          })
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Levent, Büyükdere Cad.',
+              addressLocality: 'Şişli',
+              addressRegion: 'İstanbul',
+              postalCode: '34394',
+              addressCountry: 'TR',
+            },
+          }),
         }}
       />
     </>

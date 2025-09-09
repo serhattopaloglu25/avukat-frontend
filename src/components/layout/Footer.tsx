@@ -13,34 +13,66 @@ export function Footer() {
                 Hukuk büroları için modern ve güvenli dijital çözüm.
               </p>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Ürün</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/ozellikler" className="text-gray-600 hover:text-primary">Özellikler</Link></li>
-                <li><Link href="/cozumler" className="text-gray-600 hover:text-primary">Çözümler</Link></li>
-                <li><Link href="/fiyatlandirma" className="text-gray-600 hover:text-primary">Fiyatlandırma</Link></li>
+                <li>
+                  <Link href="/ozellikler" className="text-gray-600 hover:text-primary">
+                    Özellikler
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/cozumler" className="text-gray-600 hover:text-primary">
+                    Çözümler
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/fiyatlandirma" className="text-gray-600 hover:text-primary">
+                    Fiyatlandırma
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Destek</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/iletisim" className="text-gray-600 hover:text-primary">İletişim</Link></li>
-                <li><Link href="/sss" className="text-gray-600 hover:text-primary">Sıkça Sorulan Sorular</Link></li>
+                <li>
+                  <Link href="/iletisim" className="text-gray-600 hover:text-primary">
+                    İletişim
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sss" className="text-gray-600 hover:text-primary">
+                    Sıkça Sorulan Sorular
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Yasal</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/kvkk" className="text-gray-600 hover:text-primary">KVKK Aydınlatma</Link></li>
-                <li><Link href="/kullanim-sartlari" className="text-gray-600 hover:text-primary">Kullanım Şartları</Link></li>
-                <li><Link href="/gizlilik" className="text-gray-600 hover:text-primary">Gizlilik Politikası</Link></li>
+                <li>
+                  <Link href="/kvkk" className="text-gray-600 hover:text-primary">
+                    KVKK Aydınlatma
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/kullanim-sartlari" className="text-gray-600 hover:text-primary">
+                    Kullanım Şartları
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/gizlilik" className="text-gray-600 hover:text-primary">
+                    Gizlilik Politikası
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
             <p>© 2025 AvukatAjanda. Tüm hakları saklıdır.</p>
           </div>

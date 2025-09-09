@@ -3,7 +3,17 @@ module.exports = {
   siteUrl: 'https://avukatajanda.com',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
-  exclude: ['/login', '/register', '/dashboard', '/clients', '/cases', '/events', '/invoices', '/settings', '/admin'],
+  exclude: [
+    '/login',
+    '/register',
+    '/dashboard',
+    '/clients',
+    '/cases',
+    '/events',
+    '/invoices',
+    '/settings',
+    '/admin',
+  ],
   changefreq: 'weekly',
   priority: 0.7,
   robotsTxtOptions: {
@@ -22,4 +32,4 @@ module.exports = {
     priority: path === '/' ? 1.0 : path === '/fiyatlandirma' ? 0.9 : 0.7,
     lastmod: new Date().toISOString(),
   }),
-}
+};

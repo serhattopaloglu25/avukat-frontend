@@ -16,18 +16,30 @@ export function Header() {
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold text-primary">AvukatAjanda</span>
           </Link>
-          
+
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/ozellikler" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/ozellikler"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Özellikler
             </Link>
-            <Link href="/cozumler" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/cozumler"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Çözümler
             </Link>
-            <Link href="/fiyatlandirma" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/fiyatlandirma"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Fiyatlandırma
             </Link>
-            <Link href="/iletisim" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/iletisim"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               İletişim
             </Link>
           </nav>
@@ -39,10 +51,7 @@ export function Header() {
             <Link href="/register">
               <Button>Ücretsiz Başla</Button>
             </Link>
-            <button
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
+            <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X /> : <Menu />}
             </button>
           </div>

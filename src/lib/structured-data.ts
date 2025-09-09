@@ -10,8 +10,8 @@ export const organizationSchema = {
     telephone: '+90-850-XXX-XXXX',
     contactType: 'customer service',
     areaServed: 'TR',
-    availableLanguage: ['Turkish']
-  }
+    availableLanguage: ['Turkish'],
+  },
 };
 
 export const productSchema = {
@@ -25,11 +25,11 @@ export const productSchema = {
     priceCurrency: 'TRY',
     lowPrice: '299',
     highPrice: '1499',
-    offerCount: '3'
+    offerCount: '3',
   },
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.8',
-    ratingCount: '127'
-  }
+    ratingCount: '127',
+  },
 };

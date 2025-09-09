@@ -29,10 +29,10 @@ test.describe('Dashboard', () => {
   test('navigation links work', async ({ page }) => {
     await page.click('nav >> text=Müvekkiller');
     await expect(page).toHaveURL(/.*\/clients/);
-    
+
     await page.click('nav >> text=Davalar');
     await expect(page).toHaveURL(/.*\/cases/);
-    
+
     await page.click('nav >> text=Takvim');
     await expect(page).toHaveURL(/.*\/events/);
   });

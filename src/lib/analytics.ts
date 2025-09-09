@@ -6,8 +6,7 @@ interface AnalyticsEvent {
 class Analytics {
   private hasConsent(): boolean {
     // Check for cookie consent
-    return typeof window !== 'undefined' && 
-           localStorage.getItem('analytics-consent') === 'true';
+    return typeof window !== 'undefined' && localStorage.getItem('analytics-consent') === 'true';
   }
 
   track(eventName: string, params?: Record<string, any>) {

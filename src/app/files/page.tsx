@@ -97,11 +97,21 @@ export default function FilesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <nav className="flex space-x-8">
-              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Panel</a>
-              <a href="/clients" className="text-gray-500 hover:text-gray-900">Müvekkiller</a>
-              <a href="/cases" className="text-gray-500 hover:text-gray-900">Davalar</a>
-              <a href="/events" className="text-gray-500 hover:text-gray-900">Takvim</a>
-              <a href="/files" className="text-gray-900 font-medium">Dosyalar</a>
+              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">
+                Panel
+              </a>
+              <a href="/clients" className="text-gray-500 hover:text-gray-900">
+                Müvekkiller
+              </a>
+              <a href="/cases" className="text-gray-500 hover:text-gray-900">
+                Davalar
+              </a>
+              <a href="/events" className="text-gray-500 hover:text-gray-900">
+                Takvim
+              </a>
+              <a href="/files" className="text-gray-900 font-medium">
+                Dosyalar
+              </a>
             </nav>
             <Button onClick={() => router.push('/dashboard')} variant="ghost">
               Dashboard
@@ -143,7 +153,7 @@ export default function FilesPage() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {files.map(file => (
+            {files.map((file) => (
               <Card key={file.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
@@ -151,9 +161,7 @@ export default function FilesPage() {
                       <span className="text-2xl">{getFileIcon(file.mimeType)}</span>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-sm font-medium truncate">{file.name}</h3>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {formatFileSize(file.size)}
-                        </p>
+                        <p className="text-xs text-gray-500 mt-1">{formatFileSize(file.size)}</p>
                         <p className="text-xs text-gray-500">
                           {new Date(file.createdAt).toLocaleDateString('tr-TR')}
                         </p>

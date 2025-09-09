@@ -22,9 +22,7 @@ export default function Error({
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="text-center max-w-md">
         <h2 className="text-2xl font-bold mb-4">Bir hata oluştu</h2>
-        <p className="text-gray-600 mb-6">
-          Beklenmeyen bir sorun yaşandı. Lütfen tekrar deneyin.
-        </p>
+        <p className="text-gray-600 mb-6">Beklenmeyen bir sorun yaşandı. Lütfen tekrar deneyin.</p>
         <Button onClick={reset}>Tekrar Dene</Button>
       </div>
     </div>

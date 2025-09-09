@@ -56,7 +56,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">Şifre</label>
               <input
@@ -68,9 +68,7 @@ export default function LoginPage() {
               />
             </div>
 
-            {error && (
-              <div className="text-red-600 text-sm">{error}</div>
-            )}
+            {error && <div className="text-red-600 text-sm">{error}</div>}
 
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}

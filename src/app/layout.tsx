@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import { Analytics } from '@/components/Analytics'
-import { CookieConsent } from '@/components/CookieConsent'
+import type { Metadata } from 'next';
+import './globals.css';
+import { Analytics } from '@/components/Analytics';
+import { CookieConsent } from '@/components/CookieConsent';
 
 export const metadata: Metadata = {
   title: 'AvukatAjanda - Hukuk Büroları için Dijital Çözüm',
@@ -22,13 +22,9 @@ export const metadata: Metadata = {
     title: 'AvukatAjanda',
     description: 'Hukuk büroları için dijital çözüm',
   },
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
       <body>
@@ -37,5 +33,5 @@ export default function RootLayout({
         <CookieConsent />
       </body>
     </html>
-  )
+  );
 }

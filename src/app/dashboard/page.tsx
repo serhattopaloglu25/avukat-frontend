@@ -4,7 +4,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, FileText, Calendar, TrendingUp, Activity, Clock, LogOut, FolderOpen, Receipt } from 'lucide-react';
+import {
+  Users,
+  FileText,
+  Calendar,
+  TrendingUp,
+  Activity,
+  Clock,
+  LogOut,
+  FolderOpen,
+  Receipt,
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -21,17 +31,17 @@ export default function DashboardPage() {
 
     Promise.all([
       fetch('https://avukat-ajanda-backend.onrender.com/me', {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       }),
       fetch('https://avukat-ajanda-backend.onrender.com/api/stats', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+        headers: { Authorization: `Bearer ${token}` },
+      }),
     ])
       .then(async ([meRes, statsRes]) => {
         if (!meRes.ok) throw new Error('Unauthorized');
         const userData = await meRes.json();
         const statsData = statsRes.ok ? await statsRes.json() : null;
-        
+
         setUser(userData.user);
         setStats(statsData);
         setLoading(false);
@@ -59,37 +69,37 @@ export default function DashboardPage() {
   }
 
   const statCards = [
-    { 
-      title: 'Toplam Müvekkil', 
-      value: stats?.total_clients || 0, 
-      icon: Users, 
-      change: '+12%', 
-      color: 'text-blue-600', 
-      href: '/clients'
+    {
+      title: 'Toplam Müvekkil',
+      value: stats?.total_clients || 0,
+      icon: Users,
+      change: '+12%',
+      color: 'text-blue-600',
+      href: '/clients',
     },
-    { 
-      title: 'Aktif Dava', 
-      value: stats?.active_cases || 0, 
-      icon: FileText, 
-      change: '+5%', 
-      color: 'text-green-600', 
-      href: '/cases?status=active'
+    {
+      title: 'Aktif Dava',
+      value: stats?.active_cases || 0,
+      icon: FileText,
+      change: '+5%',
+      color: 'text-green-600',
+      href: '/cases?status=active',
     },
-    { 
-      title: 'Yaklaşan Etkinlikler', 
-      value: stats?.upcoming_events || 0, 
-      icon: Calendar, 
-      change: '-2%', 
-      color: 'text-orange-600', 
-      href: '/events?scope=upcoming'
+    {
+      title: 'Yaklaşan Etkinlikler',
+      value: stats?.upcoming_events || 0,
+      icon: Calendar,
+      change: '-2%',
+      color: 'text-orange-600',
+      href: '/events?scope=upcoming',
     },
-    { 
-      title: 'Toplam Dava', 
-      value: stats?.total_cases || 0, 
-      icon: TrendingUp, 
-      change: '+8%', 
-      color: 'text-purple-600', 
-      href: '/cases'
+    {
+      title: 'Toplam Dava',
+      value: stats?.total_cases || 0,
+      icon: TrendingUp,
+      change: '+8%',
+      color: 'text-purple-600',
+      href: '/cases',
     },
   ];
 
@@ -102,9 +112,19 @@ export default function DashboardPage() {
   ];
 
   const activities = [
-    { type: 'client', text: 'Yeni müvekkil eklendi: Ahmet Yılmaz', time: '2 saat önce', icon: Users },
+    {
+      type: 'client',
+      text: 'Yeni müvekkil eklendi: Ahmet Yılmaz',
+      time: '2 saat önce',
+      icon: Users,
+    },
     { type: 'case', text: 'Dava güncellendi: 2024/123', time: '5 saat önce', icon: FileText },
-    { type: 'event', text: 'Duruşma hatırlatması: Yarın 14:00', time: '1 gün önce', icon: Calendar },
+    {
+      type: 'event',
+      text: 'Duruşma hatırlatması: Yarın 14:00',
+      time: '1 gün önce',
+      icon: Calendar,
+    },
   ];
 
   return (
@@ -115,22 +135,40 @@ export default function DashboardPage() {
             <div className="flex items-center">
               <h1 className="text-xl font-bold text-gray-900">AvukatAjanda</h1>
               <nav className="ml-10 flex space-x-4">
-                <a href="/dashboard" className="text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/dashboard"
+                  className="text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Panel
                 </a>
-                <a href="/clients" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/clients"
+                  className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Müvekkiller
                 </a>
-                <a href="/cases" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/cases"
+                  className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Davalar
                 </a>
-                <a href="/events" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/events"
+                  className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Takvim
                 </a>
-                <a href="/files" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/files"
+                  className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Dosyalar
                 </a>
-                <a href="/invoices" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a
+                  href="/invoices"
+                  className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   Faturalar
                 </a>
               </nav>
@@ -154,15 +192,13 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {statCards.map((stat, index) => (
-            <Card 
-              key={index} 
+            <Card
+              key={index}
               className="hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => router.push(stat.href)}
             >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">
-                  {stat.title}
-                </CardTitle>
+                <CardTitle className="text-sm font-medium text-gray-600">{stat.title}</CardTitle>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </CardHeader>
               <CardContent>
@@ -170,8 +206,8 @@ export default function DashboardPage() {
                 <p className="text-xs text-gray-500 mt-1">
                   <span className={stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
                     {stat.change}
-                  </span>
-                  {' '}geçen aya göre
+                  </span>{' '}
+                  geçen aya göre
                 </p>
               </CardContent>
             </Card>
@@ -231,8 +267,8 @@ export default function DashboardPage() {
                   <Calendar className="w-5 h-5 mr-2" />
                   Yaklaşan Duruşmalar
                 </span>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="sm"
                   onClick={() => router.push('/events?scope=upcoming')}
                 >

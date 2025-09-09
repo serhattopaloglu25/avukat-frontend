@@ -47,11 +47,7 @@ export function Analytics() {
         </>
       )}
       {plausibleDomain && (
-        <Script
-          defer
-          data-domain={plausibleDomain}
-          src="https://plausible.io/js/script.js"
-        />
+        <Script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
       )}
     </>
   );

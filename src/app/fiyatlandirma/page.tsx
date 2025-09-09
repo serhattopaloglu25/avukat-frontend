@@ -2,7 +2,14 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Check, X } from 'lucide-react';
 
 export default function FiyatlandirmaPage() {
@@ -18,11 +25,7 @@ export default function FiyatlandirmaPage() {
         'Ajanda yönetimi',
         'E-posta desteği',
       ],
-      notIncluded: [
-        'Gelişmiş raporlama',
-        'API erişimi',
-        'Özel eğitim',
-      ],
+      notIncluded: ['Gelişmiş raporlama', 'API erişimi', 'Özel eğitim'],
       popular: false,
     },
     {
@@ -38,10 +41,7 @@ export default function FiyatlandirmaPage() {
         'Öncelikli destek',
         'Gelişmiş raporlama',
       ],
-      notIncluded: [
-        'API erişimi',
-        'Özel eğitim',
-      ],
+      notIncluded: ['API erişimi', 'Özel eğitim'],
       popular: true,
     },
     {
@@ -101,9 +101,7 @@ export default function FiyatlandirmaPage() {
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
             Büronuza Uygun Planı Seçin
           </h1>
-          <p className="text-xl text-gray-600">
-            14 gün ücretsiz deneme. Kredi kartı gerektirmez.
-          </p>
+          <p className="text-xl text-gray-600">14 gün ücretsiz deneme. Kredi kartı gerektirmez.</p>
         </div>
       </section>
 
@@ -112,7 +110,7 @@ export default function FiyatlandirmaPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {plans.map((plan) => (
-              <Card 
+              <Card
                 key={plan.name}
                 className={plan.popular ? 'border-primary shadow-lg relative' : ''}
               >
@@ -155,10 +153,7 @@ export default function FiyatlandirmaPage() {
                 </CardContent>
                 <CardFooter>
                   <Link href="/register" className="w-full">
-                    <Button 
-                      className="w-full" 
-                      variant={plan.popular ? 'default' : 'outline'}
-                    >
+                    <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>
                       {plan.price === 'Özel Fiyat' ? 'İletişime Geç' : 'Başla'}
                     </Button>
                   </Link>
@@ -172,35 +167,27 @@ export default function FiyatlandirmaPage() {
       {/* FAQ */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Sıkça Sorulan Sorular
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Sıkça Sorulan Sorular</h2>
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-semibold mb-2">
-                Ücretsiz deneme nasıl çalışır?
-              </h3>
+              <h3 className="text-lg font-semibold mb-2">Ücretsiz deneme nasıl çalışır?</h3>
               <p className="text-gray-600">
-                14 gün boyunca tüm özellikleri ücretsiz deneyebilirsiniz. 
-                Kredi kartı bilgisi gerekmez ve deneme süresi sonunda otomatik ödeme alınmaz.
+                14 gün boyunca tüm özellikleri ücretsiz deneyebilirsiniz. Kredi kartı bilgisi
+                gerekmez ve deneme süresi sonunda otomatik ödeme alınmaz.
               </p>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-2">
-                Plan değişikliği yapabilir miyim?
-              </h3>
+              <h3 className="text-lg font-semibold mb-2">Plan değişikliği yapabilir miyim?</h3>
               <p className="text-gray-600">
-                Evet, dilediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. 
-                Değişiklikler bir sonraki fatura döneminde geçerli olur.
+                Evet, dilediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. Değişiklikler
+                bir sonraki fatura döneminde geçerli olur.
               </p>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-2">
-                İptal politikanız nedir?
-              </h3>
+              <h3 className="text-lg font-semibold mb-2">İptal politikanız nedir?</h3>
               <p className="text-gray-600">
-                Dilediğiniz zaman aboneliğinizi iptal edebilirsiniz. 
-                İptal ettiğinizde mevcut dönem sonuna kadar erişiminiz devam eder.
+                Dilediğiniz zaman aboneliğinizi iptal edebilirsiniz. İptal ettiğinizde mevcut dönem
+                sonuna kadar erişiminiz devam eder.
               </p>
             </div>
           </div>
@@ -210,9 +197,7 @@ export default function FiyatlandirmaPage() {
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Hemen Başlayın
-          </h2>
+          <h2 className="text-3xl font-bold mb-4">Hemen Başlayın</h2>
           <p className="text-xl text-gray-600 mb-8">
             14 gün ücretsiz deneyin. Kredi kartı gerekmez.
           </p>

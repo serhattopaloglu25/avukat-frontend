@@ -19,7 +19,7 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
     setUploading(true);
     try {
       const token = localStorage.getItem('token');
-      
+
       // Get signed URL from backend
       const signResponse = await fetch('https://avukat-ajanda-backend.onrender.com/files/sign', {
         method: 'POST',

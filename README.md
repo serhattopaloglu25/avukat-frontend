@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ### Environment Variables
 
 Google Analytics için:
+
 - Vercel Dashboard'a gidin
 - Settings > Environment Variables
 - NEXT_PUBLIC_GA_ID ekleyin
@@ -54,23 +55,27 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Analytics Kurulumu
 
 Environment variable'ları Vercel'de ayarlayın:
+
 - NEXT_PUBLIC_GA_ID: Google Analytics ID (G-XXXXXXXXX)
 - NEXT_PUBLIC_PLAUSIBLE_DOMAIN: (Opsiyonel) Plausible domain
 
 vercel env add NEXT_PUBLIC_GA_ID production
+
 # G-1RTWPD8X79 girin
 
 ## Analytics Events
 
 ### Tracked Events:
-| Event | Category | Action | Label | Where |
-|-------|----------|--------|-------|-------|
-| CTA Click | cta | click | hero/pricing/features | All "Ücretsiz Başla" buttons |
-| Contact Submit | contact | submit | contact_page | /iletisim form |
-| Nav Click | navigation | click | [page_name] | Header navigation |
-| Login Click | auth | click | header | "Giriş Yap" button |
+
+| Event          | Category   | Action | Label                 | Where                        |
+| -------------- | ---------- | ------ | --------------------- | ---------------------------- |
+| CTA Click      | cta        | click  | hero/pricing/features | All "Ücretsiz Başla" buttons |
+| Contact Submit | contact    | submit | contact_page          | /iletisim form               |
+| Nav Click      | navigation | click  | [page_name]           | Header navigation            |
+| Login Click    | auth       | click  | header                | "Giriş Yap" button           |
 
 ### Testing:
+
 1. Open DevTools > Network
 2. Filter: "gtag" or "plausible"
 3. Trigger events

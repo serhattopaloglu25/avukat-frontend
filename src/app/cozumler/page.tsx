@@ -10,43 +10,43 @@ export default function CozumlerPage() {
   const solutions = [
     {
       icon: User,
-      title: "Bireysel Avukatlar",
-      description: "Tek kişilik ofisler için basit ve etkili çözüm",
+      title: 'Bireysel Avukatlar',
+      description: 'Tek kişilik ofisler için basit ve etkili çözüm',
       features: [
-        "Kolay kullanım arayüzü",
-        "Temel dava takibi",
-        "Müvekkil yönetimi",
-        "Takvim ve hatırlatmalar",
-        "Mobil erişim"
+        'Kolay kullanım arayüzü',
+        'Temel dava takibi',
+        'Müvekkil yönetimi',
+        'Takvim ve hatırlatmalar',
+        'Mobil erişim',
       ],
-      recommended: "Başlangıç Planı"
+      recommended: 'Başlangıç Planı',
     },
     {
       icon: Building2,
-      title: "Küçük ve Orta Bürolar",
-      description: "2-10 avukatlı bürolar için ekip çözümü",
+      title: 'Küçük ve Orta Bürolar',
+      description: '2-10 avukatlı bürolar için ekip çözümü',
       features: [
-        "Çoklu kullanıcı desteği",
-        "Ekip takvimi paylaşımı",
-        "Görev atama ve takibi",
-        "Gelişmiş raporlama",
-        "Dosya paylaşımı"
+        'Çoklu kullanıcı desteği',
+        'Ekip takvimi paylaşımı',
+        'Görev atama ve takibi',
+        'Gelişmiş raporlama',
+        'Dosya paylaşımı',
       ],
-      recommended: "Profesyonel Plan"
+      recommended: 'Profesyonel Plan',
     },
     {
       icon: Briefcase,
-      title: "Kurumsal Hukuk Büroları",
-      description: "Büyük ölçekli firmalar için özelleştirilmiş çözüm",
+      title: 'Kurumsal Hukuk Büroları',
+      description: 'Büyük ölçekli firmalar için özelleştirilmiş çözüm',
       features: [
-        "Sınırsız kullanıcı",
-        "Departman yönetimi",
-        "Özel raporlar ve analizler",
-        "API entegrasyonu",
-        "Özel eğitim ve destek"
+        'Sınırsız kullanıcı',
+        'Departman yönetimi',
+        'Özel raporlar ve analizler',
+        'API entegrasyonu',
+        'Özel eğitim ve destek',
       ],
-      recommended: "Kurumsal Plan"
-    }
+      recommended: 'Kurumsal Plan',
+    },
   ];
 
   return (
@@ -72,9 +72,7 @@ export default function CozumlerPage() {
                       <solution.icon className="w-8 h-8 text-primary" />
                     </div>
                     <CardTitle className="text-2xl">{solution.title}</CardTitle>
-                    <CardDescription className="text-base">
-                      {solution.description}
-                    </CardDescription>
+                    <CardDescription className="text-base">{solution.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3 mb-6">
@@ -104,9 +102,7 @@ export default function CozumlerPage() {
         <section className="py-20 bg-primary text-white">
           <Container>
             <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-                Hangi Çözüm Size Uygun?
-              </h2>
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Hangi Çözüm Size Uygun?</h2>
               <p className="text-xl mb-8 text-blue-100">
                 Emin değilseniz, uzmanlarımız size yardımcı olsun.
               </p>

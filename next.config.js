@@ -8,12 +8,12 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/calender', 
+        source: '/calender',
         destination: '/events',
         permanent: true,
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

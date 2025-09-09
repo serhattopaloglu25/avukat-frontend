@@ -11,13 +11,13 @@ export default function LogosOrStats() {
               <div className="text-gray-600">Uptime Garantisi</div>
               <div className="text-sm text-gray-500 mt-1">Son 12 ay</div>
             </div>
-            
+
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">Frankfurt</div>
               <div className="text-gray-600">Veri Merkezi</div>
               <div className="text-sm text-gray-500 mt-1">GDPR Uyumlu</div>
             </div>
-            
+
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">256-bit</div>
               <div className="text-gray-600">SSL Şifreleme</div>

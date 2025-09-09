@@ -1,1 +1,2 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com';
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com';

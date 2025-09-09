@@ -6,86 +6,84 @@ import { Container } from '@/components/ui/container';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { 
-  FileText, Users, Calendar, FolderOpen, Receipt, BarChart3, 
-  Shield, Clock, Globe, Check, ArrowRight, Lock, Cloud, RefreshCw 
+import {
+  FileText,
+  Users,
+  Calendar,
+  FolderOpen,
+  Receipt,
+  BarChart3,
+  Shield,
+  Clock,
+  Globe,
+  Check,
+  ArrowRight,
+  Lock,
+  Cloud,
+  RefreshCw,
 } from 'lucide-react';
 
 export default function OzelliklerPage() {
   const features = [
     {
       icon: FileText,
-      title: "Dava Takibi",
-      description: "Tüm davalarınızı tek merkezden yönetin. Duruşma tarihleri, evrak takibi ve otomatik hatırlatmalarla hiçbir detayı kaçırmayın.",
-      details: [
-        "Takvim entegrasyonu",
-        "Duruşma hatırlatmaları",
-        "Evrak yönetimi"
-      ]
+      title: 'Dava Takibi',
+      description:
+        'Tüm davalarınızı tek merkezden yönetin. Duruşma tarihleri, evrak takibi ve otomatik hatırlatmalarla hiçbir detayı kaçırmayın.',
+      details: ['Takvim entegrasyonu', 'Duruşma hatırlatmaları', 'Evrak yönetimi'],
     },
     {
       icon: Users,
-      title: "Müvekkil Yönetimi",
-      description: "Müvekkil bilgilerini güvenle saklayın. İletişim geçmişi, dosya ilişkilendirme ve detaylı profil kartlarıyla profesyonel hizmet.",
-      details: [
-        "İletişim geçmişi",
-        "Dosya ilişkilendirme",
-        "Detaylı profiller"
-      ]
+      title: 'Müvekkil Yönetimi',
+      description:
+        'Müvekkil bilgilerini güvenle saklayın. İletişim geçmişi, dosya ilişkilendirme ve detaylı profil kartlarıyla profesyonel hizmet.',
+      details: ['İletişim geçmişi', 'Dosya ilişkilendirme', 'Detaylı profiller'],
     },
     {
       icon: Calendar,
-      title: "Ajanda & Bildirimler",
-      description: "Akıllı hatırlatma sistemi ile önemli tarihleri kaçırmayın. E-posta ve push bildirimlerle her zaman güncel kalın.",
-      details: [
-        "E-posta bildirimleri",
-        "Push notifications",
-        "Özelleştirilebilir hatırlatmalar"
-      ]
+      title: 'Ajanda & Bildirimler',
+      description:
+        'Akıllı hatırlatma sistemi ile önemli tarihleri kaçırmayın. E-posta ve push bildirimlerle her zaman güncel kalın.',
+      details: ['E-posta bildirimleri', 'Push notifications', 'Özelleştirilebilir hatırlatmalar'],
     },
     {
       icon: FolderOpen,
-      title: "Dosya Paylaşımı",
-      description: "Güvenli dosya yönetimi ve paylaşımı. Erişim düzeyleri belirleyin, güvenli bağlantılar oluşturun.",
-      details: [
-        "Güvenli bağlantılar",
-        "Erişim düzeyleri",
-        "Versiyon kontrolü"
-      ]
+      title: 'Dosya Paylaşımı',
+      description:
+        'Güvenli dosya yönetimi ve paylaşımı. Erişim düzeyleri belirleyin, güvenli bağlantılar oluşturun.',
+      details: ['Güvenli bağlantılar', 'Erişim düzeyleri', 'Versiyon kontrolü'],
     },
     {
       icon: Receipt,
-      title: "Fatura & Tahsilat",
-      description: "Basit faturalama çözümü. Taslak oluşturun, PDF olarak kaydedin ve müvekkillerinize gönderin.",
-      details: [
-        "Taslak faturalar",
-        "PDF dışa aktarım",
-        "Tahsilat takibi"
-      ]
+      title: 'Fatura & Tahsilat',
+      description:
+        'Basit faturalama çözümü. Taslak oluşturun, PDF olarak kaydedin ve müvekkillerinize gönderin.',
+      details: ['Taslak faturalar', 'PDF dışa aktarım', 'Tahsilat takibi'],
     },
     {
       icon: BarChart3,
-      title: "Raporlama & Arama",
-      description: "Gelişmiş filtreleme ve akıllı arama özellikleriyle verilerinize anında ulaşın. Detaylı raporlar oluşturun.",
-      details: [
-        "Gelişmiş filtreleme",
-        "Akıllı arama",
-        "Özelleştirilebilir raporlar"
-      ]
-    }
+      title: 'Raporlama & Arama',
+      description:
+        'Gelişmiş filtreleme ve akıllı arama özellikleriyle verilerinize anında ulaşın. Detaylı raporlar oluşturun.',
+      details: ['Gelişmiş filtreleme', 'Akıllı arama', 'Özelleştirilebilir raporlar'],
+    },
   ];
 
   const steps = [
-    { number: "1", title: "Kaydol", description: "Hızlı kayıt ile hesabınızı oluşturun" },
-    { number: "2", title: "Dosyaları Ekle", description: "Müvekkil ve dava bilgilerinizi girin" },
-    { number: "3", title: "Takvimi Yönet", description: "Duruşmaları takip edin, hatırlatmalar alın" }
+    { number: '1', title: 'Kaydol', description: 'Hızlı kayıt ile hesabınızı oluşturun' },
+    { number: '2', title: 'Dosyaları Ekle', description: 'Müvekkil ve dava bilgilerinizi girin' },
+    {
+      number: '3',
+      title: 'Takvimi Yönet',
+      description: 'Duruşmaları takip edin, hatırlatmalar alın',
+    },
   ];
 
   const trustFeatures = [
-    { icon: Shield, text: "256-bit SSL şifreleme" },
-    { icon: Cloud, text: "Bulut tabanlı güvenli depolama" },
-    { icon: RefreshCw, text: "Günlük otomatik yedekleme" },
-    { icon: Lock, text: "KVKK uyumlu altyapı" }
+    { icon: Shield, text: '256-bit SSL şifreleme' },
+    { icon: Cloud, text: 'Bulut tabanlı güvenli depolama' },
+    { icon: RefreshCw, text: 'Günlük otomatik yedekleme' },
+    { icon: Lock, text: 'KVKK uyumlu altyapı' },
   ];
 
   return (
@@ -98,11 +96,13 @@ export default function OzelliklerPage() {
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
                 Avukat Ajanda
-                <span className="block text-primary mt-2">Bürolar için akıllı iş takip ve müvekkil yönetimi</span>
+                <span className="block text-primary mt-2">
+                  Bürolar için akıllı iş takip ve müvekkil yönetimi
+                </span>
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Modern teknoloji ile hukuk büronuzun verimliliğini artırın. 
-                Tüm süreçlerinizi tek platformdan yönetin.
+                Modern teknoloji ile hukuk büronuzun verimliliğini artırın. Tüm süreçlerinizi tek
+                platformdan yönetin.
               </p>
               <Link href="/register">
                 <Button size="lg" className="shadow-lg hover:shadow-xl transition-all">
@@ -118,20 +118,23 @@ export default function OzelliklerPage() {
           <Container>
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Güçlü Özellikler</h2>
-              <p className="text-xl text-gray-600">Her detay, büronuzun ihtiyaçları düşünülerek tasarlandı</p>
+              <p className="text-xl text-gray-600">
+                Her detay, büronuzun ihtiyaçları düşünülerek tasarlandı
+              </p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <Card
+                  key={index}
+                  className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                >
                   <CardHeader>
                     <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                       <feature.icon className="w-7 h-7 text-primary" />
                     </div>
                     <CardTitle className="text-xl mb-2">{feature.title}</CardTitle>
-                    <CardDescription className="text-base">
-                      {feature.description}
-                    </CardDescription>
+                    <CardDescription className="text-base">{feature.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2">
@@ -156,7 +159,7 @@ export default function OzelliklerPage() {
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Nasıl Çalışır?</h2>
               <p className="text-xl text-gray-600">3 basit adımda büronuzu dijitalleştirin</p>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               {steps.map((step, index) => (
                 <div key={index} className="text-center">
@@ -178,7 +181,7 @@ export default function OzelliklerPage() {
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Güvenlik & KVKK Uyumu</h2>
               <p className="text-xl text-gray-600">Verileriniz güvende, gönlünüz rahat</p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {trustFeatures.map((item, index) => (
                 <Card key={index} className="text-center hover:shadow-lg transition-shadow">
@@ -196,9 +199,7 @@ export default function OzelliklerPage() {
         <section className="py-20 bg-gradient-to-r from-primary to-blue-700">
           <Container>
             <div className="text-center text-white max-w-3xl mx-auto">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-                Hemen Başlayın
-              </h2>
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Hemen Başlayın</h2>
               <p className="text-xl mb-8 text-blue-100">
                 14 gün ücretsiz deneme. Kredi kartı gerekmez.
               </p>

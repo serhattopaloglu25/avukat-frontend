@@ -35,9 +35,12 @@ export function CookieConsent() {
           <div className="flex-1 pr-4">
             <h3 className="font-semibold mb-2">Çerez Kullanımı</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. 
-              Bu çerezler, site kullanımınız hakkında anonim istatistikler toplar. 
-              Detaylı bilgi için <a href="/gizlilik" className="text-primary hover:underline">Gizlilik Politikamızı</a> inceleyebilirsiniz.
+              Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. Bu
+              çerezler, site kullanımınız hakkında anonim istatistikler toplar. Detaylı bilgi için{' '}
+              <a href="/gizlilik" className="text-primary hover:underline">
+                Gizlilik Politikamızı
+              </a>{' '}
+              inceleyebilirsiniz.
             </p>
             <div className="flex gap-3">
               <Button onClick={handleAccept} size="sm">
@@ -48,7 +51,7 @@ export function CookieConsent() {
               </Button>
             </div>
           </div>
-          <button 
+          <button
             onClick={handleReject}
             className="text-gray-400 hover:text-gray-600"
             aria-label="Kapat"

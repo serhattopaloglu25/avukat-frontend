@@ -12,7 +12,14 @@ interface TrackedLinkProps {
   className?: string;
 }
 
-export function TrackedLink({ href, category, action, label, children, className }: TrackedLinkProps) {
+export function TrackedLink({
+  href,
+  category,
+  action,
+  label,
+  children,
+  className,
+}: TrackedLinkProps) {
   const handleClick = () => {
     trackEvent(category, action, label);
   };

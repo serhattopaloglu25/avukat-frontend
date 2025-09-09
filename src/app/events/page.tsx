@@ -55,8 +55,18 @@ export default function EventsPage() {
   };
 
   const monthNames = [
-    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    'Ocak',
+    'Şubat',
+    'Mart',
+    'Nisan',
+    'Mayıs',
+    'Haziran',
+    'Temmuz',
+    'Ağustos',
+    'Eylül',
+    'Ekim',
+    'Kasım',
+    'Aralık',
   ];
 
   const getDaysInMonth = () => {
@@ -78,11 +88,13 @@ export default function EventsPage() {
   };
 
   const getEventsForDay = (day: number) => {
-    return events.filter(event => {
+    return events.filter((event) => {
       const eventDate = new Date(event.startAt);
-      return eventDate.getDate() === day &&
-             eventDate.getMonth() === currentDate.getMonth() &&
-             eventDate.getFullYear() === currentDate.getFullYear();
+      return (
+        eventDate.getDate() === day &&
+        eventDate.getMonth() === currentDate.getMonth() &&
+        eventDate.getFullYear() === currentDate.getFullYear()
+      );
     });
   };
 
@@ -96,10 +108,14 @@ export default function EventsPage() {
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
-      case 'hearing': return 'bg-red-100 text-red-800';
-      case 'meeting': return 'bg-blue-100 text-blue-800';
-      case 'reminder': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'hearing':
+        return 'bg-red-100 text-red-800';
+      case 'meeting':
+        return 'bg-blue-100 text-blue-800';
+      case 'reminder':
+        return 'bg-yellow-100 text-yellow-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -117,10 +133,18 @@ export default function EventsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <nav className="flex space-x-8">
-              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Panel</a>
-              <a href="/clients" className="text-gray-500 hover:text-gray-900">Müvekkiller</a>
-              <a href="/cases" className="text-gray-500 hover:text-gray-900">Davalar</a>
-              <a href="/events" className="text-gray-900 font-medium">Takvim</a>
+              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">
+                Panel
+              </a>
+              <a href="/clients" className="text-gray-500 hover:text-gray-900">
+                Müvekkiller
+              </a>
+              <a href="/cases" className="text-gray-500 hover:text-gray-900">
+                Davalar
+              </a>
+              <a href="/events" className="text-gray-900 font-medium">
+                Takvim
+              </a>
             </nav>
             <Button onClick={() => router.push('/dashboard')} variant="ghost">
               Dashboard
@@ -157,7 +181,7 @@ export default function EventsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-7 gap-px bg-gray-200">
-              {['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'].map(day => (
+              {['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'].map((day) => (
                 <div key={day} className="bg-gray-50 p-2 text-center text-sm font-medium">
                   {day}
                 </div>
@@ -171,14 +195,16 @@ export default function EventsPage() {
                     <>
                       <div className="font-medium text-sm mb-1">{day}</div>
                       <div className="space-y-1">
-                        {getEventsForDay(day).slice(0, 2).map(event => (
-                          <div
-                            key={event.id}
-                            className={`text-xs p-1 rounded ${getEventTypeColor(event.type)}`}
-                          >
-                            {event.title.substring(0, 20)}...
-                          </div>
-                        ))}
+                        {getEventsForDay(day)
+                          .slice(0, 2)
+                          .map((event) => (
+                            <div
+                              key={event.id}
+                              className={`text-xs p-1 rounded ${getEventTypeColor(event.type)}`}
+                            >
+                              {event.title.substring(0, 20)}...
+                            </div>
+                          ))}
                         {getEventsForDay(day).length > 2 && (
                           <div className="text-xs text-gray-500">
                             +{getEventsForDay(day).length - 2} daha
@@ -196,7 +222,7 @@ export default function EventsPage() {
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-4">Yaklaşan Etkinlikler</h2>
           <div className="space-y-4">
-            {events.slice(0, 5).map(event => (
+            {events.slice(0, 5).map((event) => (
               <Card key={event.id}>
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-start space-x-4">
@@ -218,8 +244,11 @@ export default function EventsPage() {
                     </div>
                   </div>
                   <span className={`px-2 py-1 rounded text-xs ${getEventTypeColor(event.type)}`}>
-                    {event.type === 'hearing' ? 'Duruşma' : 
-                     event.type === 'meeting' ? 'Toplantı' : 'Hatırlatma'}
+                    {event.type === 'hearing'
+                      ? 'Duruşma'
+                      : event.type === 'meeting'
+                        ? 'Toplantı'
+                        : 'Hatırlatma'}
                   </span>
                 </CardContent>
               </Card>

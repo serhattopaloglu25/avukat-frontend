@@ -1,18 +1,13 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 const Dialog = ({ children, open, onOpenChange }: any) => {
   if (!open) return null;
-  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div 
-        className="fixed inset-0 bg-black/50" 
-        onClick={() => onOpenChange(false)}
-      />
-      <div className="relative bg-white rounded-lg max-w-lg w-full mx-4">
-        {children}
-      </div>
+      <div className="fixed inset-0 bg-black/50" onClick={() => onOpenChange(false)} />
+      <div className="relative bg-white rounded-lg max-w-lg w-full mx-4">{children}</div>
     </div>
   );
 };
@@ -22,11 +17,7 @@ const DialogTrigger = ({ children, asChild }: any) => {
 };
 
 const DialogContent = ({ children, className }: any) => {
-  return (
-    <div className={cn("p-6", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn('p-6', className)}>{children}</div>;
 };
 
 const DialogHeader = ({ children }: any) => {
@@ -41,11 +32,4 @@ const DialogDescription = ({ children }: any) => {
   return <p className="text-sm text-gray-600">{children}</p>;
 };
 
-export {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-}
+export { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription };

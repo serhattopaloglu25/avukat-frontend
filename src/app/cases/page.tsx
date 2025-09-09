@@ -53,10 +53,14 @@ export default function CasesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-blue-100 text-blue-800';
+      case 'active':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'closed':
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-blue-100 text-blue-800';
     }
   };
 
@@ -75,10 +79,18 @@ export default function CasesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <nav className="flex space-x-8">
-              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Panel</a>
-              <a href="/clients" className="text-gray-500 hover:text-gray-900">Müvekkiller</a>
-              <a href="/cases" className="text-gray-900 font-medium">Davalar</a>
-              <a href="/events" className="text-gray-500 hover:text-gray-900">Takvim</a>
+              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">
+                Panel
+              </a>
+              <a href="/clients" className="text-gray-500 hover:text-gray-900">
+                Müvekkiller
+              </a>
+              <a href="/cases" className="text-gray-900 font-medium">
+                Davalar
+              </a>
+              <a href="/events" className="text-gray-500 hover:text-gray-900">
+                Takvim
+              </a>
             </nav>
             <Button onClick={() => router.push('/dashboard')} variant="ghost">
               Dashboard
@@ -122,20 +134,14 @@ export default function CasesPage() {
                           {case_.status === 'active' ? 'Aktif' : case_.status}
                         </Badge>
                       </div>
-                      
+
                       <div className="text-sm text-gray-600 space-y-1">
-                        {case_.caseNumber && (
-                          <p>Dosya No: {case_.caseNumber}</p>
-                        )}
-                        {case_.court && (
-                          <p>Mahkeme: {case_.court}</p>
-                        )}
-                        {case_.client && (
-                          <p>Müvekkil: {case_.client.name}</p>
-                        )}
+                        {case_.caseNumber && <p>Dosya No: {case_.caseNumber}</p>}
+                        {case_.court && <p>Mahkeme: {case_.court}</p>}
+                        {case_.client && <p>Müvekkil: {case_.client.name}</p>}
                       </div>
                     </div>
-                    
+
                     {case_.nextHearing && (
                       <div className="text-right">
                         <div className="flex items-center text-sm text-gray-500">
