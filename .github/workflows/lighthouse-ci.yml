@@ -1,0 +1,51 @@
+name: Lighthouse CI
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Wait for Vercel Preview
+        id: wait-for-vercel
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const maxAttempts = 10;
+            for (let i = 0; i < maxAttempts; i++) {
+              console.log(`Attempt ${i + 1}/${maxAttempts}`);
+              await new Promise(resolve => setTimeout(resolve, 30000));
+              
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+              });
+              
+              const vercelComment = comments.find(comment => 
+                comment.user.login === 'vercel[bot]' && 
+                comment.body.includes('Visit Preview')
+              );
+              
+              if (vercelComment) {
+                const match = vercelComment.body.match(/https:\/\/[^\s\]]+/);
+                if (match) {
+                  core.setOutput('preview_url', match[0]);
+                  return;
+                }
+              }
+            }
+            throw new Error('Preview URL not found');
+      
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ steps.wait-for-vercel.outputs.preview_url }}
+            ${{ steps.wait-for-vercel.outputs.preview_url }}/ozellikler
+            ${{ steps.wait-for-vercel.outputs.preview_url }}/fiyatlandirma
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
