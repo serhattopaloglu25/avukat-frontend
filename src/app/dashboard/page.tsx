@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, FileText, Calendar, TrendingUp, Activity, Clock, LogOut } from 'lucide-react';
+import { Users, FileText, Calendar, TrendingUp, Activity, Clock, LogOut, FolderOpen, Receipt } from 'lucide-react';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -52,10 +52,18 @@ export default function DashboardPage() {
   }
 
   const stats = [
-    { title: 'Toplam Müvekkil', value: '24', icon: Users, change: '+12%', color: 'text-blue-600' },
-    { title: 'Aktif Dava', value: '18', icon: FileText, change: '+5%', color: 'text-green-600' },
-    { title: 'Bu Ay Duruşma', value: '7', icon: Calendar, change: '-2%', color: 'text-orange-600' },
-    { title: 'Tahsilat Oranı', value: '%85', icon: TrendingUp, change: '+8%', color: 'text-purple-600' },
+    { title: 'Toplam Müvekkil', value: '24', icon: Users, change: '+12%', color: 'text-blue-600', href: '/clients' },
+    { title: 'Aktif Dava', value: '18', icon: FileText, change: '+5%', color: 'text-green-600', href: '/cases' },
+    { title: 'Bu Ay Duruşma', value: '7', icon: Calendar, change: '-2%', color: 'text-orange-600', href: '/events' },
+    { title: 'Tahsilat Oranı', value: '%85', icon: TrendingUp, change: '+8%', color: 'text-purple-600', href: '/invoices' },
+  ];
+
+  const quickLinks = [
+    { title: 'Müvekkiller', icon: Users, href: '/clients', color: 'bg-blue-500' },
+    { title: 'Davalar', icon: FileText, href: '/cases', color: 'bg-green-500' },
+    { title: 'Takvim', icon: Calendar, href: '/events', color: 'bg-orange-500' },
+    { title: 'Dosyalar', icon: FolderOpen, href: '/files', color: 'bg-purple-500' },
+    { title: 'Faturalar', icon: Receipt, href: '/invoices', color: 'bg-red-500' },
   ];
 
   const activities = [
@@ -82,8 +90,14 @@ export default function DashboardPage() {
                 <a href="/cases" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                   Davalar
                 </a>
-                <a href="/calendar" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                <a href="/events" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                   Takvim
+                </a>
+                <a href="/files" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                  Dosyalar
+                </a>
+                <a href="/invoices" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                  Faturalar
                 </a>
               </nav>
             </div>
@@ -109,7 +123,11 @@ export default function DashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
+            <Card 
+              key={index} 
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => router.push(stat.href)}
+            >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-gray-600">
                   {stat.title}
@@ -127,6 +145,25 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Quick Links */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4">Hızlı Erişim</h3>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {quickLinks.map((link, index) => (
+              <button
+                key={index}
+                onClick={() => router.push(link.href)}
+                className="flex flex-col items-center p-4 bg-white rounded-lg shadow hover:shadow-lg transition-shadow"
+              >
+                <div className={`p-3 rounded-full ${link.color} bg-opacity-10 mb-2`}>
+                  <link.icon className={`w-6 h-6 ${link.color.replace('bg-', 'text-')}`} />
+                </div>
+                <span className="text-sm font-medium">{link.title}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Activity & Calendar */}
@@ -162,9 +199,18 @@ export default function DashboardPage() {
           {/* Upcoming Events */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Calendar className="w-5 h-5 mr-2" />
-                Yaklaşan Duruşmalar
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Calendar className="w-5 h-5 mr-2" />
+                  Yaklaşan Duruşmalar
+                </span>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => router.push('/events')}
+                >
+                  Tümü
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
