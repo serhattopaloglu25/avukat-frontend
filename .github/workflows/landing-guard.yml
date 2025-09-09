@@ -1,0 +1,71 @@
+name: Landing Protection Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for landing changes
+        id: check
+        run: |
+          echo "Checking for protected landing file changes..."
+          
+          # Get changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          
+          # Check for protected paths
+          PROTECTED_PATHS="src/app/page.tsx src/app/(marketing)/ src/components/marketing/"
+          LANDING_CHANGED=false
+          
+          for file in $CHANGED_FILES; do
+            for path in $PROTECTED_PATHS; do
+              if [[ "$file" == *"$path"* ]]; then
+                echo "Protected file changed: $file"
+                LANDING_CHANGED=true
+              fi
+            done
+          done
+          
+          echo "landing_changed=$LANDING_CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Check for approval label
+        id: label
+        run: |
+          LABELS='${{ toJson(github.event.pull_request.labels.*.name) }}'
+          if echo "$LABELS" | grep -q "landing-ok"; then
+            echo "has_approval=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_approval=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add needs-approval label
+        if: steps.check.outputs.landing_changed == 'true' && steps.label.outputs.has_approval == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['needs-landing-approval']
+            })
+
+      - name: Fail if unapproved landing changes
+        if: steps.check.outputs.landing_changed == 'true' && steps.label.outputs.has_approval == 'false'
+        run: |
+          echo "❌ Landing page changes detected without approval!"
+          echo "This PR modifies protected landing files."
+          echo "Please get approval from @serhattopaloglu25 and add 'landing-ok' label."
+          exit 1
+
+      - name: Pass if approved
+        if: steps.check.outputs.landing_changed == 'false' || steps.label.outputs.has_approval == 'true'
+        run: |
+          echo "✅ Landing protection check passed"
