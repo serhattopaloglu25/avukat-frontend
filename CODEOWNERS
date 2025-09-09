@@ -1,0 +1,8 @@
+# Landing page protection - requires owner approval
+/src/app/page.tsx @serhattopaloglu25
+/src/app/(marketing)/** @serhattopaloglu25
+/src/components/marketing/** @serhattopaloglu25
+
+# Protected configs
+/next.config.js @serhattopaloglu25
+/CODEOWNERS @serhattopaloglu25
