@@ -1,11 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true
+  async redirects() {
+    return [
+      {
+        source: '/calendar',
+        destination: '/events',
+        permanent: true,
+      },
+      {
+        source: '/calender', 
+        destination: '/events',
+        permanent: true,
+      },
+    ]
   },
-  typescript: {
-    ignoreBuildErrors: true
-  }
 }
 
 module.exports = nextConfig

@@ -9,6 +9,7 @@ import { Users, FileText, Calendar, TrendingUp, Activity, Clock, LogOut, FolderO
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,15 +19,21 @@ export default function DashboardPage() {
       return;
     }
 
-    fetch('https://avukat-ajanda-backend.onrender.com/me', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Unauthorized');
-        return res.json();
+    Promise.all([
+      fetch('https://avukat-ajanda-backend.onrender.com/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      }),
+      fetch('https://avukat-ajanda-backend.onrender.com/api/stats', {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .then(data => {
-        setUser(data.user);
+    ])
+      .then(async ([meRes, statsRes]) => {
+        if (!meRes.ok) throw new Error('Unauthorized');
+        const userData = await meRes.json();
+        const statsData = statsRes.ok ? await statsRes.json() : null;
+        
+        setUser(userData.user);
+        setStats(statsData);
         setLoading(false);
       })
       .catch(() => {
@@ -51,11 +58,39 @@ export default function DashboardPage() {
     );
   }
 
-  const stats = [
-    { title: 'Toplam Müvekkil', value: '24', icon: Users, change: '+12%', color: 'text-blue-600', href: '/clients' },
-    { title: 'Aktif Dava', value: '18', icon: FileText, change: '+5%', color: 'text-green-600', href: '/cases' },
-    { title: 'Bu Ay Duruşma', value: '7', icon: Calendar, change: '-2%', color: 'text-orange-600', href: '/events' },
-    { title: 'Tahsilat Oranı', value: '%85', icon: TrendingUp, change: '+8%', color: 'text-purple-600', href: '/invoices' },
+  const statCards = [
+    { 
+      title: 'Toplam Müvekkil', 
+      value: stats?.total_clients || 0, 
+      icon: Users, 
+      change: '+12%', 
+      color: 'text-blue-600', 
+      href: '/clients'
+    },
+    { 
+      title: 'Aktif Dava', 
+      value: stats?.active_cases || 0, 
+      icon: FileText, 
+      change: '+5%', 
+      color: 'text-green-600', 
+      href: '/cases?status=active'
+    },
+    { 
+      title: 'Yaklaşan Etkinlikler', 
+      value: stats?.upcoming_events || 0, 
+      icon: Calendar, 
+      change: '-2%', 
+      color: 'text-orange-600', 
+      href: '/events?scope=upcoming'
+    },
+    { 
+      title: 'Toplam Dava', 
+      value: stats?.total_cases || 0, 
+      icon: TrendingUp, 
+      change: '+8%', 
+      color: 'text-purple-600', 
+      href: '/cases'
+    },
   ];
 
   const quickLinks = [
@@ -74,7 +109,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -112,17 +146,14 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900">Panel Özeti</h2>
           <p className="text-gray-600">Büronuzun genel durumunu buradan takip edebilirsiniz</p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
+          {statCards.map((stat, index) => (
             <Card 
               key={index} 
               className="hover:shadow-lg transition-shadow cursor-pointer"
@@ -147,7 +178,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Quick Links */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4">Hızlı Erişim</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -166,9 +196,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Activity & Calendar */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Activities */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -196,7 +224,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Upcoming Events */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
@@ -207,7 +234,7 @@ export default function DashboardPage() {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={() => router.push('/events')}
+                  onClick={() => router.push('/events?scope=upcoming')}
                 >
                   Tümü
                 </Button>
@@ -224,11 +251,6 @@ export default function DashboardPage() {
                   <p className="font-medium text-sm">ABC Ltd. - Ticari Dava</p>
                   <p className="text-xs text-gray-600 mt-1">12 Ocak 2025, 10:30</p>
                   <p className="text-xs text-gray-500">İstanbul 5. Ticaret Mahkemesi</p>
-                </div>
-                <div className="border-l-4 border-gray-300 pl-4">
-                  <p className="font-medium text-sm">Ayşe Kaya - Kira Davası</p>
-                  <p className="text-xs text-gray-600 mt-1">15 Ocak 2025, 09:00</p>
-                  <p className="text-xs text-gray-500">İstanbul 2. Sulh Hukuk</p>
                 </div>
               </div>
             </CardContent>
