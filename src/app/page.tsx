@@ -24,7 +24,7 @@ export default function HomePage() {
                 Verimliliğinizi artırın, zamandan tasarruf edin.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
-                <Link href="/register">
+                <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
                   <Button size="lg" className="min-w-[200px]">
                     14 Gün Ücretsiz Dene
                   </Button>
@@ -168,7 +168,7 @@ export default function HomePage() {
               <p className="text-xl mb-8 text-blue-100">
                 14 gün ücretsiz deneme süresi ile tüm özellikleri test edin
               </p>
-              <Link href="/register">
+              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
                 <Button size="lg" variant="secondary">
                   Hemen Başla
                 </Button>

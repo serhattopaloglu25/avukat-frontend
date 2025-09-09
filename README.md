@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).## Analytics Setup
+
+### Environment Variables
+
+Google Analytics için:
+- Vercel Dashboard'a gidin
+- Settings > Environment Variables
+- NEXT_PUBLIC_GA_ID ekleyin
+- Değer: G-1RTWPD8X79
 
 ## Getting Started
 

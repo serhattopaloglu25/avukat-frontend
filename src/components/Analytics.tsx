@@ -3,6 +3,14 @@
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+    plausible?: any;
+  }
+}
+
 export function Analytics() {
   const [consentGiven, setConsentGiven] = useState<boolean | null>(null);
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
@@ -13,6 +21,17 @@ export function Analytics() {
     setConsentGiven(consent === 'true');
   }, []);
 
+  // Event tracking helper
+  useEffect(() => {
+    if (typeof window !== 'undefined' && consentGiven) {
+      window.gtag = function() {
+        if (window.dataLayer) {
+          window.dataLayer.push(arguments);
+        }
+      };
+    }
+  }, [consentGiven]);
+
   if (consentGiven === false || consentGiven === null) {
     return null;
   }
@@ -20,14 +39,15 @@ export function Analytics() {
   return (
     <>
       {/* Google Analytics 4 */}
-      {gaId && (
+      {gaId && !window.dataLayer && (
         <>
           <Script
+            id="google-analytics-script"
             strategy="afterInteractive"
             src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           />
           <Script
-            id="google-analytics"
+            id="google-analytics-init"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
@@ -43,8 +63,8 @@ export function Analytics() {
         </>
       )}
 
-      {/* Plausible Analytics (Alternative) */}
-      {plausibleDomain && (
+      {/* Plausible Analytics */}
+      {plausibleDomain && !window.plausible && (
         <Script
           defer
           data-domain={plausibleDomain}
@@ -54,4 +74,19 @@ export function Analytics() {
       )}
     </>
   );
+}
+
+// Event tracking utilities
+export function trackEvent(eventName: string, parameters?: Record<string, any>) {
+  if (typeof window !== 'undefined') {
+    // Google Analytics
+    if (window.gtag) {
+      window.gtag('event', eventName, parameters);
+    }
+    
+    // Plausible
+    if (window.plausible) {
+      window.plausible(eventName, { props: parameters });
+    }
+  }
 }

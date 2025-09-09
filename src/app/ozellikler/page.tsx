@@ -113,7 +113,7 @@ export default function OzelliklerPage() {
                 Modern teknoloji ile hukuk büronuzun verimliliğini artırın. 
                 Tüm süreçlerinizi tek platformdan yönetin.
               </p>
-              <Link href="/register">
+              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
                 <Button size="lg" className="shadow-lg hover:shadow-xl transition-all">
                   Ücretsiz Başla <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -211,7 +211,7 @@ export default function OzelliklerPage() {
               <p className="text-xl mb-8 text-blue-100">
                 14 gün ücretsiz deneme. Kredi kartı gerekmez.
               </p>
-              <Link href="/register">
+              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
                 <Button size="lg" variant="secondary" className="shadow-xl hover:shadow-2xl">
                   Ücretsiz Başla
                 </Button>

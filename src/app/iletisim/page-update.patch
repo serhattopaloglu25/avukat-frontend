@@ -1,0 +1,18 @@
+--- a/src/app/iletisim/page.tsx
++++ b/src/app/iletisim/page.tsx
+@@ -2,6 +2,7 @@
+ 
+ import { useState } from 'react';
+ import { Button } from '@/components/ui/button';
++import { trackEvent } from '@/components/Analytics';
+ 
+ const handleSubmit = (e: React.FormEvent) => {
+   e.preventDefault();
++  
++  // Track form submission
++  trackEvent('contact_form_submit', {
++    subject: formData.subject,
++    has_message: formData.message.length > 0
++  });
+   
+   const webhookUrl = process.env.NEXT_PUBLIC_CONTACT_WEBHOOK;

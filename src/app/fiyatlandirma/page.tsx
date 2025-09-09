@@ -223,7 +223,7 @@ export default function FiyatlandirmaPage() {
                       ))}
                     </ul>
                     
-                    <Link href="/register" className="w-full block">
+                    <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })} className="w-full block">
                       <Button 
                         className="w-full" 
                         variant={plan.popular ? 'default' : 'outline'}
@@ -330,7 +330,7 @@ export default function FiyatlandirmaPage() {
               <p className="text-xl mb-8 text-blue-100">
                 Kredi kartı gerekmez. İstediğiniz zaman iptal edin.
               </p>
-              <Link href="/register">
+              <Link href="/register" onClick={() => trackEvent('cta_click', { location: 'hero' })}>
                 <Button size="lg" variant="secondary" className="shadow-xl">
                   Ücretsiz Başla
                 </Button>
