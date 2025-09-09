@@ -1,10 +1,14 @@
+# *
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /dashboard/
 Disallow: /clients/
 Disallow: /cases/
-Disallow: /invoices/
-Disallow: /settings/
+Disallow: /admin/
 
+# Host
+Host: https://avukatajanda.com
+
+# Sitemaps
 Sitemap: https://avukatajanda.com/sitemap.xml

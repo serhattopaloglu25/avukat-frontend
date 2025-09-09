@@ -5,20 +5,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.3",
-    "@tailwindcss/postcss": "^4.0.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.23.12",
-    "lucide-react": "^0.542.0",
     "next": "15.5.0",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-merge": "^3.3.1"
+    "@tailwindcss/postcss": "^4.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0",
+    "lucide-react": "^0.321.0",
+    "framer-motion": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -27,6 +28,7 @@
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "15.5.0",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8",
     "tailwindcss": "^3",
     "typescript": "^5"

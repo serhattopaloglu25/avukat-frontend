@@ -42,7 +42,7 @@ export function Footer() {
           </div>
           
           <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-            <p>© 2024 AvukatAjanda. Tüm hakları saklıdır.</p>
+            <p>© 2025 AvukatAjanda. Tüm hakları saklıdır.</p>
           </div>
         </div>
       </Container>
