@@ -1,12 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import api from '@/lib/api';
 
 interface Organization {
   id: number;
   name: string;
-  role: string;
+  slug: string;
 }
 
 interface OrgContextType {
@@ -16,7 +15,7 @@ interface OrgContextType {
   loading: boolean;
 }
 
-const OrgContext = createContext<OrgContextType | undefined>(undefined);
+const OrgContext = createContext<OrgContextType | null>(null);
 
 export function OrgProvider({ children }: { children: React.ReactNode }) {
   const [currentOrg, setCurrentOrg] = useState<Organization | null>(null);
@@ -29,20 +28,27 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
 
   const fetchOrganizations = async () => {
     try {
-      const response = await api.get('/api/orgs');
-      const orgs = response.data.map((m: any) => ({
-        id: m.org.id,
-        name: m.org.name,
-        role: m.role
-      }));
-      
-      setOrganizations(orgs);
-      if (orgs.length > 0) {
-        setCurrentOrg(orgs[0]);
-        localStorage.setItem('currentOrgId', orgs[0].id);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch('https://avukat-ajanda-backend.onrender.com/orgs', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setOrganizations(data);
+        if (data.length > 0) {
+          setCurrentOrg(data[0]);
+        }
       }
     } catch (error) {
-      console.error('Failed to fetch organizations');
+      console.error('Failed to fetch organizations:', error);
     } finally {
       setLoading(false);
     }
@@ -52,7 +58,6 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
     const org = organizations.find(o => o.id === orgId);
     if (org) {
       setCurrentOrg(org);
-      localStorage.setItem('currentOrgId', orgId.toString());
     }
   };
 
