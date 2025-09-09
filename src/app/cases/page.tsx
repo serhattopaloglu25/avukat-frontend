@@ -2,183 +2,158 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Plus, FileText, Calendar } from 'lucide-react';
+
+interface Case {
+  id: number;
+  title: string;
+  caseNumber?: string;
+  court?: string;
+  status: string;
+  client?: { name: string };
+  nextHearing?: string;
+  createdAt: string;
+}
 
 export default function CasesPage() {
+  const [cases, setCases] = useState<Case[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [cases, setCases] = useState<any[]>([]);
-  const [clients, setClients] = useState<any[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    caseNo: '',
-    title: '',
-    clientId: '',
-    status: 'active'
-  });
 
   useEffect(() => {
+    fetchCases();
+  }, []);
+
+  const fetchCases = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       router.push('/login');
       return;
     }
-    fetchCases();
-    fetchClients();
-  }, []);
 
-  const fetchCases = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com'}/api/cases`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      const res = await fetch('https://avukat-ajanda-backend.onrender.com/cases', {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (response.ok) {
-        const data = await response.json();
-        setCases(data.data || []);
+
+      if (res.ok) {
+        const data = await res.json();
+        setCases(data.cases || []);
       }
     } catch (error) {
-      console.error('Failed to fetch cases');
+      console.error('Failed to fetch cases:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchClients = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com'}/api/clients`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setClients(data.data || []);
-      }
-    } catch (error) {
-      console.error('Failed to fetch clients');
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-100 text-green-800';
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'closed': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-blue-100 text-blue-800';
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com'}/api/cases`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          ...formData,
-          clientId: parseInt(formData.clientId)
-        })
-      });
-      
-      if (response.ok) {
-        setShowForm(false);
-        setFormData({ caseNo: '', title: '', clientId: '', status: 'active' });
-        fetchCases();
-      }
-    } catch (error) {
-      console.error('Failed to create case');
-    }
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Davalarım</h1>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Yeni Dava Ekle
-          </button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <nav className="flex space-x-8">
+              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Panel</a>
+              <a href="/clients" className="text-gray-500 hover:text-gray-900">Müvekkiller</a>
+              <a href="/cases" className="text-gray-900 font-medium">Davalar</a>
+              <a href="/events" className="text-gray-500 hover:text-gray-900">Takvim</a>
+            </nav>
+            <Button onClick={() => router.push('/dashboard')} variant="ghost">
+              Dashboard
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Davalar</h1>
+            <p className="text-gray-600">Dava listesi ve takibi</p>
+          </div>
+          <Button>
+            <Plus className="w-4 h-4 mr-2" />
+            Yeni Dava
+          </Button>
         </div>
 
-        {showForm && (
-          <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-6">
-            <div className="grid md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Dava No"
-                required
-                value={formData.caseNo}
-                onChange={(e) => setFormData({...formData, caseNo: e.target.value})}
-                className="px-4 py-2 border rounded-lg"
-              />
-              <input
-                type="text"
-                placeholder="Dava Başlığı"
-                required
-                value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})}
-                className="px-4 py-2 border rounded-lg"
-              />
-              <select
-                required
-                value={formData.clientId}
-                onChange={(e) => setFormData({...formData, clientId: e.target.value})}
-                className="px-4 py-2 border rounded-lg"
-              >
-                <option value="">Müvekkil Seçin</option>
-                {clients.map(client => (
-                  <option key={client.id} value={client.id}>{client.name}</option>
-                ))}
-              </select>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData({...formData, status: e.target.value})}
-                className="px-4 py-2 border rounded-lg"
-              >
-                <option value="active">Aktif</option>
-                <option value="pending">Beklemede</option>
-                <option value="closed">Kapalı</option>
-              </select>
-            </div>
-            <div className="mt-4 flex gap-2">
-              <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg">
-                Kaydet
-              </button>
-              <button 
-                type="button" 
-                onClick={() => setShowForm(false)}
-                className="bg-gray-400 text-white px-4 py-2 rounded-lg"
-              >
-                İptal
-              </button>
-            </div>
-          </form>
-        )}
-
-        <div className="bg-white rounded-lg shadow">
-          {cases.length === 0 ? (
-            <p className="p-8 text-center text-gray-500">Henüz dava eklenmemiş</p>
-          ) : (
-            <div className="divide-y">
-              {cases.map(caseItem => (
-                <div key={caseItem.id} className="p-4 hover:bg-gray-50">
-                  <div className="flex justify-between">
-                    <div>
-                      <h3 className="font-semibold">{caseItem.title}</h3>
-                      <p className="text-sm text-gray-600">No: {caseItem.caseNo}</p>
-                      <span className={`inline-block px-2 py-1 text-xs rounded ${
-                        caseItem.status === 'active' ? 'bg-green-100 text-green-800' :
-                        caseItem.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {caseItem.status}
-                      </span>
+        {/* Cases Grid */}
+        {cases.length === 0 ? (
+          <Card>
+            <CardContent className="text-center py-12">
+              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Dava bulunamadı</h3>
+              <p className="text-gray-500">Yeni dava ekleyerek başlayın</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-4">
+            {cases.map((case_) => (
+              <Card key={case_.id} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <h3 className="text-lg font-semibold">{case_.title}</h3>
+                        <Badge className={getStatusColor(case_.status)}>
+                          {case_.status === 'active' ? 'Aktif' : case_.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="text-sm text-gray-600 space-y-1">
+                        {case_.caseNumber && (
+                          <p>Dosya No: {case_.caseNumber}</p>
+                        )}
+                        {case_.court && (
+                          <p>Mahkeme: {case_.court}</p>
+                        )}
+                        {case_.client && (
+                          <p>Müvekkil: {case_.client.name}</p>
+                        )}
+                      </div>
                     </div>
+                    
+                    {case_.nextHearing && (
+                      <div className="text-right">
+                        <div className="flex items-center text-sm text-gray-500">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          Duruşma
+                        </div>
+                        <p className="text-sm font-medium">
+                          {new Date(case_.nextHearing).toLocaleDateString('tr-TR')}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
