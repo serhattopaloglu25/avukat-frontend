@@ -1,0 +1,8 @@
+# Landing page protection
+/src/app/page.tsx @serhattopaloglu25
+/src/app/(marketing)/page.tsx @serhattopaloglu25
+
+# Critical files
+/src/app/layout.tsx @serhattopaloglu25
+/package.json @serhattopaloglu25
+/.github/CODEOWNERS @serhattopaloglu25

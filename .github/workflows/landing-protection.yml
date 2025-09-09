@@ -1,0 +1,42 @@
+name: Landing Page Protection
+
+on:
+  pull_request:
+    paths:
+      - 'src/app/page.tsx'
+      - 'src/app/(marketing)/page.tsx'
+      - 'src/app/layout.tsx'
+
+jobs:
+  check-landing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check page.tsx integrity
+        run: |
+          if ! grep -q "export { default } from './(marketing)/page'" src/app/page.tsx; then
+            echo "❌ ERROR: page.tsx must re-export from (marketing)/page"
+            exit 1
+          fi
+          echo "✅ page.tsx re-export is intact"
+      
+      - name: Check marketing page exists
+        run: |
+          if [ ! -f "src/app/(marketing)/page.tsx" ]; then
+            echo "❌ ERROR: Marketing page is missing"
+            exit 1
+          fi
+          echo "✅ Marketing page exists"
+      
+      - name: Comment on PR
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Landing Page Protection**: Critical landing page files have been modified. Please ensure the re-export pattern is maintained.'
+            })
