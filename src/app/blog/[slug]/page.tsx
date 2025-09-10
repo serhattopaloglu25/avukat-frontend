@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getPostBySlug, getAllPosts } from '@/lib/blog';
+import { getPostBySlug, getAllPosts } from '@/data/blog-posts';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
 
@@ -67,9 +67,7 @@ export default async function BlogPost({ params }: PageProps) {
           </div>
         </header>
 
-        <div className="prose prose-lg max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: post.content || '' }} />
-        </div>
+        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
       </article>
     </div>
   );
