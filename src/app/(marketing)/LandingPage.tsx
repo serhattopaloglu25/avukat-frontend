@@ -1,20 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Check, Shield, Clock, Users, BarChart, FileText, Zap, Award, TrendingUp } from 'lucide-react';
+import { Check, Shield, Clock, Users, BarChart, FileText, Zap, Award } from 'lucide-react';
 
 export default function LandingPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleCTAClick = () => {
     router.push('/register?from=landing');
@@ -35,8 +29,6 @@ export default function LandingPage() {
     { value: '%99', label: 'Memnuniyet' },
     { value: '7/24', label: 'Destek' },
   ];
-
-  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
