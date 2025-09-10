@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
+import { GlobalProviders } from '@/components/layout/GlobalProviders';
+import { GlobalTopbar } from '@/components/layout/GlobalTopbar';
 import { AuthModal } from '@/components/auth/AuthModal';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,10 +21,15 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className={inter.className}>
-        {children}
-        <Suspense fallback={null}>
-          <AuthModal />
-        </Suspense>
+        <GlobalProviders>
+          <GlobalTopbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Suspense fallback={null}>
+            <AuthModal />
+          </Suspense>
+        </GlobalProviders>
       </body>
     </html>
   );
