@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
+import { createPortal } from 'react-dom';
 
 export function AuthModal() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<'login' | 'register'>('login');
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,12 @@ export function AuthModal() {
   });
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const auth = searchParams.get('auth');
     const email = searchParams.get('email');
     const name = searchParams.get('name');
@@ -37,6 +45,7 @@ export function AuthModal() {
     if (auth === 'login' || auth === 'register') {
       setOpen(true);
       setTab(auth);
+      document.body.style.overflow = 'hidden';
       
       if (email) {
         setRegisterData(prev => ({ ...prev, email }));
@@ -45,16 +54,20 @@ export function AuthModal() {
       if (name) {
         setRegisterData(prev => ({ ...prev, name }));
       }
+    } else {
+      setOpen(false);
+      document.body.style.overflow = '';
     }
-  }, [searchParams]);
+  }, [searchParams, mounted]);
 
   const handleClose = () => {
     setOpen(false);
+    document.body.style.overflow = '';
     const params = new URLSearchParams(searchParams.toString());
     params.delete('auth');
     params.delete('email');
     params.delete('name');
-    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    const newUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
     router.push(newUrl);
   };
 
@@ -76,6 +89,7 @@ export function AuthModal() {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      handleClose();
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Bir hata oluştu');
@@ -107,7 +121,6 @@ export function AuthModal() {
           name: registerData.name,
           email: registerData.email,
           password: registerData.password,
-          consents: registerData.consents,
         }),
       });
 
@@ -118,6 +131,7 @@ export function AuthModal() {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      handleClose();
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Bir hata oluştu');
@@ -125,13 +139,11 @@ export function AuthModal() {
     }
   };
 
-  const allConsentsAccepted = registerData.consents.kvkk && 
-                               registerData.consents.aydinlatma && 
-                               registerData.consents.uyelik;
+  if (!mounted) return null;
 
-  return (
+  const modalContent = (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md z-[100]" style={{ position: 'fixed' }}>
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
@@ -281,7 +293,7 @@ export function AuthModal() {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={loading || !allConsentsAccepted}
+                disabled={loading || !registerData.consents.kvkk || !registerData.consents.aydinlatma || !registerData.consents.uyelik}
               >
                 {loading ? 'Kayıt yapılıyor...' : 'Kayıt Ol'}
               </Button>
@@ -291,4 +303,6 @@ export function AuthModal() {
       </DialogContent>
     </Dialog>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : null;
 }
