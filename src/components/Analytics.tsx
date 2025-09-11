@@ -1,60 +1,26 @@
 'use client';
 
-import Script from 'next/script';
-import { useEffect, useState } from 'react';
-
-declare global {
-  interface Window {
-    gtag?: (...args: any[]) => void;
-    dataLayer?: any[];
-    plausible?: any;
-  }
-}
+import { useEffect } from 'react';
+import { useCookieConsent } from '@/components/providers/CookieConsentProvider';
 
 export function Analytics() {
-  const [consentGiven, setConsentGiven] = useState<boolean | null>(null);
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  const { hasConsent } = useCookieConsent();
 
   useEffect(() => {
-    const consent = localStorage.getItem('analytics-consent');
-    setConsentGiven(consent === 'true');
-  }, []);
+    // Analytics are now loaded by CookieConsentProvider when consent is given
+    // This component can be used for additional tracking setup if needed
+  }, [hasConsent]);
 
-  if (!consentGiven) return null;
-
-  return (
-    <>
-      {gaId && (
-        <>
-          <Script
-            id="ga-script"
-            strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-          />
-          <Script
-            id="ga-init"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `,
-            }}
-          />
-        </>
-      )}
-      {plausibleDomain && (
-        <Script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
-      )}
-    </>
-  );
+  // Analytics scripts are dynamically loaded by CookieConsentProvider
+  return null;
 }
 
 export function trackEvent(category: string, action: string, label?: string, value?: number) {
   if (typeof window !== 'undefined') {
+    // Check if consent was given
+    const consent = localStorage.getItem('aa_consent');
+    if (consent !== 'v1') return;
+
     if (window.gtag) {
       window.gtag('event', action, {
         event_category: category,
@@ -65,5 +31,13 @@ export function trackEvent(category: string, action: string, label?: string, val
     if (window.plausible) {
       window.plausible(action, { props: { category, label } });
     }
+  }
+}
+
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+    plausible?: any;
   }
 }

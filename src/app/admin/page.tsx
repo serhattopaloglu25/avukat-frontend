@@ -1,261 +1,492 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, Edit, Save, Plus, Trash2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  FileText,
+  Image as ImageIcon,
+  Settings,
+  Save,
+  Eye,
+  Edit3,
+  Trash2,
+  Plus,
+  Calendar,
+  User,
+  AlertCircle,
+  Check,
+  X,
+  ChevronLeft
+} from 'lucide-react';
+
+interface Page {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  updatedAt: string;
+}
+
+interface Post {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  status: 'draft' | 'published';
+  publishedAt: string | null;
+  tags: string[];
+  author?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function AdminPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(true);
-  const [pages, setPages] = useState<any[]>([]);
-  const [posts, setPosts] = useState<any[]>([]);
-  const [selectedPage, setSelectedPage] = useState<string>('hakkimizda');
-  const [pageContent, setPageContent] = useState('');
-  const [newPost, setNewPost] = useState({
+  const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState('pages');
+  const [message, setMessage] = useState('');
+  
+  // Pages state
+  const [pages, setPages] = useState<Page[]>([
+    {
+      id: '1',
+      slug: 'hakkimizda',
+      title: 'Hakkımızda',
+      content: '# Hakkımızda\n\nAvukatAjanda, hukuk büroları için özel olarak tasarlanmış dijital çözümler sunar.',
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: '2',
+      slug: 'iletisim',
+      title: 'İletişim',
+      content: '# İletişim\n\nBizimle iletişime geçmek için aşağıdaki kanalları kullanabilirsiniz.\n\nE-posta: info@avukatajanda.com',
+      updatedAt: new Date().toISOString()
+    }
+  ]);
+  const [editingPage, setEditingPage] = useState<Page | null>(null);
+  
+  // Blog posts state
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const [newPost, setNewPost] = useState<Partial<Post>>({
     title: '',
     excerpt: '',
     content: '',
-    status: 'draft'
+    status: 'draft',
+    tags: []
   });
 
   useEffect(() => {
-    checkAuth();
-    loadContent();
-  }, []);
-
-  const checkAuth = () => {
+    // Check auth
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/login');
+      router.push('/?auth=login');
       return;
     }
-    // TODO: Verify admin role
-  };
+    
+    // Check if user is admin (simple check)
+    const user = localStorage.getItem('user');
+    if (user) {
+      const userData = JSON.parse(user);
+      // For now, all logged in users can access admin
+      // In production, check userData.role === 'admin'
+    }
+    
+    setLoading(false);
+  }, [router]);
 
-  const loadContent = async () => {
+  const handleSavePage = async (page: Page) => {
+    setSaving(true);
     try {
-      // Load pages content
-      const pagesData = [
-        { slug: 'hakkimizda', title: 'Hakkımızda', content: 'İçerik yükleniyor...' },
-        { slug: 'iletisim', title: 'İletişim', content: 'İçerik yükleniyor...' }
-      ];
-      setPages(pagesData);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Load blog posts
-      const postsData = [
-        { 
-          id: 1,
-          title: 'Dijital Dönüşüm', 
-          status: 'published',
-          date: '2025-01-10'
-        }
-      ];
-      setPosts(postsData);
+      const updatedPages = pages.map(p => 
+        p.id === page.id ? { ...page, updatedAt: new Date().toISOString() } : p
+      );
+      setPages(updatedPages);
+      setEditingPage(null);
+      setMessage('Sayfa başarıyla güncellendi');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      setMessage('Bir hata oluştu');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCreatePost = async () => {
+    if (!newPost.title || !newPost.content) {
+      setMessage('Başlık ve içerik zorunludur');
+      return;
+    }
+    
+    setSaving(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setLoading(false);
+      const post: Post = {
+        id: Date.now().toString(),
+        slug: newPost.title!.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+        title: newPost.title!,
+        excerpt: newPost.excerpt || '',
+        content: newPost.content!,
+        status: newPost.status as 'draft' | 'published',
+        publishedAt: newPost.status === 'published' ? new Date().toISOString() : null,
+        tags: newPost.tags || [],
+        author: 'Admin',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      
+      setPosts([...posts, post]);
+      setNewPost({
+        title: '',
+        excerpt: '',
+        content: '',
+        status: 'draft',
+        tags: []
+      });
+      setMessage('Blog yazısı oluşturuldu');
+      setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      console.error('Failed to load content:', error);
-      setLoading(false);
+      setMessage('Bir hata oluştu');
+    } finally {
+      setSaving(false);
     }
   };
 
-  const savePage = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      // TODO: API call to save page content
-      alert('Sayfa içeriği kaydedildi!');
-    } catch (error) {
-      alert('Kayıt başarısız!');
-    }
+  const handleDeletePost = async (postId: string) => {
+    if (!confirm('Bu yazıyı silmek istediğinize emin misiniz?')) return;
+    
+    setPosts(posts.filter(p => p.id !== postId));
+    setMessage('Blog yazısı silindi');
+    setTimeout(() => setMessage(''), 3000);
   };
 
-  const savePost = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      // TODO: API call to save blog post
-      alert('Blog yazısı kaydedildi!');
-      setNewPost({ title: '', excerpt: '', content: '', status: 'draft' });
-    } catch (error) {
-      alert('Kayıt başarısız!');
-    }
+  const handlePublishPost = async (postId: string) => {
+    const updatedPosts = posts.map(p => 
+      p.id === postId 
+        ? { ...p, status: 'published' as const, publishedAt: new Date().toISOString() }
+        : p
+    );
+    setPosts(updatedPosts);
+    setMessage('Blog yazısı yayınlandı');
+    setTimeout(() => setMessage(''), 3000);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-8">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Site Yönetimi</h1>
-          <p className="text-gray-600">İçerikleri buradan düzenleyebilirsiniz</p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push('/dashboard')}
+            >
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              Dashboard
+            </Button>
+            <h1 className="text-3xl font-bold">Site Yönetimi</h1>
+          </div>
+          {message && (
+            <Alert className="w-auto">
+              <Check className="h-4 w-4" />
+              <AlertDescription>{message}</AlertDescription>
+            </Alert>
+          )}
         </div>
+        <p className="text-muted-foreground">
+          Web sitesi içeriklerini buradan yönetebilirsiniz
+        </p>
+      </div>
 
-        <Tabs defaultValue="pages" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="pages">Sayfalar</TabsTrigger>
-            <TabsTrigger value="blog">Blog</TabsTrigger>
-            <TabsTrigger value="media">Medya</TabsTrigger>
-          </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsTrigger value="pages">Sayfalar</TabsTrigger>
+          <TabsTrigger value="blog">Blog</TabsTrigger>
+          <TabsTrigger value="media">Medya</TabsTrigger>
+        </TabsList>
 
-          {/* Pages Tab */}
-          <TabsContent value="pages">
+        <TabsContent value="pages" className="mt-6">
+          <div className="grid gap-6">
             <Card className="p-6">
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Sayfa Seçin</label>
-                <select 
-                  className="w-full px-3 py-2 border rounded-lg"
-                  value={selectedPage}
-                  onChange={(e) => setSelectedPage(e.target.value)}
-                >
-                  {pages.map(page => (
-                    <option key={page.slug} value={page.slug}>
-                      {page.title}
-                    </option>
-                  ))}
-                </select>
+              <h2 className="text-xl font-semibold mb-4">Statik Sayfalar</h2>
+              <div className="space-y-4">
+                {pages.map(page => (
+                  <div key={page.id}>
+                    {editingPage?.id === page.id ? (
+                      <div className="space-y-4 p-4 border rounded-lg">
+                        <div>
+                          <Label htmlFor={`title-${page.id}`}>Başlık</Label>
+                          <Input
+                            id={`title-${page.id}`}
+                            value={editingPage.title}
+                            onChange={(e) => setEditingPage({ ...editingPage, title: e.target.value })}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`content-${page.id}`}>İçerik (Markdown)</Label>
+                          <Textarea
+                            id={`content-${page.id}`}
+                            value={editingPage.content}
+                            onChange={(e) => setEditingPage({ ...editingPage, content: e.target.value })}
+                            rows={10}
+                            className="font-mono text-sm"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => handleSavePage(editingPage)}
+                            disabled={saving}
+                          >
+                            <Save className="mr-2 h-4 w-4" />
+                            Kaydet
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setEditingPage(null)}
+                          >
+                            İptal
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => window.open(`/${page.slug}`, '_blank')}
+                          >
+                            <Eye className="mr-2 h-4 w-4" />
+                            Önizle
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                        <div>
+                          <h3 className="font-semibold">{page.title}</h3>
+                          <p className="text-sm text-muted-foreground">/{page.slug}</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Son güncelleme: {new Date(page.updatedAt).toLocaleDateString('tr-TR')}
+                          </p>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingPage(page)}
+                        >
+                          <Edit3 className="mr-2 h-4 w-4" />
+                          Düzenle
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">İçerik (Markdown)</label>
-                <textarea
-                  className="w-full h-96 px-3 py-2 border rounded-lg font-mono text-sm"
-                  value={pageContent}
-                  onChange={(e) => setPageContent(e.target.value)}
-                  placeholder="# Başlık&#10;&#10;İçerik..."
-                />
-              </div>
-
-              <Button onClick={savePage}>
-                <Save className="w-4 h-4 mr-2" />
-                Kaydet
-              </Button>
             </Card>
-          </TabsContent>
+          </div>
+        </TabsContent>
 
-          {/* Blog Tab */}
-          <TabsContent value="blog">
+        <TabsContent value="blog" className="mt-6">
+          <div className="grid gap-6">
+            {/* Create new post */}
             <Card className="p-6">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4">Yeni Blog Yazısı</h3>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Başlık</label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border rounded-lg"
-                      value={newPost.title}
-                      onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Özet</label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border rounded-lg"
-                      value={newPost.excerpt}
-                      onChange={(e) => setNewPost({ ...newPost, excerpt: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">İçerik (Markdown)</label>
-                    <textarea
-                      className="w-full h-64 px-3 py-2 border rounded-lg font-mono text-sm"
-                      value={newPost.content}
-                      onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Durum</label>
-                    <select 
-                      className="w-full px-3 py-2 border rounded-lg"
-                      value={newPost.status}
-                      onChange={(e) => setNewPost({ ...newPost, status: e.target.value })}
-                    >
-                      <option value="draft">Taslak</option>
-                      <option value="published">Yayında</option>
-                    </select>
-                  </div>
-
-                  <Button onClick={savePost}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Yazı Ekle
+              <h2 className="text-xl font-semibold mb-4">Yeni Blog Yazısı</h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="post-title">Başlık</Label>
+                  <Input
+                    id="post-title"
+                    placeholder="Blog yazısı başlığı"
+                    value={newPost.title}
+                    onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="post-excerpt">Özet</Label>
+                  <Textarea
+                    id="post-excerpt"
+                    placeholder="Kısa açıklama (opsiyonel)"
+                    value={newPost.excerpt}
+                    onChange={(e) => setNewPost({ ...newPost, excerpt: e.target.value })}
+                    rows={2}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="post-content">İçerik (Markdown)</Label>
+                  <Textarea
+                    id="post-content"
+                    placeholder="Blog içeriği..."
+                    value={newPost.content}
+                    onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                    rows={10}
+                    className="font-mono text-sm"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="post-tags">Etiketler (virgülle ayırın)</Label>
+                  <Input
+                    id="post-tags"
+                    placeholder="hukuk, dava, mahkeme"
+                    value={newPost.tags?.join(', ')}
+                    onChange={(e) => setNewPost({ ...newPost, tags: e.target.value.split(',').map(t => t.trim()) })}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      setNewPost({ ...newPost, status: 'published' });
+                      handleCreatePost();
+                    }}
+                    disabled={saving || !newPost.title || !newPost.content}
+                  >
+                    <Check className="mr-2 h-4 w-4" />
+                    Yayınla
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setNewPost({ ...newPost, status: 'draft' });
+                      handleCreatePost();
+                    }}
+                    disabled={saving || !newPost.title || !newPost.content}
+                  >
+                    <Save className="mr-2 h-4 w-4" />
+                    Taslak Olarak Kaydet
                   </Button>
                 </div>
               </div>
+            </Card>
 
-              <div className="border-t pt-6">
-                <h3 className="text-lg font-semibold mb-4">Mevcut Yazılar</h3>
-                
-                <div className="space-y-2">
+            {/* Posts list */}
+            <Card className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Blog Yazıları</h2>
+              {posts.length === 0 ? (
+                <p className="text-muted-foreground text-center py-8">
+                  Henüz blog yazısı yok
+                </p>
+              ) : (
+                <div className="space-y-4">
                   {posts.map(post => (
-                    <div key={post.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
-                        <div className="font-medium">{post.title}</div>
-                        <div className="text-sm text-gray-500">
-                          {post.status === 'published' ? 'Yayında' : 'Taslak'} • {post.date}
+                    <div key={post.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{post.title}</h3>
+                          <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
+                            {post.status === 'published' ? 'Yayında' : 'Taslak'}
+                          </Badge>
+                        </div>
+                        {post.excerpt && (
+                          <p className="text-sm text-muted-foreground mb-2">{post.excerpt}</p>
+                        )}
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <User className="h-3 w-3" />
+                            {post.author}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {new Date(post.createdAt).toLocaleDateString('tr-TR')}
+                          </span>
+                          {post.tags.length > 0 && (
+                            <span className="flex items-center gap-1">
+                              {post.tags.map(tag => (
+                                <Badge key={tag} variant="outline" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
-                          <Edit className="w-4 h-4" />
+                        {post.status === 'draft' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handlePublishPost(post.id)}
+                          >
+                            Yayınla
+                          </Button>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
+                        >
+                          <Eye className="h-4 w-4" />
                         </Button>
-                        <Button size="sm" variant="outline">
-                          <Trash2 className="w-4 h-4" />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setEditingPost(post)}
+                        >
+                          <Edit3 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleDeletePost(post.id)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
+              )}
             </Card>
-          </TabsContent>
+          </div>
+        </TabsContent>
 
-          {/* Media Tab */}
-          <TabsContent value="media">
-            <Card className="p-6">
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold">Medya Yönetimi</h3>
-                <p className="text-sm text-gray-600">Görsel ve dosya yükleme</p>
-              </div>
-
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-                <Image className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-600 mb-2">Dosyaları sürükleyip bırakın</p>
-                <p className="text-sm text-gray-500 mb-4">veya</p>
-                <Button variant="outline">
-                  Dosya Seç
-                </Button>
-              </div>
-
-              <div className="mt-6">
-                <h4 className="font-medium mb-3">Yüklenen Dosyalar</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {/* Media items will be listed here */}
-                  <div className="border rounded-lg p-2 text-center">
-                    <div className="bg-gray-100 h-24 rounded mb-2 flex items-center justify-center">
-                      <Image className="w-8 h-8 text-gray-400" />
-                    </div>
-                    <p className="text-xs text-gray-600 truncate">örnek.jpg</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+        <TabsContent value="media" className="mt-6">
+          <Card className="p-6">
+            <h2 className="text-xl font-semibold mb-4">Medya Yönetimi</h2>
+            <div className="border-2 border-dashed rounded-lg p-12 text-center">
+              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground mb-4">
+                Dosyaları buraya sürükleyin veya seçin
+              </p>
+              <Button variant="outline">
+                <Plus className="mr-2 h-4 w-4" />
+                Dosya Seç
+              </Button>
+              <p className="text-xs text-muted-foreground mt-2">
+                Maksimum dosya boyutu: 5MB
+              </p>
+            </div>
+            
+            <div className="mt-6">
+              <h3 className="font-semibold mb-4">Yüklü Dosyalar</h3>
+              <p className="text-muted-foreground text-center py-8">
+                Henüz dosya yüklenmemiş
+              </p>
+            </div>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

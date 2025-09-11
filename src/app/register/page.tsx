@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
 
   useEffect(() => {
     // Redirect to home with auth modal open
-    router.replace('/?auth=login');
+    router.replace('/?auth=register');
   }, [router]);
 
   return (
