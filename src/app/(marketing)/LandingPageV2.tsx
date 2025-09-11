@@ -78,8 +78,8 @@ export default function LandingPageV2() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white pt-16 pb-20">
+      {/* Hero Section - No header here, GlobalTopbar handles it */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white pt-24 pb-20">
         <div className="absolute inset-0 bg-grid-gray-100 bg-[size:20px_20px] opacity-50" />
         <div className="container relative mx-auto px-4">
           <div className="max-w-6xl mx-auto">
