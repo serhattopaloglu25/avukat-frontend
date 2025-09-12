@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle, Lock, Mail, User } from 'lucide-react';
 import Link from 'next/link';
-import { trackEvent } from '@/components/Analytics';
+import apiService from '@/lib/api';
 
 interface AuthModalProps {
   defaultTab?: 'login' | 'register';
@@ -26,8 +26,6 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
   const [tab, setTab] = useState<'login' | 'register'>(defaultTab);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const previousPathRef = useRef<string>('/');
-  const modalRef = useRef<HTMLDivElement>(null);
   
   const [loginData, setLoginData] = useState({ 
     email: '', 
@@ -46,159 +44,42 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
     }
   });
 
-  // Client-side mount check for SSR safety
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Handle URL parameters and modal state
-  useEffect(() => {
-    if (!mounted) return;
-
-    const auth = searchParams.get('auth');
-    const email = searchParams.get('email');
-    const name = searchParams.get('name');
-    
-    // Check for auth query param or dedicated auth routes
-    const shouldOpenModal = 
-      auth === 'login' || 
-      auth === 'register' || 
-      pathname === '/login' || 
-      pathname === '/register';
-    
-    if (shouldOpenModal) {
-      // Store previous path for navigation after close
-      if (!open && pathname !== '/login' && pathname !== '/register') {
-        previousPathRef.current = pathname;
-      }
-      
+    const auth = searchParams?.get('auth');
+    if (auth === 'login' || auth === 'register') {
       setOpen(true);
-      setTab(auth === 'register' || pathname === '/register' ? 'register' : 'login');
-      setError(''); // Clear any previous errors
-      
-      // Pre-fill data if provided
-      if (email) {
-        setRegisterData(prev => ({ ...prev, email }));
-        setLoginData(prev => ({ ...prev, email }));
-      }
-      if (name) {
-        setRegisterData(prev => ({ ...prev, name }));
-      }
-      
-      // Track modal open event
-      trackEvent('Auth', 'modal_open', tab);
-    } else {
-      setOpen(false);
+      setTab(auth as 'login' | 'register');
     }
-  }, [searchParams, pathname, mounted, open, tab]);
+  }, [searchParams]);
 
-  // Handle body scroll lock
-  useEffect(() => {
-    if (!mounted) return;
-    
-    if (open) {
-      // Save current overflow style
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      
-      // Set focus to modal
-      if (modalRef.current) {
-        modalRef.current.focus();
-      }
-      
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-  }, [open, mounted]);
-
-  // Handle modal close
   const handleClose = useCallback(() => {
-    if (loading) return; // Prevent closing while loading
-    
     setOpen(false);
     setError('');
-    
-    // Track modal close event
-    trackEvent('Auth', 'modal_close', tab);
-    
-    // Clean URL without page reload
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     params.delete('auth');
-    params.delete('email');
-    params.delete('name');
-    
-    // Handle route-based modals
-    if (pathname === '/login' || pathname === '/register') {
-      router.push(previousPathRef.current || '/');
-    } else {
-      const newUrl = params.toString() 
-        ? `${pathname}?${params.toString()}` 
-        : pathname;
-      router.replace(newUrl, { scroll: false });
-    }
-  }, [loading, searchParams, pathname, router, tab]);
-
-  // Handle ESC key
-  const handleEscapeKey = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Escape' && !loading) {
-      handleClose();
-    }
-  }, [handleClose, loading]);
-
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const validatePassword = (password: string) => {
-    return password.length >= 8;
-  };
+    const newUrl = params.toString() ? `${pathname}?${params}` : pathname;
+    router.push(newUrl || '/');
+  }, [pathname, searchParams, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    // Validation
-    if (!validateEmail(loginData.email)) {
-      setError('Geçerli bir e-posta adresi giriniz');
-      return;
-    }
-
-    if (!loginData.password) {
-      setError('Şifre alanı zorunludur');
-      return;
-    }
-
     setLoading(true);
-    trackEvent('Auth', 'login_attempt', 'form');
 
     try {
-      const res = await fetch('https://avukat-ajanda-backend.onrender.com/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || data.error || 'Giriş başarısız');
-      }
-
-      // Store token and redirect
-      localStorage.setItem('token', data.token);
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
+      const response = await apiService.login(loginData.email, loginData.password);
       
-      trackEvent('Auth', 'login_success', 'form');
-      handleClose();
-      router.push('/dashboard');
-      router.refresh(); // Refresh to update auth state
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        handleClose();
+        router.push('/dashboard');
+      } else {
+        setError('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
+      }
     } catch (err: any) {
-      trackEvent('Auth', 'login_error', err.message);
-      setError(err.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+      setError(err.message || 'Giriş yapılırken bir hata oluştu.');
     } finally {
       setLoading(false);
     }
@@ -208,179 +89,117 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
     e.preventDefault();
     setError('');
 
-    // Validation
-    if (!registerData.name || registerData.name.length < 2) {
-      setError('Ad Soyad en az 2 karakter olmalıdır');
-      return;
-    }
-
-    if (!validateEmail(registerData.email)) {
-      setError('Geçerli bir e-posta adresi giriniz');
-      return;
-    }
-
-    if (!validatePassword(registerData.password)) {
-      setError('Şifre en az 8 karakter olmalıdır');
+    // Validations
+    if (!registerData.name || !registerData.email || !registerData.password) {
+      setError('Lütfen tüm alanları doldurun.');
       return;
     }
 
     if (registerData.password !== registerData.confirmPassword) {
-      setError('Şifreler eşleşmiyor');
+      setError('Şifreler eşleşmiyor.');
       return;
     }
 
     if (!registerData.consents.kvkk || !registerData.consents.aydinlatma || !registerData.consents.uyelik) {
-      setError('Tüm sözleşmeleri kabul etmelisiniz');
+      setError('Lütfen tüm sözleşmeleri onaylayın.');
       return;
     }
 
     setLoading(true);
-    trackEvent('Auth', 'register_attempt', 'form');
 
     try {
-      const res = await fetch('https://avukat-ajanda-backend.onrender.com/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: registerData.name,
-          email: registerData.email,
-          password: registerData.password,
-        }),
+      const response = await apiService.register({
+        name: registerData.name,
+        email: registerData.email,
+        password: registerData.password,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || data.error || 'Kayıt başarısız');
+      if (response.success || response.token) {
+        // If token is provided, auto-login
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          handleClose();
+          router.push('/dashboard');
+        } else {
+          // Show success and switch to login
+          setError('');
+          alert('Kayıt başarılı! Giriş yapabilirsiniz.');
+          setTab('login');
+          setLoginData({ email: registerData.email, password: '' });
+        }
+      } else {
+        setError('Kayıt başarısız. Lütfen bilgilerinizi kontrol edin.');
       }
-
-      // Store token and redirect
-      localStorage.setItem('token', data.token);
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
-      
-      trackEvent('Auth', 'register_success', 'form');
-      handleClose();
-      router.push('/dashboard');
-      router.refresh(); // Refresh to update auth state
     } catch (err: any) {
-      trackEvent('Auth', 'register_error', err.message);
-      setError(err.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+      setError(err.message || 'Kayıt olurken bir hata oluştu.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Check if all consents are given
-  const allConsentsGiven = registerData.consents.kvkk && 
-                           registerData.consents.aydinlatma && 
-                           registerData.consents.uyelik;
-
-  // Don't render on server
   if (!mounted) return null;
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent 
-        ref={modalRef}
-        className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto focus:outline-none"
-        onPointerDownOutside={(e) => {
-          // Prevent closing when clicking outside if loading
-          if (loading) e.preventDefault();
-        }}
-        onEscapeKeyDown={(e) => {
-          // Prevent closing with ESC if loading
-          if (loading) e.preventDefault();
-        }}
-        onKeyDown={handleEscapeKey}
-        aria-modal="true"
-        aria-labelledby="auth-modal-title"
-        aria-describedby="auth-modal-description"
-        role="dialog"
-      >
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">AA</span>
-            </div>
-          </div>
-          <DialogTitle id="auth-modal-title" className="text-center text-2xl font-semibold">
-            AvukatAjanda
-          </DialogTitle>
-          <DialogDescription id="auth-modal-description" className="text-center text-muted-foreground text-sm mt-2">
-            Hukuk büronuz için akıllı yönetim sistemi
+          <DialogTitle>AvukatAjanda</DialogTitle>
+          <DialogDescription>
+            Hukuk büronuzun dijital asistanı
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as 'login' | 'register')}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login" disabled={loading}>Giriş Yap</TabsTrigger>
-            <TabsTrigger value="register" disabled={loading}>Kayıt Ol</TabsTrigger>
+            <TabsTrigger value="login">Giriş Yap</TabsTrigger>
+            <TabsTrigger value="register">Kayıt Ol</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="login" className="mt-4">
+          <TabsContent value="login" className="space-y-4">
             <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="login-email">
-                  <Mail className="inline-block w-4 h-4 mr-1" />
-                  E-posta
-                </Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  placeholder="ornek@email.com"
-                  value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="email"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="login-password">
-                  <Lock className="inline-block w-4 h-4 mr-1" />
-                  Şifre
-                </Label>
-                <Input
-                  id="login-password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="current-password"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <Link 
-                  href="/forgot-password" 
-                  className="text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded"
-                  onClick={handleClose}
-                  tabIndex={0}
-                >
-                  Şifremi unuttum
-                </Link>
-              </div>
-
               {error && (
-                <Alert variant="destructive" role="alert">
+                <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={loading}
-                aria-busy={loading}
-              >
+              <div className="space-y-2">
+                <Label htmlFor="email">E-posta</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="ornek@email.com"
+                    className="pl-10"
+                    value={loginData.email}
+                    onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Şifre</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    className="pl-10"
+                    value={loginData.password}
+                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -390,237 +209,149 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
                   'Giriş Yap'
                 )}
               </Button>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Hesabınız yok mu?
-                  </span>
-                </div>
-              </div>
-
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => setTab('register')}
-                disabled={loading}
-              >
-                Ücretsiz Kayıt Ol
-              </Button>
             </form>
           </TabsContent>
 
-          <TabsContent value="register" className="mt-4">
+          <TabsContent value="register" className="space-y-4">
             <form onSubmit={handleRegister} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="register-name">
-                  <User className="inline-block w-4 h-4 mr-1" />
-                  Ad Soyad
-                </Label>
-                <Input
-                  id="register-name"
-                  type="text"
-                  placeholder="Ahmet Yılmaz"
-                  value={registerData.name}
-                  onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="name"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="register-email">
-                  <Mail className="inline-block w-4 h-4 mr-1" />
-                  E-posta
-                </Label>
-                <Input
-                  id="register-email"
-                  type="email"
-                  placeholder="ornek@email.com"
-                  value={registerData.email}
-                  onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="email"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="register-password">
-                  <Lock className="inline-block w-4 h-4 mr-1" />
-                  Şifre
-                </Label>
-                <Input
-                  id="register-password"
-                  type="password"
-                  placeholder="En az 8 karakter"
-                  value={registerData.password}
-                  onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="new-password"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="register-confirm-password">
-                  <Lock className="inline-block w-4 h-4 mr-1" />
-                  Şifre Tekrar
-                </Label>
-                <Input
-                  id="register-confirm-password"
-                  type="password"
-                  placeholder="Şifrenizi tekrar girin"
-                  value={registerData.confirmPassword}
-                  onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
-                  disabled={loading}
-                  required
-                  autoComplete="new-password"
-                  aria-required="true"
-                />
-              </div>
-
-              <div className="space-y-3 border-t pt-4" role="group" aria-labelledby="consent-group">
-                <p id="consent-group" className="text-sm font-medium text-muted-foreground">
-                  Yasal Onaylar (Zorunlu)
-                </p>
-                
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="kvkk"
-                    checked={registerData.consents.kvkk}
-                    onCheckedChange={(checked) => 
-                      setRegisterData(prev => ({
-                        ...prev,
-                        consents: { ...prev.consents, kvkk: checked as boolean }
-                      }))
-                    }
-                    disabled={loading}
-                    aria-required="true"
-                    aria-describedby="kvkk-text"
-                  />
-                  <label 
-                    id="kvkk-text"
-                    htmlFor="kvkk" 
-                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    <Link 
-                      href="/kvkk" 
-                      target="_blank" 
-                      className="text-primary hover:underline"
-                      tabIndex={0}
-                    >
-                      KVKK Metni
-                    </Link>
-                    'ni okudum ve kabul ediyorum
-                  </label>
-                </div>
-
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="aydinlatma"
-                    checked={registerData.consents.aydinlatma}
-                    onCheckedChange={(checked) => 
-                      setRegisterData(prev => ({
-                        ...prev,
-                        consents: { ...prev.consents, aydinlatma: checked as boolean }
-                      }))
-                    }
-                    disabled={loading}
-                    aria-required="true"
-                    aria-describedby="aydinlatma-text"
-                  />
-                  <label 
-                    id="aydinlatma-text"
-                    htmlFor="aydinlatma" 
-                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    <Link 
-                      href="/aydinlatma-metni" 
-                      target="_blank" 
-                      className="text-primary hover:underline"
-                      tabIndex={0}
-                    >
-                      Aydınlatma Metni
-                    </Link>
-                    'ni okudum ve kabul ediyorum
-                  </label>
-                </div>
-
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="uyelik"
-                    checked={registerData.consents.uyelik}
-                    onCheckedChange={(checked) => 
-                      setRegisterData(prev => ({
-                        ...prev,
-                        consents: { ...prev.consents, uyelik: checked as boolean }
-                      }))
-                    }
-                    disabled={loading}
-                    aria-required="true"
-                    aria-describedby="uyelik-text"
-                  />
-                  <label 
-                    id="uyelik-text"
-                    htmlFor="uyelik" 
-                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    <Link 
-                      href="/uyelik-sozlesmesi" 
-                      target="_blank" 
-                      className="text-primary hover:underline"
-                      tabIndex={0}
-                    >
-                      Üyelik Sözleşmesi
-                    </Link>
-                    'ni okudum ve kabul ediyorum
-                  </label>
-                </div>
-              </div>
-
               {error && (
-                <Alert variant="destructive" role="alert">
+                <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={loading || !allConsentsGiven}
-                aria-busy={loading}
-                aria-disabled={!allConsentsGiven}
-                title={!allConsentsGiven ? 'Tüm yasal onayları vermelisiniz' : ''}
-              >
+
+              <div className="space-y-2">
+                <Label htmlFor="name">Ad Soyad</Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Ad Soyad"
+                    className="pl-10"
+                    value={registerData.name}
+                    onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="reg-email">E-posta</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="reg-email"
+                    type="email"
+                    placeholder="ornek@email.com"
+                    className="pl-10"
+                    value={registerData.email}
+                    onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="reg-password">Şifre</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="reg-password"
+                    type="password"
+                    placeholder="••••••••"
+                    className="pl-10"
+                    value={registerData.password}
+                    onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Şifre Tekrar</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="confirm-password"
+                    type="password"
+                    placeholder="••••••••"
+                    className="pl-10"
+                    value={registerData.confirmPassword}
+                    onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="kvkk"
+                    checked={registerData.consents.kvkk}
+                    onCheckedChange={(checked) =>
+                      setRegisterData({
+                        ...registerData,
+                        consents: { ...registerData.consents, kvkk: checked as boolean }
+                      })
+                    }
+                    disabled={loading}
+                  />
+                  <Label htmlFor="kvkk" className="text-sm">
+                    <Link href="/kvkk" className="underline">KVKK Aydınlatma Metni</Link>ni okudum, onaylıyorum
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="aydinlatma"
+                    checked={registerData.consents.aydinlatma}
+                    onCheckedChange={(checked) =>
+                      setRegisterData({
+                        ...registerData,
+                        consents: { ...registerData.consents, aydinlatma: checked as boolean }
+                      })
+                    }
+                    disabled={loading}
+                  />
+                  <Label htmlFor="aydinlatma" className="text-sm">
+                    <Link href="/gizlilik" className="underline">Gizlilik Politikası</Link>nı okudum, onaylıyorum
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="uyelik"
+                    checked={registerData.consents.uyelik}
+                    onCheckedChange={(checked) =>
+                      setRegisterData({
+                        ...registerData,
+                        consents: { ...registerData.consents, uyelik: checked as boolean }
+                      })
+                    }
+                    disabled={loading}
+                  />
+                  <Label htmlFor="uyelik" className="text-sm">
+                    <Link href="/kullanim-kosullari" className="underline">Üyelik Sözleşmesi</Link>ni okudum, onaylıyorum
+                  </Label>
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Kayıt yapılıyor...
+                    Kayıt olunuyor...
                   </>
                 ) : (
                   'Kayıt Ol'
                 )}
               </Button>
-
-              {!allConsentsGiven && (
-                <p className="text-xs text-center text-destructive">
-                  * Kayıt olmak için tüm yasal metinleri kabul etmelisiniz
-                </p>
-              )}
-
-              <p className="text-xs text-center text-muted-foreground">
-                Kayıt olarak, hizmet şartlarımızı kabul etmiş olursunuz.
-              </p>
             </form>
           </TabsContent>
         </Tabs>

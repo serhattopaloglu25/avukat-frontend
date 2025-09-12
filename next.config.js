@@ -14,6 +14,14 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/proxy/:path*',
+        destination: 'https://avukat-ajanda-backend.onrender.com/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
