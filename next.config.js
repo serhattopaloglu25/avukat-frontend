@@ -22,6 +22,10 @@ const nextConfig = {
       },
     ];
   },
+  // ESLint'i geri açıyoruz
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 };
 
 module.exports = nextConfig;

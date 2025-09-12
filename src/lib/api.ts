@@ -10,7 +10,7 @@ const getApiUrl = () => {
 };
 
 class ApiService {
-  private baseUrl: string;
+  public baseUrl: string;
   private token: string | null = null;
 
   constructor() {
@@ -23,9 +23,8 @@ class ApiService {
   private async request(endpoint: string, options: RequestInit = {}) {
     const url = `${this.baseUrl}${endpoint}`;
     
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
     };
 
     if (this.token) {
@@ -35,7 +34,10 @@ class ApiService {
     try {
       const response = await fetch(url, {
         ...options,
-        headers,
+        headers: {
+          ...headers,
+          ...options.headers,
+        },
       });
 
       if (!response.ok) {
@@ -96,6 +98,11 @@ class ApiService {
   // Stats
   async getStats() {
     return this.request('/api/stats');
+  }
+
+  // Dashboard
+  async getDashboardSummary() {
+    return this.request('/api/dashboard/summary');
   }
 
   // Clients

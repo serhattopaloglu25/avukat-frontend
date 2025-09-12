@@ -1,8 +1,15 @@
 module.exports = {
   extends: ['next/core-web-vitals'],
   rules: {
-    '@next/next/no-html-link-for-pages': 'off',
-    'react/display-name': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    // Apostrof ve tırnak işaretlerini kabul et
+    'react/no-unescaped-entities': 'off',
+    
+    // useEffect dependency uyarılarını sadece uyarı yap
+    'react-hooks/exhaustive-deps': 'warn',
+    
+    // Diğer önemli kurallar açık kalsın
+    'no-unused-vars': 'warn',
+    'no-console': 'warn',
+    'no-debugger': 'error',
   },
 };
