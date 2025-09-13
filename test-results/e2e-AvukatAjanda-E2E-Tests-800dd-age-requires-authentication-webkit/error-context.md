@@ -1,0 +1,46 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "AvukatAjanda Logo AvukatAjanda" [ref=e6]:
+        - /url: /
+        - img "AvukatAjanda Logo" [ref=e8]
+        - generic [ref=e9]: AvukatAjanda
+      - generic [ref=e10]:
+        - link "Ana Sayfa" [ref=e11]:
+          - /url: /
+        - link "Özellikler" [ref=e12]:
+          - /url: /ozellikler
+        - link "Fiyatlandırma" [ref=e13]:
+          - /url: /fiyatlandirma
+        - link "Hakkımızda" [ref=e14]:
+          - /url: /hakkimizda
+        - link "Blog" [ref=e15]:
+          - /url: /blog
+        - link "İletişim" [ref=e16]:
+          - /url: /iletisim
+      - generic [ref=e17]:
+        - button "Giriş Yap" [ref=e18] [cursor=pointer]
+        - link "Ücretsiz Dene" [ref=e19]:
+          - /url: /?auth=register
+          - button "Ücretsiz Dene" [ref=e20] [cursor=pointer]
+  - main [ref=e21]
+  - alert [ref=e24]
+  - generic [ref=e27]:
+    - generic [ref=e28]:
+      - img [ref=e29]
+      - generic [ref=e31]:
+        - heading "Çerez Kullanımı" [level=3] [ref=e32]
+        - paragraph [ref=e33]:
+          - text: Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. Bu çerezler, site kullanımınız hakkında anonim istatistikler toplar. Detaylı bilgi için
+          - link "KVKK Aydınlatma Metnimizi" [ref=e34]:
+            - /url: /kvkk
+          - text: inceleyebilirsiniz.
+        - generic [ref=e35]:
+          - button "Kabul Et" [ref=e36] [cursor=pointer]
+          - button "Reddet" [ref=e37] [cursor=pointer]
+    - button "Kapat" [ref=e38] [cursor=pointer]:
+      - img [ref=e39] [cursor=pointer]
+```

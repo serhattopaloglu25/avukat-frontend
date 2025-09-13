@@ -1,0 +1,143 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "AvukatAjanda Logo AvukatAjanda" [ref=e6]:
+        - /url: /
+        - img "AvukatAjanda Logo" [ref=e8]
+        - generic [ref=e9]: AvukatAjanda
+      - generic [ref=e10]:
+        - link "Ana Sayfa" [ref=e11]:
+          - /url: /
+        - link "Özellikler" [ref=e12]:
+          - /url: /ozellikler
+        - link "Fiyatlandırma" [ref=e13]:
+          - /url: /fiyatlandirma
+        - link "Hakkımızda" [ref=e14]:
+          - /url: /hakkimizda
+        - link "Blog" [ref=e15]:
+          - /url: /blog
+        - link "İletişim" [ref=e16]:
+          - /url: /iletisim
+      - generic [ref=e17]:
+        - button "Giriş Yap" [ref=e18] [cursor=pointer]
+        - link "Ücretsiz Dene" [ref=e19]:
+          - /url: /?auth=register
+          - button "Ücretsiz Dene" [ref=e20] [cursor=pointer]
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e25]:
+        - heading "Hukuk Büronuz İçin Akıllı Çözüm" [level=1] [ref=e26]:
+          - text: Hukuk Büronuz İçin
+          - generic [ref=e27]: Akıllı Çözüm
+        - paragraph [ref=e28]: Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin. Hukuk büronuzun dijital dönüşümünü başlatın.
+        - generic [ref=e29]:
+          - button "Ücretsiz Deneyin" [ref=e30] [cursor=pointer]
+          - button "Demo İzle" [ref=e31] [cursor=pointer]
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: 500+
+          - generic [ref=e37]: Aktif Büro
+        - generic [ref=e38]:
+          - generic [ref=e39]: 10K+
+          - generic [ref=e40]: Yönetilen Dava
+        - generic [ref=e41]:
+          - generic [ref=e42]: "%99"
+          - generic [ref=e43]: Memnuniyet
+        - generic [ref=e44]:
+          - generic [ref=e45]: 7/24
+          - generic [ref=e46]: Destek
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Güçlü Özellikler" [level=2] [ref=e50]
+          - paragraph [ref=e51]: İhtiyacınız olan tüm araçlar tek platformda
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - img [ref=e54]
+            - heading "Müvekkil Yönetimi" [level=3] [ref=e59]
+            - paragraph [ref=e60]: Tüm müvekkil bilgilerini organize edin
+          - generic [ref=e61]:
+            - img [ref=e62]
+            - heading "Dava Takibi" [level=3] [ref=e65]
+            - paragraph [ref=e66]: Dosyaları kolayca yönetin ve takip edin
+          - generic [ref=e67]:
+            - img [ref=e68]
+            - heading "Akıllı Ajanda" [level=3] [ref=e71]
+            - paragraph [ref=e72]: Duruşmaları ve randevuları kaçırmayın
+          - generic [ref=e73]:
+            - img [ref=e74]
+            - heading "Güvenli Saklama" [level=3] [ref=e76]
+            - paragraph [ref=e77]: 256-bit şifreleme ile veriler korunur
+          - generic [ref=e78]:
+            - img [ref=e79]
+            - heading "Detaylı Raporlar" [level=3] [ref=e80]
+            - paragraph [ref=e81]: Performans ve ilerleme raporları
+          - generic [ref=e82]:
+            - img [ref=e83]
+            - heading "Hızlı Erişim" [level=3] [ref=e85]
+            - paragraph [ref=e86]: Mobil uyumlu, her yerden erişim
+      - generic [ref=e88]:
+        - heading "Hukuk Büronuzu Dijitalleştirin" [level=2] [ref=e89]
+        - paragraph [ref=e90]: 14 gün ücretsiz deneme süresi ile başlayın, kredi kartı gerekmez.
+        - button "Hemen Başlayın" [ref=e91] [cursor=pointer]
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - heading "AvukatAjanda" [level=3] [ref=e96]
+            - paragraph [ref=e97]: Hukuk büroları için geliştirilmiş profesyonel yönetim sistemi.
+          - generic [ref=e98]:
+            - heading "Ürün" [level=4] [ref=e99]
+            - list [ref=e100]:
+              - listitem [ref=e101]:
+                - link "Özellikler" [ref=e102]:
+                  - /url: /ozellikler
+              - listitem [ref=e103]:
+                - link "Fiyatlandırma" [ref=e104]:
+                  - /url: /fiyatlandirma
+              - listitem [ref=e105]:
+                - link "Demo" [ref=e106]:
+                  - /url: /demo
+          - generic [ref=e107]:
+            - heading "Şirket" [level=4] [ref=e108]
+            - list [ref=e109]:
+              - listitem [ref=e110]:
+                - link "Hakkımızda" [ref=e111]:
+                  - /url: /hakkimizda
+              - listitem [ref=e112]:
+                - link "Blog" [ref=e113]:
+                  - /url: /blog
+              - listitem [ref=e114]:
+                - link "İletişim" [ref=e115]:
+                  - /url: /iletisim
+          - generic [ref=e116]:
+            - heading "Yasal" [level=4] [ref=e117]
+            - list [ref=e118]:
+              - listitem [ref=e119]:
+                - link "KVKK" [ref=e120]:
+                  - /url: /kvkk
+              - listitem [ref=e121]:
+                - link "Aydınlatma Metni" [ref=e122]:
+                  - /url: /aydinlatma-metni
+              - listitem [ref=e123]:
+                - link "Üyelik Sözleşmesi" [ref=e124]:
+                  - /url: /uyelik-sozlesmesi
+        - paragraph [ref=e126]: © 2024 AvukatAjanda. Tüm hakları saklıdır.
+  - alert [ref=e127]
+  - generic [ref=e130]:
+    - generic [ref=e131]:
+      - img [ref=e132]
+      - generic [ref=e134]:
+        - heading "Çerez Kullanımı" [level=3] [ref=e135]
+        - paragraph [ref=e136]:
+          - text: Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. Bu çerezler, site kullanımınız hakkında anonim istatistikler toplar. Detaylı bilgi için
+          - link "KVKK Aydınlatma Metnimizi" [ref=e137]:
+            - /url: /kvkk
+          - text: inceleyebilirsiniz.
+        - generic [ref=e138]:
+          - button "Kabul Et" [ref=e139] [cursor=pointer]
+          - button "Reddet" [ref=e140] [cursor=pointer]
+    - button "Kapat" [ref=e141] [cursor=pointer]:
+      - img [ref=e142] [cursor=pointer]
+```

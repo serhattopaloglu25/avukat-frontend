@@ -1,0 +1,143 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "AvukatAjanda Logo AvukatAjanda" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img "AvukatAjanda Logo" [ref=e8] [cursor=pointer]
+        - generic [ref=e9] [cursor=pointer]: AvukatAjanda
+      - generic [ref=e10]:
+        - link "Ana Sayfa" [ref=e11] [cursor=pointer]:
+          - /url: /
+        - link "Özellikler" [ref=e12] [cursor=pointer]:
+          - /url: /ozellikler
+        - link "Fiyatlandırma" [ref=e13] [cursor=pointer]:
+          - /url: /fiyatlandirma
+        - link "Hakkımızda" [ref=e14] [cursor=pointer]:
+          - /url: /hakkimizda
+        - link "Blog" [ref=e15] [cursor=pointer]:
+          - /url: /blog
+        - link "İletişim" [ref=e16] [cursor=pointer]:
+          - /url: /iletisim
+      - generic [ref=e17]:
+        - button "Giriş Yap" [ref=e18] [cursor=pointer]
+        - link "Ücretsiz Dene" [ref=e19] [cursor=pointer]:
+          - /url: /?auth=register
+          - button "Ücretsiz Dene" [ref=e20] [cursor=pointer]
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e25]:
+        - heading "Hukuk Büronuz İçin Akıllı Çözüm" [level=1] [ref=e26]:
+          - text: Hukuk Büronuz İçin
+          - generic [ref=e27]: Akıllı Çözüm
+        - paragraph [ref=e28]: Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin. Hukuk büronuzun dijital dönüşümünü başlatın.
+        - generic [ref=e29]:
+          - button "Ücretsiz Deneyin" [ref=e30] [cursor=pointer]
+          - button "Demo İzle" [ref=e31] [cursor=pointer]
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: 500+
+          - generic [ref=e37]: Aktif Büro
+        - generic [ref=e38]:
+          - generic [ref=e39]: 10K+
+          - generic [ref=e40]: Yönetilen Dava
+        - generic [ref=e41]:
+          - generic [ref=e42]: "%99"
+          - generic [ref=e43]: Memnuniyet
+        - generic [ref=e44]:
+          - generic [ref=e45]: 7/24
+          - generic [ref=e46]: Destek
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Güçlü Özellikler" [level=2] [ref=e50]
+          - paragraph [ref=e51]: İhtiyacınız olan tüm araçlar tek platformda
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - img [ref=e54]
+            - heading "Müvekkil Yönetimi" [level=3] [ref=e59]
+            - paragraph [ref=e60]: Tüm müvekkil bilgilerini organize edin
+          - generic [ref=e61]:
+            - img [ref=e62]
+            - heading "Dava Takibi" [level=3] [ref=e68]
+            - paragraph [ref=e69]: Dosyaları kolayca yönetin ve takip edin
+          - generic [ref=e70]:
+            - img [ref=e71]
+            - heading "Akıllı Ajanda" [level=3] [ref=e74]
+            - paragraph [ref=e75]: Duruşmaları ve randevuları kaçırmayın
+          - generic [ref=e76]:
+            - img [ref=e77]
+            - heading "Güvenli Saklama" [level=3] [ref=e79]
+            - paragraph [ref=e80]: 256-bit şifreleme ile veriler korunur
+          - generic [ref=e81]:
+            - img [ref=e82]
+            - heading "Detaylı Raporlar" [level=3] [ref=e86]
+            - paragraph [ref=e87]: Performans ve ilerleme raporları
+          - generic [ref=e88]:
+            - img [ref=e89]
+            - heading "Hızlı Erişim" [level=3] [ref=e91]
+            - paragraph [ref=e92]: Mobil uyumlu, her yerden erişim
+      - generic [ref=e94]:
+        - heading "Hukuk Büronuzu Dijitalleştirin" [level=2] [ref=e95]
+        - paragraph [ref=e96]: 14 gün ücretsiz deneme süresi ile başlayın, kredi kartı gerekmez.
+        - button "Hemen Başlayın" [ref=e97] [cursor=pointer]
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - heading "AvukatAjanda" [level=3] [ref=e102]
+            - paragraph [ref=e103]: Hukuk büroları için geliştirilmiş profesyonel yönetim sistemi.
+          - generic [ref=e104]:
+            - heading "Ürün" [level=4] [ref=e105]
+            - list [ref=e106]:
+              - listitem [ref=e107]:
+                - link "Özellikler" [ref=e108] [cursor=pointer]:
+                  - /url: /ozellikler
+              - listitem [ref=e109]:
+                - link "Fiyatlandırma" [ref=e110] [cursor=pointer]:
+                  - /url: /fiyatlandirma
+              - listitem [ref=e111]:
+                - link "Demo" [ref=e112] [cursor=pointer]:
+                  - /url: /demo
+          - generic [ref=e113]:
+            - heading "Şirket" [level=4] [ref=e114]
+            - list [ref=e115]:
+              - listitem [ref=e116]:
+                - link "Hakkımızda" [ref=e117] [cursor=pointer]:
+                  - /url: /hakkimizda
+              - listitem [ref=e118]:
+                - link "Blog" [ref=e119] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=e120]:
+                - link "İletişim" [ref=e121] [cursor=pointer]:
+                  - /url: /iletisim
+          - generic [ref=e122]:
+            - heading "Yasal" [level=4] [ref=e123]
+            - list [ref=e124]:
+              - listitem [ref=e125]:
+                - link "KVKK" [ref=e126] [cursor=pointer]:
+                  - /url: /kvkk
+              - listitem [ref=e127]:
+                - link "Aydınlatma Metni" [ref=e128] [cursor=pointer]:
+                  - /url: /aydinlatma-metni
+              - listitem [ref=e129]:
+                - link "Üyelik Sözleşmesi" [ref=e130] [cursor=pointer]:
+                  - /url: /uyelik-sozlesmesi
+        - paragraph [ref=e132]: © 2024 AvukatAjanda. Tüm hakları saklıdır.
+  - alert [ref=e133]
+  - generic [ref=e136]:
+    - generic [ref=e137]:
+      - img [ref=e138]
+      - generic [ref=e145]:
+        - heading "Çerez Kullanımı" [level=3] [ref=e146]
+        - paragraph [ref=e147]:
+          - text: Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. Bu çerezler, site kullanımınız hakkında anonim istatistikler toplar. Detaylı bilgi için
+          - link "KVKK Aydınlatma Metnimizi" [ref=e148] [cursor=pointer]:
+            - /url: /kvkk
+          - text: inceleyebilirsiniz.
+        - generic [ref=e149]:
+          - button "Kabul Et" [ref=e150] [cursor=pointer]
+          - button "Reddet" [ref=e151] [cursor=pointer]
+    - button "Kapat" [ref=e152] [cursor=pointer]:
+      - img [ref=e153] [cursor=pointer]
+```
