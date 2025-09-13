@@ -2,186 +2,476 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent } from '@/components/ui/card';
+import { 
+  Upload,
+  FileText,
+  Download,
+  Trash2,
+  Search,
+  Filter,
+  Eye,
+  File,
+  FileImage,
+  FileSpreadsheet,
+  Folder,
+  Plus,
+  X
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Upload, FileText, Download, Trash2, File } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import apiService from '@/lib/api';
 
-interface FileItem {
+interface Document {
   id: number;
   name: string;
   mimeType: string;
   size: number;
+  key: string;
   createdAt: string;
+  case?: {
+    id: number;
+    title: string;
+    caseNo?: string;
+  };
+  client?: {
+    id: number;
+    name: string;
+  };
 }
 
 export default function FilesPage() {
-  const [files, setFiles] = useState<FileItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
   const router = useRouter();
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [selectedCaseId, setSelectedCaseId] = useState<number | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadCaseId, setUploadCaseId] = useState<string>('');
+  const [uploadClientId, setUploadClientId] = useState<string>('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchFiles();
-  }, []);
+    fetchDocuments();
+  }, [page, search, selectedCaseId, selectedClientId]);
 
-  const fetchFiles = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
+  const fetchDocuments = async () => {
     try {
-      const res = await fetch('https://avukat-ajanda-backend.onrender.com/files', {
-        headers: { Authorization: `Bearer ${token}` },
+      setLoading(true);
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '20',
+        ...(search && { search }),
+        ...(selectedCaseId && { caseId: selectedCaseId.toString() }),
+        ...(selectedClientId && { clientId: selectedClientId.toString() })
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        setFiles(Array.isArray(data) ? data : []);
-      }
+      const response = await fetch(`${apiService.baseUrl}/api/documents?${params}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) throw new Error('Belgeler yüklenemedi');
+
+      const data = await response.json();
+      setDocuments(data.documents);
+      setTotalPages(data.pagination.totalPages);
     } catch (error) {
-      console.error('Failed to fetch files:', error);
+      console.error('Belgeler yüklenemedi:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      alert('Lütfen bir dosya seçin');
+      return;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    if (uploadCaseId) formData.append('caseId', uploadCaseId);
+    if (uploadClientId) formData.append('clientId', uploadClientId);
+
+    try {
+      const response = await fetch(`${apiService.baseUrl}/api/documents/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Dosya yüklenemedi');
+      }
+
+      setUploadModalOpen(false);
+      setSelectedFile(null);
+      setUploadCaseId('');
+      setUploadClientId('');
+      fetchDocuments();
+    } catch (error: any) {
+      alert(error.message || 'Dosya yüklenemedi');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDownload = async (id: number, name: string) => {
+    try {
+      const response = await fetch(`${apiService.baseUrl}/api/documents/${id}/download`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (!response.ok) throw new Error('İndirme bağlantısı alınamadı');
+
+      const data = await response.json();
+      
+      // Create download link
+      const a = document.createElement('a');
+      a.href = data.url;
+      a.download = name;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('İndirme hatası:', error);
+      alert('Dosya indirilemedi');
+    }
+  };
+
+  const handleDelete = async (id: number, name: string) => {
+    if (!confirm(`"${name}" dosyasını silmek istediğinize emin misiniz?`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiService.baseUrl}/api/documents/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.error || 'Dosya silinemedi');
+        return;
+      }
+
+      fetchDocuments();
+    } catch (error) {
+      console.error('Silme hatası:', error);
+      alert('Dosya silinemedi');
+    }
   };
 
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.startsWith('image/')) return '🖼️';
-    if (mimeType.includes('pdf')) return '📄';
-    if (mimeType.includes('word')) return '📝';
-    if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return '📊';
-    return '📎';
+    if (mimeType.startsWith('image/')) return <FileImage className="h-5 w-5" />;
+    if (mimeType.includes('pdf')) return <FileText className="h-5 w-5 text-red-600" />;
+    if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) 
+      return <FileSpreadsheet className="h-5 w-5 text-green-600" />;
+    if (mimeType.includes('word')) return <FileText className="h-5 w-5 text-blue-600" />;
+    return <File className="h-5 w-5" />;
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  };
 
-    setUploading(true);
-    const token = localStorage.getItem('token');
-
-    // In a real app, this would request a signed URL and upload to S3/R2
-    // For now, we'll just simulate the upload
-    setTimeout(() => {
-      const newFile: FileItem = {
-        id: Date.now(),
-        name: file.name,
-        mimeType: file.type,
-        size: file.size,
-        createdAt: new Date().toISOString(),
-      };
-      setFiles([newFile, ...files]);
-      setUploading(false);
-    }, 1500);
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('tr-TR', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <nav className="flex space-x-8">
-              <a href="/dashboard" className="text-gray-500 hover:text-gray-900">
-                Panel
-              </a>
-              <a href="/clients" className="text-gray-500 hover:text-gray-900">
-                Müvekkiller
-              </a>
-              <a href="/cases" className="text-gray-500 hover:text-gray-900">
-                Davalar
-              </a>
-              <a href="/events" className="text-gray-500 hover:text-gray-900">
-                Takvim
-              </a>
-              <a href="/files" className="text-gray-900 font-medium">
-                Dosyalar
-              </a>
-            </nav>
-            <Button onClick={() => router.push('/dashboard')} variant="ghost">
-              Dashboard
-            </Button>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Belgeler</h1>
+          <p className="text-gray-600 mt-2">Dosya ve belge yönetimi</p>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dosyalar</h1>
-            <p className="text-gray-600">Belge ve dosya yönetimi</p>
-          </div>
-          <label htmlFor="file-upload" className="cursor-pointer">
-            <input
-              id="file-upload"
-              type="file"
-              className="hidden"
-              onChange={handleFileUpload}
-              disabled={uploading}
-            />
-            <Button asChild disabled={uploading}>
-              <span>
-                <Upload className="w-4 h-4 mr-2" />
-                {uploading ? 'Yükleniyor...' : 'Dosya Yükle'}
-              </span>
-            </Button>
-          </label>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline"
+            onClick={() => router.push('/templates')}
+            className="flex items-center gap-2"
+          >
+            <FileText className="h-4 w-4" />
+            Şablonlar
+          </Button>
+          <Button 
+            onClick={() => setUploadModalOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <Upload className="h-4 w-4" />
+            Dosya Yükle
+          </Button>
         </div>
+      </div>
 
-        {files.length === 0 ? (
-          <Card>
-            <CardContent className="text-center py-12">
-              <File className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Dosya bulunamadı</h3>
-              <p className="text-gray-500">Dosya yükleyerek başlayın</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {files.map((file) => (
-              <Card key={file.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3">
-                      <span className="text-2xl">{getFileIcon(file.mimeType)}</span>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-medium truncate">{file.name}</h3>
-                        <p className="text-xs text-gray-500 mt-1">{formatFileSize(file.size)}</p>
-                        <p className="text-xs text-gray-500">
-                          {new Date(file.createdAt).toLocaleDateString('tr-TR')}
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardContent className="p-4">
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Dosya adı ara..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-2">
+              {selectedCaseId && (
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer"
+                  onClick={() => setSelectedCaseId(null)}
+                >
+                  Dava Filtresi
+                  <X className="ml-1 h-3 w-3" />
+                </Badge>
+              )}
+              {selectedClientId && (
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer"
+                  onClick={() => setSelectedClientId(null)}
+                >
+                  Müvekkil Filtresi
+                  <X className="ml-1 h-3 w-3" />
+                </Badge>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Documents Table */}
+      <Card>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12"></TableHead>
+                  <TableHead>Dosya Adı</TableHead>
+                  <TableHead className="hidden sm:table-cell">Boyut</TableHead>
+                  <TableHead className="hidden md:table-cell">Dava/Müvekkil</TableHead>
+                  <TableHead className="hidden lg:table-cell">Yüklenme Tarihi</TableHead>
+                  <TableHead className="text-right">İşlemler</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {documents.map((doc) => (
+                  <TableRow key={doc.id}>
+                    <TableCell>
+                      {getFileIcon(doc.mimeType)}
+                    </TableCell>
+                    <TableCell>
+                      <div>
+                        <p className="font-medium">{doc.name}</p>
+                        <p className="text-sm text-gray-500 sm:hidden">
+                          {formatFileSize(doc.size)}
                         </p>
                       </div>
-                    </div>
-                    <div className="flex space-x-1">
-                      <Button variant="ghost" size="sm">
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Trash2 className="w-4 h-4 text-red-500" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      {formatFileSize(doc.size)}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="space-y-1">
+                        {doc.case && (
+                          <Badge 
+                            variant="outline" 
+                            className="cursor-pointer"
+                            onClick={() => setSelectedCaseId(doc.case!.id)}
+                          >
+                            <Folder className="mr-1 h-3 w-3" />
+                            {doc.case.title}
+                          </Badge>
+                        )}
+                        {doc.client && (
+                          <Badge 
+                            variant="outline" 
+                            className="cursor-pointer"
+                            onClick={() => setSelectedClientId(doc.client!.id)}
+                          >
+                            {doc.client.name}
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell">
+                      {formatDate(doc.createdAt)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDownload(doc.id, doc.name)}
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(doc.id, doc.name)}
+                        >
+                          <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        )}
-      </main>
+
+          {/* Empty State */}
+          {documents.length === 0 && (
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500">Henüz belge yüklenmemiş</p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => setUploadModalOpen(true)}
+              >
+                İlk Belgeyi Yükle
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Upload Modal */}
+      <Dialog open={uploadModalOpen} onOpenChange={setUploadModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Dosya Yükle</DialogTitle>
+            <DialogDescription>
+              PDF, Word, Excel veya resim dosyası yükleyebilirsiniz (Max: 10MB)
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Dosya Seç
+              </label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.txt"
+                onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                className="w-full p-2 border rounded"
+              />
+              {selectedFile && (
+                <p className="text-sm text-gray-600 mt-1">
+                  {selectedFile.name} ({formatFileSize(selectedFile.size)})
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Dava (Opsiyonel)
+              </label>
+              <Input
+                placeholder="Dava ID"
+                value={uploadCaseId}
+                onChange={(e) => setUploadCaseId(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Müvekkil (Opsiyonel)
+              </label>
+              <Input
+                placeholder="Müvekkil ID"
+                value={uploadClientId}
+                onChange={(e) => setUploadClientId(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setUploadModalOpen(false);
+                  setSelectedFile(null);
+                  setUploadCaseId('');
+                  setUploadClientId('');
+                }}
+                disabled={uploading}
+              >
+                İptal
+              </Button>
+              <Button
+                onClick={handleUpload}
+                disabled={!selectedFile || uploading}
+              >
+                {uploading ? 'Yükleniyor...' : 'Yükle'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
