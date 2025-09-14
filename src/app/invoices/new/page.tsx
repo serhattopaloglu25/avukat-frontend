@@ -71,15 +71,7 @@ export default function NewInvoicePage() {
         notes: formData.notes
       };
       
-      const response = await fetch('http://localhost:8000/api/invoices', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(invoiceData),
-      });
-      
-      const data = await response.json();
+      const data = await apiService.createInvoice(invoiceData);
       console.log('Invoice created:', data);
       
       router.push('/invoices');

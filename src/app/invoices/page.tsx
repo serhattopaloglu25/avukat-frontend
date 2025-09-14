@@ -39,8 +39,8 @@ export default function InvoicesPage() {
   const loadInvoices = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/api/invoices');
-      const data = await response.json();
+      const { apiService } = await import('@/services');
+      const data = await apiService.getInvoices();
       console.log('Loaded invoices:', data);
       setInvoices(data || []);
     } catch (error) {
