@@ -1,126 +1,151 @@
-// Global store for mock data persistence across components
-class MockDataStore {
-  private static instance: MockDataStore;
-  
-  public clients: any[] = [
-    { id: 1, name: 'Ahmet Yılmaz', email: 'ahmet@example.com', phone: '555-0101', address: 'İstanbul' },
-    { id: 2, name: 'Ayşe Demir', email: 'ayse@example.com', phone: '555-0102', address: 'Ankara' }
-  ];
-  
-  public cases: any[] = [
-    { id: 1, case_number: 'CASE-2024-001', title: 'Boşanma Davası', client_id: 1, status: 'active' },
-    { id: 2, case_number: 'CASE-2024-002', title: 'Kira Davası', client_id: 2, status: 'pending' }
-  ];
-  
-  public events: any[] = [
-    { id: 1, title: 'Duruşma', event_date: '2024-01-15', event_type: 'hearing' },
-    { id: 2, title: 'Müvekkil Görüşmesi', event_date: '2024-01-16', event_type: 'meeting' }
-  ];
-  
-  public invoices: any[] = [];
-  
-  private constructor() {
-    // Private constructor for singleton
-  }
-  
-  public static getInstance(): MockDataStore {
-    if (!MockDataStore.instance) {
-      MockDataStore.instance = new MockDataStore();
-    }
-    return MockDataStore.instance;
-  }
-}
-
-// Mock API Service using global store
+// Mock API with localStorage persistence
 export class MockApiService {
-  private store = MockDataStore.getInstance();
+  private getStorageKey(key: string): string {
+    return `avukatajanda_mock_${key}`;
+  }
+
+  private loadData(key: string, defaultValue: any[] = []): any[] {
+    if (typeof window === 'undefined') return defaultValue;
+    
+    try {
+      const stored = localStorage.getItem(this.getStorageKey(key));
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (e) {
+      console.error('Error loading from localStorage:', e);
+    }
+    return defaultValue;
+  }
+
+  private saveData(key: string, data: any[]): void {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      localStorage.setItem(this.getStorageKey(key), JSON.stringify(data));
+    } catch (e) {
+      console.error('Error saving to localStorage:', e);
+    }
+  }
+
+  private getClients_internal(): any[] {
+    return this.loadData('clients', [
+      { id: 1, name: 'Ahmet Yılmaz', email: 'ahmet@example.com', phone: '555-0101', address: 'İstanbul' },
+      { id: 2, name: 'Ayşe Demir', email: 'ayse@example.com', phone: '555-0102', address: 'Ankara' }
+    ]);
+  }
+
+  private getCases_internal(): any[] {
+    return this.loadData('cases', [
+      { id: 1, case_number: 'CASE-2024-001', title: 'Boşanma Davası', client_id: 1, status: 'active' },
+      { id: 2, case_number: 'CASE-2024-002', title: 'Kira Davası', client_id: 2, status: 'pending' }
+    ]);
+  }
 
   async getClients(params?: any) {
-    console.log('Mock API: Getting clients, count:', this.store.clients.length);
-    return Promise.resolve([...this.store.clients]);
+    const clients = this.getClients_internal();
+    console.log('Getting clients from localStorage:', clients.length);
+    return Promise.resolve(clients);
   }
 
   async getClient(id: number) {
-    const client = this.store.clients.find(c => c.id === id);
+    const clients = this.getClients_internal();
+    const client = clients.find(c => c.id === id);
     if (client) return Promise.resolve(client);
     throw new Error('Client not found');
   }
 
   async createClient(data: any) {
+    const clients = this.getClients_internal();
     const newClient = { 
-      id: this.store.clients.length + 1, 
+      id: Math.max(0, ...clients.map(c => c.id || 0)) + 1,
       ...data,
       created_at: new Date().toISOString()
     };
-    this.store.clients.push(newClient);
-    console.log('Mock API: Created client, total clients:', this.store.clients.length);
+    clients.push(newClient);
+    this.saveData('clients', clients);
+    console.log('Created client, total:', clients.length);
     return Promise.resolve(newClient);
   }
 
   async updateClient(id: number, data: any) {
-    const index = this.store.clients.findIndex(c => c.id === id);
+    const clients = this.getClients_internal();
+    const index = clients.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.store.clients[index] = { ...this.store.clients[index], ...data };
-      return Promise.resolve(this.store.clients[index]);
+      clients[index] = { ...clients[index], ...data };
+      this.saveData('clients', clients);
+      return Promise.resolve(clients[index]);
     }
     throw new Error('Client not found');
   }
 
   async deleteClient(id: number) {
-    const index = this.store.clients.findIndex(c => c.id === id);
+    const clients = this.getClients_internal();
+    const index = clients.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.store.clients.splice(index, 1);
+      clients.splice(index, 1);
+      this.saveData('clients', clients);
       return Promise.resolve({ success: true });
     }
     throw new Error('Client not found');
   }
 
   async getCases(params?: any) {
-    console.log('Mock API: Getting cases, count:', this.store.cases.length);
+    const cases = this.getCases_internal();
+    console.log('Getting cases from localStorage:', cases.length);
+    
     if (params?.status) {
-      return Promise.resolve(this.store.cases.filter(c => c.status === params.status));
+      return Promise.resolve(cases.filter(c => c.status === params.status));
     }
-    return Promise.resolve([...this.store.cases]);
+    return Promise.resolve(cases);
   }
 
   async getCase(id: number) {
-    const caseItem = this.store.cases.find(c => c.id === id);
+    const cases = this.getCases_internal();
+    const caseItem = cases.find(c => c.id === id);
     if (caseItem) return Promise.resolve(caseItem);
     throw new Error('Case not found');
   }
 
   async createCase(data: any) {
+    const cases = this.getCases_internal();
     const newCase = { 
-      id: this.store.cases.length + 1, 
-      case_number: `CASE-${new Date().getFullYear()}-${String(this.store.cases.length + 1).padStart(3, '0')}`,
+      id: Math.max(0, ...cases.map(c => c.id || 0)) + 1,
+      case_number: `CASE-${new Date().getFullYear()}-${String(cases.length + 1).padStart(3, '0')}`,
       ...data,
       created_at: new Date().toISOString()
     };
-    this.store.cases.push(newCase);
-    console.log('Mock API: Created case, total cases:', this.store.cases.length);
+    cases.push(newCase);
+    this.saveData('cases', cases);
+    console.log('Created case, total:', cases.length);
     return Promise.resolve(newCase);
   }
 
   async deleteCase(id: number) {
-    const index = this.store.cases.findIndex(c => c.id === id);
+    const cases = this.getCases_internal();
+    const index = cases.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.store.cases.splice(index, 1);
+      cases.splice(index, 1);
+      this.saveData('cases', cases);
       return Promise.resolve({ success: true });
     }
     throw new Error('Case not found');
   }
 
   async updateCase(id: number, data: any) {
-    const index = this.store.cases.findIndex(c => c.id === id);
+    const cases = this.getCases_internal();
+    const index = cases.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.store.cases[index] = { ...this.store.cases[index], ...data };
-      return Promise.resolve(this.store.cases[index]);
+      cases[index] = { ...cases[index], ...data };
+      this.saveData('cases', cases);
+      return Promise.resolve(cases[index]);
     }
     throw new Error('Case not found');
   }
 
   async searchCases(query: string) {
-    const filtered = this.store.cases.filter(c => 
+    const cases = this.getCases_internal();
+    const filtered = cases.filter(c => 
       c.title.toLowerCase().includes(query.toLowerCase()) ||
       c.case_number.toLowerCase().includes(query.toLowerCase())
     );
@@ -128,29 +153,46 @@ export class MockApiService {
   }
 
   async getEvents() {
-    return Promise.resolve([...this.store.events]);
+    const events = this.loadData('events', [
+      { id: 1, title: 'Duruşma', event_date: '2024-01-15', event_type: 'hearing' },
+      { id: 2, title: 'Müvekkil Görüşmesi', event_date: '2024-01-16', event_type: 'meeting' }
+    ]);
+    return Promise.resolve(events);
   }
 
   async createEvent(data: any) {
-    const newEvent = { id: this.store.events.length + 1, ...data };
-    this.store.events.push(newEvent);
+    const events = this.loadData('events', []);
+    const newEvent = { 
+      id: Math.max(0, ...events.map(e => e.id || 0)) + 1,
+      ...data 
+    };
+    events.push(newEvent);
+    this.saveData('events', events);
     return Promise.resolve(newEvent);
   }
 
   async getInvoices() {
-    return Promise.resolve([...this.store.invoices]);
+    const invoices = this.loadData('invoices', []);
+    return Promise.resolve(invoices);
   }
 
   async createInvoice(data: any) {
-    const newInvoice = { id: this.store.invoices.length + 1, ...data };
-    this.store.invoices.push(newInvoice);
+    const invoices = this.loadData('invoices', []);
+    const newInvoice = { 
+      id: Math.max(0, ...invoices.map(i => i.id || 0)) + 1,
+      ...data 
+    };
+    invoices.push(newInvoice);
+    this.saveData('invoices', invoices);
     return Promise.resolve(newInvoice);
   }
 
   async login(email: string, password: string) {
     if (email === 'demo@avukatajanda.com' && password === 'demo123') {
+      const token = 'mock-token-' + Date.now();
+      this.setToken(token);
       return Promise.resolve({
-        access_token: 'mock-token-123',
+        access_token: token,
         token_type: 'bearer',
         user: { 
           id: 1, 
@@ -165,8 +207,10 @@ export class MockApiService {
   }
 
   async register(data: any) {
+    const token = 'mock-token-' + Date.now();
+    this.setToken(token);
     return Promise.resolve({
-      access_token: 'mock-token-456',
+      access_token: token,
       token_type: 'bearer',
       user: { 
         id: Date.now(), 
@@ -178,12 +222,16 @@ export class MockApiService {
   }
 
   async getDashboardStats() {
+    const clients = this.getClients_internal();
+    const cases = this.getCases_internal();
+    const events = this.loadData('events', []);
+    
     return Promise.resolve({
-      total_clients: this.store.clients.length,
-      total_cases: this.store.cases.length,
-      active_cases: this.store.cases.filter(c => c.status === 'active').length,
-      closed_cases: this.store.cases.filter(c => c.status === 'closed').length,
-      upcoming_events: this.store.events.length
+      total_clients: clients.length,
+      total_cases: cases.length,
+      active_cases: cases.filter(c => c.status === 'active').length,
+      closed_cases: cases.filter(c => c.status === 'closed').length,
+      upcoming_events: events.length
     });
   }
 
@@ -205,7 +253,17 @@ export class MockApiService {
     }
     return null;
   }
+
+  // Clear all mock data
+  clearAllData() {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(this.getStorageKey('clients'));
+      localStorage.removeItem(this.getStorageKey('cases'));
+      localStorage.removeItem(this.getStorageKey('events'));
+      localStorage.removeItem(this.getStorageKey('invoices'));
+    }
+  }
 }
 
-// Export singleton instance
+// Export singleton
 export const apiService = new MockApiService();
