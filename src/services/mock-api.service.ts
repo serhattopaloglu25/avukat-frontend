@@ -1,109 +1,150 @@
-// Mock API Service - Temporary solution while backend is being fixed
-export class MockApiService {
-  private mockClients: any[] = [
+// Global store for mock data persistence across components
+class MockDataStore {
+  private static instance: MockDataStore;
+  
+  public clients: any[] = [
     { id: 1, name: 'Ahmet Yılmaz', email: 'ahmet@example.com', phone: '555-0101', address: 'İstanbul' },
     { id: 2, name: 'Ayşe Demir', email: 'ayse@example.com', phone: '555-0102', address: 'Ankara' }
   ];
-
-  private mockCases: any[] = [
+  
+  public cases: any[] = [
     { id: 1, case_number: 'CASE-2024-001', title: 'Boşanma Davası', client_id: 1, status: 'active' },
     { id: 2, case_number: 'CASE-2024-002', title: 'Kira Davası', client_id: 2, status: 'pending' }
   ];
+  
+  public events: any[] = [
+    { id: 1, title: 'Duruşma', event_date: '2024-01-15', event_type: 'hearing' },
+    { id: 2, title: 'Müvekkil Görüşmesi', event_date: '2024-01-16', event_type: 'meeting' }
+  ];
+  
+  public invoices: any[] = [];
+  
+  private constructor() {
+    // Private constructor for singleton
+  }
+  
+  public static getInstance(): MockDataStore {
+    if (!MockDataStore.instance) {
+      MockDataStore.instance = new MockDataStore();
+    }
+    return MockDataStore.instance;
+  }
+}
+
+// Mock API Service using global store
+export class MockApiService {
+  private store = MockDataStore.getInstance();
 
   async getClients(params?: any) {
-    return Promise.resolve(this.mockClients);
+    console.log('Mock API: Getting clients, count:', this.store.clients.length);
+    return Promise.resolve([...this.store.clients]);
   }
 
   async getClient(id: number) {
-    const client = this.mockClients.find(c => c.id === id);
+    const client = this.store.clients.find(c => c.id === id);
     if (client) return Promise.resolve(client);
     throw new Error('Client not found');
   }
 
   async createClient(data: any) {
     const newClient = { 
-      id: this.mockClients.length + 1, 
+      id: this.store.clients.length + 1, 
       ...data,
       created_at: new Date().toISOString()
     };
-    this.mockClients.push(newClient);
+    this.store.clients.push(newClient);
+    console.log('Mock API: Created client, total clients:', this.store.clients.length);
     return Promise.resolve(newClient);
   }
 
   async updateClient(id: number, data: any) {
-    const index = this.mockClients.findIndex(c => c.id === id);
+    const index = this.store.clients.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.mockClients[index] = { ...this.mockClients[index], ...data };
-      return Promise.resolve(this.mockClients[index]);
+      this.store.clients[index] = { ...this.store.clients[index], ...data };
+      return Promise.resolve(this.store.clients[index]);
     }
     throw new Error('Client not found');
   }
 
   async deleteClient(id: number) {
-    const index = this.mockClients.findIndex(c => c.id === id);
+    const index = this.store.clients.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.mockClients.splice(index, 1);
+      this.store.clients.splice(index, 1);
       return Promise.resolve({ success: true });
     }
     throw new Error('Client not found');
   }
 
   async getCases(params?: any) {
-    // Filter cases if params provided
+    console.log('Mock API: Getting cases, count:', this.store.cases.length);
     if (params?.status) {
-      return Promise.resolve(this.mockCases.filter(c => c.status === params.status));
+      return Promise.resolve(this.store.cases.filter(c => c.status === params.status));
     }
-    return Promise.resolve(this.mockCases);
+    return Promise.resolve([...this.store.cases]);
   }
 
   async getCase(id: number) {
-    const caseItem = this.mockCases.find(c => c.id === id);
+    const caseItem = this.store.cases.find(c => c.id === id);
     if (caseItem) return Promise.resolve(caseItem);
     throw new Error('Case not found');
   }
 
   async createCase(data: any) {
     const newCase = { 
-      id: this.mockCases.length + 1, 
+      id: this.store.cases.length + 1, 
+      case_number: `CASE-${new Date().getFullYear()}-${String(this.store.cases.length + 1).padStart(3, '0')}`,
       ...data,
       created_at: new Date().toISOString()
     };
-    this.mockCases.push(newCase);
+    this.store.cases.push(newCase);
+    console.log('Mock API: Created case, total cases:', this.store.cases.length);
     return Promise.resolve(newCase);
   }
 
   async deleteCase(id: number) {
-    const index = this.mockCases.findIndex(c => c.id === id);
+    const index = this.store.cases.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.mockCases.splice(index, 1);
+      this.store.cases.splice(index, 1);
       return Promise.resolve({ success: true });
     }
     throw new Error('Case not found');
   }
 
   async updateCase(id: number, data: any) {
-    const index = this.mockCases.findIndex(c => c.id === id);
+    const index = this.store.cases.findIndex(c => c.id === id);
     if (index !== -1) {
-      this.mockCases[index] = { ...this.mockCases[index], ...data };
-      return Promise.resolve(this.mockCases[index]);
+      this.store.cases[index] = { ...this.store.cases[index], ...data };
+      return Promise.resolve(this.store.cases[index]);
     }
     throw new Error('Case not found');
   }
 
   async searchCases(query: string) {
-    const filtered = this.mockCases.filter(c => 
+    const filtered = this.store.cases.filter(c => 
       c.title.toLowerCase().includes(query.toLowerCase()) ||
       c.case_number.toLowerCase().includes(query.toLowerCase())
     );
     return Promise.resolve(filtered);
   }
 
+  async getEvents() {
+    return Promise.resolve([...this.store.events]);
+  }
+
+  async createEvent(data: any) {
+    const newEvent = { id: this.store.events.length + 1, ...data };
+    this.store.events.push(newEvent);
+    return Promise.resolve(newEvent);
+  }
+
   async getInvoices() {
-    return Promise.resolve([]);
+    return Promise.resolve([...this.store.invoices]);
   }
 
   async createInvoice(data: any) {
-    return Promise.resolve({ id: Date.now(), ...data });
+    const newInvoice = { id: this.store.invoices.length + 1, ...data };
+    this.store.invoices.push(newInvoice);
+    return Promise.resolve(newInvoice);
   }
 
   async login(email: string, password: string) {
@@ -138,37 +179,33 @@ export class MockApiService {
 
   async getDashboardStats() {
     return Promise.resolve({
-      total_clients: this.mockClients.length,
-      total_cases: this.mockCases.length,
-      active_cases: this.mockCases.filter(c => c.status === 'active').length,
-      closed_cases: this.mockCases.filter(c => c.status === 'closed').length,
-      upcoming_events: 5
+      total_clients: this.store.clients.length,
+      total_cases: this.store.cases.length,
+      active_cases: this.store.cases.filter(c => c.status === 'active').length,
+      closed_cases: this.store.cases.filter(c => c.status === 'closed').length,
+      upcoming_events: this.store.events.length
     });
   }
 
-  async getEvents() {
-    return Promise.resolve([
-      { id: 1, title: 'Duruşma', event_date: '2024-01-15', event_type: 'hearing' },
-      { id: 2, title: 'Müvekkil Görüşmesi', event_date: '2024-01-16', event_type: 'meeting' }
-    ]);
-  }
-
-  async createEvent(data: any) {
-    return Promise.resolve({ id: Date.now(), ...data });
-  }
-
   setToken(token: string) {
-    localStorage.setItem('auth_token', token);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auth_token', token);
+    }
   }
 
   clearToken() {
-    localStorage.removeItem('auth_token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+    }
   }
 
   getToken() {
-    return localStorage.getItem('auth_token');
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('auth_token');
+    }
+    return null;
   }
 }
 
-// Export as singleton
+// Export singleton instance
 export const apiService = new MockApiService();
