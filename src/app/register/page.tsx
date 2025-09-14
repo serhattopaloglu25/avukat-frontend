@@ -32,7 +32,11 @@ export default function RegisterPage() {
     
     try {
       setLoading(true);
-      await apiService.register(formData.email, formData.password, formData.name);
+      await apiService.register({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name
+      });
       
       // After registration, login automatically
       const loginResponse = await apiService.login(formData.email, formData.password);
