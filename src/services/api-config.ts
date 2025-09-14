@@ -1,2 +1,2 @@
 // Hardcoded API URL - Backend issues
-export const API_URL = 'https://avukat-ajanda-backend.onrender.com';
+export const API_URL = 'http://localhost:3000';

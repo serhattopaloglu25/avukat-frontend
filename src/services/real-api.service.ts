@@ -1,5 +1,5 @@
 // API Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 class ApiService {
   private token: string | null = null;

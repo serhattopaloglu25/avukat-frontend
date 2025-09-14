@@ -34,7 +34,7 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      const response = await fetch('https://avukat-ajanda-backend.onrender.com/orgs', {
+      const response = await fetch('http://localhost:3000/orgs', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,1 +1,1 @@
-export const API_URL = 'https://[YOUR-BACKEND-URL].onrender.com';
+export const API_URL = 'http://localhost:3000';

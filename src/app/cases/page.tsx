@@ -187,10 +187,10 @@ export default function CasesPage() {
   const openEditDialog = (caseItem: Case) => {
     setSelectedCase(caseItem);
     setFormData({
-      case_number: caseItem.case_number,
+      case_number: caseItem.case_number || "",
       title: caseItem.title,
       client_id: caseItem.client_id,
-      status: caseItem.status,
+      status: caseItem.status || "pending",
       description: caseItem.description || '',
       start_date: caseItem.start_date || '',
       end_date: caseItem.end_date || ''

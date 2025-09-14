@@ -31,7 +31,7 @@ export function FileList({ caseId }: FileListProps) {
       const params = new URLSearchParams();
       if (caseId) params.append('caseId', caseId.toString());
 
-      const response = await fetch(`https://avukat-ajanda-backend.onrender.com/files?${params}`, {
+      const response = await fetch(`http://localhost:3000/files?${params}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
