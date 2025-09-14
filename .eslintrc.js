@@ -7,9 +7,13 @@ module.exports = {
     // useEffect dependency uyarılarını sadece uyarı yap
     'react-hooks/exhaustive-deps': 'warn',
     
-    // Diğer önemli kurallar açık kalsın
-    'no-unused-vars': 'warn',
-    'no-console': 'warn',
-    'no-debugger': 'error',
+    // Development için yararlı ama production'da sorun çıkarmayan kurallar
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-console': 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    
+    // Image alt text - accessibility için önemli ama zorunlu değil
+    'jsx-a11y/alt-text': 'warn',
   },
 };

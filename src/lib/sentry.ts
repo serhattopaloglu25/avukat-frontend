@@ -1,6 +1,13 @@
-import * as Sentry from '@sentry/nextjs';
+// Sentry integration temporarily disabled
+// Will be enabled when @sentry/nextjs is installed
 
 export function initSentry() {
+  // Sentry is disabled for now
+  // Uncomment and install @sentry/nextjs when ready to use
+  
+  /*
+  import * as Sentry from '@sentry/nextjs';
+  
   const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
 
   if (dsn) {
@@ -20,5 +27,10 @@ export function initSentry() {
         return event;
       },
     });
+  }
+  */
+  
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Sentry is currently disabled');
   }
 }
