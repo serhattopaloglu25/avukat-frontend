@@ -38,7 +38,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import apiService from '@/lib/api';
+import { apiService } from '@/services';
 
 interface Event {
   id: number;
@@ -83,22 +83,8 @@ export default function EventsPage() {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams({
-        view,
-        ...(selectedType !== 'all' && { type: selectedType })
-      });
-
-      const response = await fetch(`${apiService.baseUrl}/api/events?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) throw new Error('Etkinlikler yüklenemedi');
-
-      const data = await response.json();
-      setEvents(data);
+      const data = await apiService.getEvents();
+      setEvents(data || []);
     } catch (error) {
       console.error('Etkinlikler yüklenemedi:', error);
     } finally {
