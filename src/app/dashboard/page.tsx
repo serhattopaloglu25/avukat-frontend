@@ -73,7 +73,7 @@ export default function DashboardPage() {
         upcomingEvents: statsData.upcoming_events || 0,
         unpaidInvoiceCount: 0,
         nextHearing: null,
-        recentActivities: []
+        recentActivities: statsData.recent_activities || []
       });
       
       setSummary({

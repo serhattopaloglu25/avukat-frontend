@@ -4,6 +4,24 @@ export class MockApiService {
     return `avukatajanda_mock_${key}`;
   }
 
+  private activities: any[] = [];
+
+  private addActivity(action: string, entityType: string, entityId: string | number) {
+    const activity = {
+      id: Date.now().toString(),
+      action,
+      entityType,
+      entityId: entityId.toString(),
+      createdAt: new Date().toISOString(),
+      user: { name: 'Demo User', email: 'demo@avukatajanda.com' }
+    };
+    this.activities.unshift(activity);
+    if (this.activities.length > 10) {
+      this.activities = this.activities.slice(0, 10);
+    }
+    this.saveData('activities', this.activities);
+  }
+
   private loadData(key: string, defaultValue: any[] = []): any[] {
     if (typeof window === 'undefined') return defaultValue;
     
@@ -64,6 +82,7 @@ export class MockApiService {
     };
     clients.push(newClient);
     this.saveData('clients', clients);
+    this.addActivity('Yeni müvekkil eklendi: ' + newClient.name, 'client', newClient.id);
     console.log('Created client, total:', clients.length);
     return Promise.resolve(newClient);
   }
@@ -117,6 +136,7 @@ export class MockApiService {
     };
     cases.push(newCase);
     this.saveData('cases', cases);
+    this.addActivity('Yeni dava eklendi: ' + newCase.title, 'case', newCase.id);
     console.log('Created case, total:', cases.length);
     return Promise.resolve(newCase);
   }
@@ -225,13 +245,17 @@ export class MockApiService {
     const clients = this.getClients_internal();
     const cases = this.getCases_internal();
     const events = this.loadData('events', []);
+    const invoices = this.loadData('invoices', []);
+    this.activities = this.loadData('activities', []);
     
     return Promise.resolve({
       total_clients: clients.length,
       total_cases: cases.length,
       active_cases: cases.filter(c => c.status === 'active').length,
       closed_cases: cases.filter(c => c.status === 'closed').length,
-      upcoming_events: events.length
+      upcoming_events: events.length,
+      total_invoices: invoices.length,
+      recent_activities: this.activities.slice(0, 5)
     });
   }
 
