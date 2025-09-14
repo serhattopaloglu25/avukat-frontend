@@ -52,7 +52,7 @@ class ApiService {
   }
 
   async register(userData: any) {
-    // Backend expects all consents
+    // Backend expects all consents - try with all possible ones
     const data = {
       email: userData.email,
       password: userData.password,
@@ -60,7 +60,10 @@ class ApiService {
       consents: {
         terms: true,
         privacy: true,
-        marketing: true  // Backend requires this too
+        marketing: true,
+        gdpr: true,
+        cookies: true,
+        data_processing: true
       }
     };
     return this.request('/auth/register', {
