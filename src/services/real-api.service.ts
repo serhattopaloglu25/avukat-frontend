@@ -59,8 +59,9 @@ class ApiService {
   }
 
   // Client methods
-  async getClients() {
-    return this.request('/api/clients');
+  async getClients(params?: any) {
+    const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
+    return this.request(`/api/clients${queryString}`);
   }
 
   async getClient(id: number) {
@@ -88,8 +89,9 @@ class ApiService {
   }
 
   // Case methods
-  async getCases() {
-    return this.request('/api/cases');
+  async getCases(params?: any) {
+    const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
+    return this.request(`/api/cases${queryString}`);
   }
 
   async getCase(id: number) {
