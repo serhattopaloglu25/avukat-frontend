@@ -10,8 +10,14 @@ export class MockApiService {
     { id: 2, case_number: 'CASE-2024-002', title: 'Kira Davası', client_id: 2, status: 'pending' }
   ];
 
-  async getClients() {
+  async getClients(params?: any) {
     return Promise.resolve(this.mockClients);
+  }
+
+  async getClient(id: number) {
+    const client = this.mockClients.find(c => c.id === id);
+    if (client) return Promise.resolve(client);
+    throw new Error('Client not found');
   }
 
   async createClient(data: any) {
@@ -42,8 +48,18 @@ export class MockApiService {
     throw new Error('Client not found');
   }
 
-  async getCases() {
+  async getCases(params?: any) {
+    // Filter cases if params provided
+    if (params?.status) {
+      return Promise.resolve(this.mockCases.filter(c => c.status === params.status));
+    }
     return Promise.resolve(this.mockCases);
+  }
+
+  async getCase(id: number) {
+    const caseItem = this.mockCases.find(c => c.id === id);
+    if (caseItem) return Promise.resolve(caseItem);
+    throw new Error('Case not found');
   }
 
   async createCase(data: any) {
@@ -54,6 +70,40 @@ export class MockApiService {
     };
     this.mockCases.push(newCase);
     return Promise.resolve(newCase);
+  }
+
+  async deleteCase(id: number) {
+    const index = this.mockCases.findIndex(c => c.id === id);
+    if (index !== -1) {
+      this.mockCases.splice(index, 1);
+      return Promise.resolve({ success: true });
+    }
+    throw new Error('Case not found');
+  }
+
+  async updateCase(id: number, data: any) {
+    const index = this.mockCases.findIndex(c => c.id === id);
+    if (index !== -1) {
+      this.mockCases[index] = { ...this.mockCases[index], ...data };
+      return Promise.resolve(this.mockCases[index]);
+    }
+    throw new Error('Case not found');
+  }
+
+  async searchCases(query: string) {
+    const filtered = this.mockCases.filter(c => 
+      c.title.toLowerCase().includes(query.toLowerCase()) ||
+      c.case_number.toLowerCase().includes(query.toLowerCase())
+    );
+    return Promise.resolve(filtered);
+  }
+
+  async getInvoices() {
+    return Promise.resolve([]);
+  }
+
+  async createInvoice(data: any) {
+    return Promise.resolve({ id: Date.now(), ...data });
   }
 
   async login(email: string, password: string) {
