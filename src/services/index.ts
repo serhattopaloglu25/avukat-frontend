@@ -1,11 +1,11 @@
 // Centralized API export
 // Switch between mock and real API here
 
-// FOR NOW: Using mock API because backend is not working
-export { apiService } from './mock-api.service';
+// FOR PRODUCTION: Using real backend API
+export { apiService } from './real-api.service';
 
-// When backend is ready, uncomment this line and comment the above:
-// export { apiService } from './api.service';
+// For testing with mock data, uncomment this:
+// export { apiService } from './mock-api.service';
 
 // Export types
 export type { Client, Case, Event, Invoice, Stats } from './api.service';
