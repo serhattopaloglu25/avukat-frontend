@@ -191,6 +191,17 @@ export class MockApiService {
     return Promise.resolve(newEvent);
   }
 
+  async deleteEvent(id: number) {
+    const events = this.loadData('events', []);
+    const index = events.findIndex(e => e.id === id);
+    if (index !== -1) {
+      events.splice(index, 1);
+      this.saveData('events', events);
+      return Promise.resolve({ success: true });
+    }
+    throw new Error('Event not found');
+  }
+
   async getInvoices() {
     const invoices = this.loadData('invoices', []);
     return Promise.resolve(invoices);

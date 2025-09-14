@@ -98,21 +98,9 @@ export default function EventsPage() {
     }
 
     try {
-      const response = await fetch(`${apiService.baseUrl}/api/events/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        alert(error.error || 'Etkinlik silinemedi');
-        return;
-      }
-
-      fetchEvents();
+      await apiService.deleteEvent(id);
+      await fetchEvents();
+      console.log('Event deleted:', id);
     } catch (error) {
       console.error('Silme hatası:', error);
       alert('Etkinlik silinemedi');
