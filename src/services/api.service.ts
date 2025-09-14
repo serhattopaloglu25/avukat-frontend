@@ -113,7 +113,7 @@ class ApiService {
 
   constructor(config?: Partial<ApiConfig>) {
     this.config = {
-      baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000',
+      baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-python-backend.onrender.com',
       timeout: 60000,
       ...config
     };
