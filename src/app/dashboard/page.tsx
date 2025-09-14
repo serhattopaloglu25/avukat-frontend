@@ -17,7 +17,7 @@ import {
   FileText,
   DollarSign
 } from 'lucide-react';
-import apiService from '@/lib/api';
+import { apiService } from '@/services';
 
 interface DashboardStats {
   clientCount: number;
@@ -63,18 +63,25 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const [statsResponse, summaryResponse] = await Promise.all([
-        apiService.getStats(),
-        fetch(`${apiService.baseUrl}/api/dashboard/summary`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json'
-          }
-        }).then(res => res.json())
-      ]);
-
-      setStats(statsResponse);
-      setSummary(summaryResponse);
+      const statsData = await apiService.getDashboardStats();
+      
+      // Map the data to match the expected format
+      setStats({
+        clientCount: statsData.total_clients || 0,
+        activeCaseCount: statsData.active_cases || 0,
+        totalCases: statsData.total_cases || 0,
+        upcomingEvents: statsData.upcoming_events || 0,
+        unpaidInvoiceCount: 0,
+        nextHearing: null,
+        recentActivities: []
+      });
+      
+      setSummary({
+        weeklyNewClients: 0,
+        weeklyNewCases: 0,
+        monthlyRevenue: 0,
+        pendingTasks: 0
+      });
     } catch (error) {
       console.error('Dashboard veri yüklenemedi:', error);
     } finally {
