@@ -1,20 +1,12 @@
 // API Service Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://avukat-ajanda-backend.onrender.com';
-
-// Use proxy in development
-const getApiUrl = () => {
-  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-    return '/api/proxy';
-  }
-  return API_URL;
-};
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 class ApiService {
   public baseUrl: string;
   private token: string | null = null;
 
   constructor() {
-    this.baseUrl = getApiUrl();
+    this.baseUrl = API_URL;
     if (typeof window !== 'undefined') {
       this.token = localStorage.getItem('token');
     }

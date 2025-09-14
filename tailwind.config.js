@@ -15,6 +15,15 @@ module.exports = {
       },
     },
     extend: {
+      zIndex: {
+        '60': '60',
+        '70': '70',
+        '80': '80',
+        '90': '90',
+        '100': '100',
+        '9999': '9999',
+        '99999': '99999',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

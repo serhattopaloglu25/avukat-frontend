@@ -61,6 +61,43 @@
   }
 }
 
+/* Fix for Select dropdown z-index issues */
+[data-radix-popper-content-wrapper] {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+/* Fix for Dialog Select dropdowns */
+[role="dialog"] [data-radix-popper-content-wrapper] {
+  z-index: 100000 !important;
+}
+
+/* Ensure Select content is always on top */
+[data-state="open"][data-side] {
+  z-index: 99999 !important;
+}
+
+/* Radix UI Select Portal fix */
+[data-radix-portal] {
+  z-index: 99999 !important;
+}
+
+/* Select content positioning fix */
+[data-radix-select-content] {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+/* Dropdown menu fixes */
+[role="listbox"] {
+  z-index: 99999 !important;
+}
+
+/* Ensure overlays don't interfere */
+.fixed.inset-0 {
+  z-index: 40;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
