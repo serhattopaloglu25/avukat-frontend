@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LogIn } from 'lucide-react';
 import Link from 'next/link';
-import { apiService } from '@/services';
+import { apiService } from '@/services/mock-api.service';
 
 export default function LoginPage() {
   const router = useRouter();
