@@ -109,15 +109,25 @@ export default function EventsPage() {
 
   const downloadICS = async () => {
     try {
-      const response = await fetch(`${apiService.baseUrl}/api/events/ics?range=30`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+      // Create ICS content from current events
+      let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//AvukatAjanda//TR\n';
+      
+      events.forEach(event => {
+        const startDate = new Date(event.startAt || new Date()).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        const endDate = new Date(event.endAt || new Date(Date.now() + 3600000)).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        
+        icsContent += 'BEGIN:VEVENT\n';
+        icsContent += `SUMMARY:${event.title}\n`;
+        icsContent += `DTSTART:${startDate}\n`;
+        icsContent += `DTEND:${endDate}\n`;
+        if (event.location) icsContent += `LOCATION:${event.location}\n`;
+        if (event.description) icsContent += `DESCRIPTION:${event.description}\n`;
+        icsContent += 'END:VEVENT\n';
       });
-
-      if (!response.ok) throw new Error('Takvim indirilemedi');
-
-      const blob = await response.blob();
+      
+      icsContent += 'END:VCALENDAR';
+      
+      const blob = new Blob([icsContent], { type: 'text/calendar' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
