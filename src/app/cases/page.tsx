@@ -59,7 +59,8 @@ import {
   FileText,
   Clock
 } from 'lucide-react';
-import { apiService, type Case, type Client } from '@/services/api.service';
+import { apiService } from '@/services';
+import type { Case, Client } from '@/services';
 
 export default function CasesPage() {
   const router = useRouter();

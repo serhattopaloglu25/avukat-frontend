@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Briefcase } from 'lucide-react';
-import { apiService, type Client } from '@/services/api.service';
+import { apiService } from '@/services';
+import type { Client } from '@/services';
 
 export default function NewCasePage() {
   const router = useRouter();

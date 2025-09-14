@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Receipt } from 'lucide-react';
-import { apiService, type Client } from '@/services/api.service';
+import { apiService } from '@/services';
+import type { Client } from '@/services';
 
 export default function NewInvoicePage() {
   const router = useRouter();

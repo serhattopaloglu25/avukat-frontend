@@ -52,7 +52,8 @@ import {
   Eye,
   Scale
 } from 'lucide-react';
-import { apiService, type Client } from '@/services/api.service';
+import { apiService } from '@/services';
+import type { Client } from '@/services';
 
 export default function ClientsPage() {
   const router = useRouter();
