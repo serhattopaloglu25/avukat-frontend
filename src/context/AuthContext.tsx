@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface User {
-  id: number;
+  id?: number;
   email: string;
   name: string;
   memberships?: any[];
@@ -28,58 +28,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
-    if (savedToken) {
+    const savedUser = localStorage.getItem('user');
+    if (savedToken && savedUser) {
       setToken(savedToken);
-      fetchUser(savedToken);
-    } else {
-      setLoading(false);
+      setUser(JSON.parse(savedUser));
     }
+    setLoading(false);
   }, []);
 
-  const fetchUser = async (token: string) => {
-    try {
-      const response = await fetch('http://localhost:3000/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        localStorage.removeItem('token');
-        setToken(null);
-      }
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (email: string, password: string) => {
-    const response = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Login failed');
+    // Mock login - backend hazır değil
+    if (email === 'demo@avukatajanda.com' && password === 'demo123') {
+      const mockUser = { email, name: 'Demo User', id: 1 };
+      const mockToken = 'mock-token-123';
+      setUser(mockUser);
+      setToken(mockToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem('token', mockToken);
+      router.push('/dashboard');
+      return;
     }
-
-    const data = await response.json();
-    localStorage.setItem('token', data.token);
-    setToken(data.token);
-    setUser(data.user);
-    router.push('/dashboard');
+    throw new Error('Invalid credentials');
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
     router.push('/');
