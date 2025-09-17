@@ -46,31 +46,40 @@ class ApiService {
 
   // Auth endpoints
   async register(data: { email: string; password: string; name?: string }) {
-    const response = await this.request('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    
-    if (response.token) {
-      this.token = response.token;
-      localStorage.setItem('token', response.token);
+    // Mock register - backend hazır değil
+    if (data.email && data.password) {
+      const mockResponse = {
+        success: true,
+        token: 'mock-token-' + Date.now(),
+        user: {
+          id: Date.now(),
+          email: data.email,
+          name: data.name || data.email.split('@')[0]
+        }
+      };
+      this.token = mockResponse.token;
+      localStorage.setItem('token', mockResponse.token);
+      return mockResponse;
     }
-    
-    return response;
+    throw new Error('Email ve şifre gerekli');
   }
 
   async login(email: string, password: string) {
-    const response = await this.request('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-    });
-    
-    if (response.token) {
-      this.token = response.token;
-      localStorage.setItem('token', response.token);
+    // Mock login - backend hazır değil
+    if (email === 'demo@avukatajanda.com' && password === 'demo123') {
+      const mockResponse = {
+        token: 'mock-token-123',
+        user: {
+          id: 1,
+          email: email,
+          name: 'Demo User'
+        }
+      };
+      this.token = mockResponse.token;
+      localStorage.setItem('token', mockResponse.token);
+      return mockResponse;
     }
-    
-    return response;
+    throw new Error('Invalid credentials');
   }
 
   async logout() {
