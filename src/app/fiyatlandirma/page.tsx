@@ -118,9 +118,9 @@ export default function PricingPage() {
                           ? 'bg-primary hover:bg-primary/90'
                           : 'bg-gray-900 hover:bg-gray-800'
                       }`}
-                      onClick={() => window.location.href = plan.cta.href}
+                      onClick={() => window.location.href = '/register'}
                     >
-                      {plan.cta.text}
+                      {plan.id === 'kurumsal' ? 'İletişime Geç' : 'Ücretsiz Başla'}
                     </Button>
                   </div>
                 </motion.div>

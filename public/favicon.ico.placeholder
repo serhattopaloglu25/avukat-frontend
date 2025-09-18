@@ -1,0 +1,12 @@
+This is a placeholder for favicon.ico
+The actual ICO file should be generated from the SVG favicon using an image converter tool.
+
+To generate:
+1. Convert /public/favicon.svg to ICO format
+2. Include 16x16, 32x32, and 48x48 sizes in the ICO
+3. Replace this placeholder file
+
+Recommended tools:
+- https://realfavicongenerator.net/
+- https://favicon.io/favicon-converter/
+- ImageMagick: convert favicon.svg -define icon:auto-resize=48,32,16 favicon.ico

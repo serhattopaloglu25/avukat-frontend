@@ -1,18 +1,25 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Nunito } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
-import { GlobalProviders } from '@/components/layout/GlobalProviders';
-import { GlobalTopbar } from '@/components/layout/GlobalTopbar';
-import { AuthModal } from '@/components/auth/AuthModal';
+import { GlobalHeader } from '@/components/layout/GlobalHeader';
+import { CookieConsent } from '@/components/CookieConsent';
 
-const inter = Inter({ subsets: ['latin'] });
+const nunito = Nunito({ 
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-nunito',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'AvukatAjanda - Hukuk Büroları İçin Akıllı Yönetim Sistemi',
   description: 'Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin.',
   keywords: 'avukat ajanda, hukuk bürosu yönetimi, dava takibi, müvekkil yönetimi, duruşma takvimi',
   authors: [{ name: 'AvukatAjanda' }],
+  applicationName: 'AvukatAjanda',
+  generator: 'Next.js',
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'AvukatAjanda - Hukuk Büroları İçin Akıllı Yönetim Sistemi',
     description: 'Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin.',
@@ -20,13 +27,44 @@ export const metadata: Metadata = {
     siteName: 'AvukatAjanda',
     locale: 'tr_TR',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AvukatAjanda',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AvukatAjanda - Hukuk Büroları İçin Akıllı Yönetim Sistemi',
     description: 'Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin.',
+    images: ['/og-image.png'],
   },
   robots: 'index, follow',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/safari-pinned-tab.svg',
+        color: '#2A5C85',
+      },
+    ],
+  },
+  other: {
+    'msapplication-TileColor': '#2A5C85',
+    'theme-color': '#2A5C85',
+  },
 };
 
 export const viewport: Viewport = {
@@ -42,17 +80,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr">
-      <body className={inter.className}>
-        <GlobalProviders>
-          <GlobalTopbar />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Suspense fallback={null}>
-            <AuthModal />
-          </Suspense>
-        </GlobalProviders>
+    <html lang="tr" className={nunito.variable}>
+      <body className={`${nunito.className} font-sans`}>
+        <GlobalHeader />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <CookieConsent />
       </body>
     </html>
   );

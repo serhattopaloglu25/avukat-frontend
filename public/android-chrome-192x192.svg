@@ -1,0 +1,35 @@
+<!-- Placeholder for Android Chrome 192x192 icon -->
+<!-- Bu dosya build sırasında gerçek PNG ile değiştirilmelidir -->
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" rx="24" fill="#2A5C85"/>
+  
+  <!-- Shield with scales centered and scaled for 192px -->
+  <g transform="translate(96, 96)">
+    <!-- Shield shape -->
+    <path d="M0 -48C0 -48 -40 -40 -40 0C-40 30 0 48 0 48C0 48 40 30 40 0C40 -40 0 -48 0 -48Z" 
+          fill="white" 
+          opacity="0.2"/>
+    
+    <!-- Scales of justice -->
+    <line x1="0" y1="-24" x2="0" y2="24" 
+          stroke="white" 
+          stroke-width="4" 
+          stroke-linecap="round"/>
+    <line x1="-24" y1="-12" x2="24" y2="-12" 
+          stroke="white" 
+          stroke-width="4" 
+          stroke-linecap="round"/>
+    <circle cx="-24" cy="-4" r="10" 
+            stroke="white" 
+            stroke-width="3" 
+            fill="none"/>
+    <circle cx="24" cy="-4" r="10" 
+            stroke="white" 
+            stroke-width="3" 
+            fill="none"/>
+    <line x1="-12" y1="24" x2="12" y2="24" 
+          stroke="white" 
+          stroke-width="4" 
+          stroke-linecap="round"/>
+  </g>
+</svg>

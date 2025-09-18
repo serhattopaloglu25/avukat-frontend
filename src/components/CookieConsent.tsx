@@ -9,20 +9,20 @@ export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('analytics-consent');
+    const consent = localStorage.getItem('aa_cookie_consent_v1');
     if (consent === null) {
       setShowBanner(true);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('analytics-consent', 'true');
+    localStorage.setItem('aa_cookie_consent_v1', 'true');
     setShowBanner(false);
     window.location.reload(); // Analytics'i yüklemek için
   };
 
   const handleReject = () => {
-    localStorage.setItem('analytics-consent', 'false');
+    localStorage.setItem('aa_cookie_consent_v1', 'false');
     setShowBanner(false);
   };
 
@@ -36,9 +36,9 @@ export function CookieConsent() {
             <h3 className="font-semibold mb-2">Çerez Kullanımı</h3>
             <p className="text-sm text-gray-600 mb-4">
               Web sitemizin performansını analiz etmek ve geliştirmek için çerezler kullanıyoruz. Bu
-              çerezler, site kullanımınız hakkında anonim istatistikler toplar. Detaylı bilgi için{' '}
-              <a href="/gizlilik" className="text-primary hover:underline">
-                Gizlilik Politikamızı
+              çerezler, site kullanımınız hakkında anonim istatistikler toplar. KVKK kapsamında kişisel verileriniz korunmaktadır. Detaylı bilgi için{' '}
+              <a href="/kvkk" className="text-primary hover:underline">
+                KVKK Aydınlatma Metnimizi
               </a>{' '}
               inceleyebilirsiniz.
             </p>

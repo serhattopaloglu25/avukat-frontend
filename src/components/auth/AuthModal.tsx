@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle, Lock, Mail, User } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import apiService from '@/lib/api';
 
 interface AuthModalProps {
@@ -33,7 +34,7 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
   });
   
   const [registerData, setRegisterData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -90,7 +91,7 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
     setError('');
 
     // Validations
-    if (!registerData.name || !registerData.email || !registerData.password) {
+    if (!registerData.fullName || !registerData.email || !registerData.password) {
       setError('Lütfen tüm alanları doldurun.');
       return;
     }
@@ -109,7 +110,7 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
 
     try {
       const response = await apiService.register({
-        name: registerData.name,
+        name: registerData.fullName,
         email: registerData.email,
         password: registerData.password,
       });
@@ -143,8 +144,17 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>AvukatAjanda</DialogTitle>
+        <DialogHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/brand/avukatajanda-logo.svg"
+              alt="AvukatAjanda"
+              width={240}
+              height={48}
+              priority
+              className="h-10 w-auto"
+            />
+          </div>
           <DialogDescription>
             Hukuk büronuzun dijital asistanı
           </DialogDescription>
@@ -222,16 +232,17 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="name">Ad Soyad</Label>
+                <Label htmlFor="fullName">Ad Soyad</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
-                    id="name"
+                    id="fullName"
+                    name="fullName"
                     type="text"
                     placeholder="Ad Soyad"
                     className="pl-10"
-                    value={registerData.name}
-                    onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
+                    value={registerData.fullName}
+                    onChange={(e) => setRegisterData({ ...registerData, fullName: e.target.value })}
                     required
                     disabled={loading}
                   />

@@ -1,44 +1,67 @@
-<!-- AvukatAjanda Logo - Dark Version -->
-<svg width="200" height="48" viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- AA Monogram -->
-  <g id="monogram">
-    <!-- First A -->
-    <path d="M12 36L20 12L28 36M15 28H25" 
-          stroke="#60A5FA" 
-          stroke-width="2.5" 
+<svg width="240" height="48" viewBox="0 0 240 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AvukatAjanda">
+  <defs>
+    <!-- Light gradient for dark mode -->
+    <linearGradient id="textGradientDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5CA3D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3DAF85;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Shield with scales icon for dark mode -->
+  <g id="logo-icon-dark">
+    <!-- Shield shape -->
+    <path d="M24 4C24 4 8 8 8 24C8 36 24 44 24 44C24 44 40 36 40 24C40 8 24 4 24 4Z" 
+          fill="white" 
+          stroke="url(#iconGradientDark)" 
+          stroke-width="1.5"
+          opacity="0.95"/>
+    
+    <!-- Scales of justice inside shield -->
+    <!-- Central pillar -->
+    <line x1="24" y1="14" x2="24" y2="30" 
+          stroke="#2A5C85" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
+    
+    <!-- Horizontal beam -->
+    <line x1="16" y1="18" x2="32" y2="18" 
+          stroke="#2A5C85" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
+    
+    <!-- Left scale pan -->
+    <path d="M14 18L14 24L18 24L18 18" 
+          stroke="#2A5C85" 
+          stroke-width="1.5" 
           stroke-linecap="round" 
           stroke-linejoin="round"
           fill="none"/>
-    <!-- Second A with overlap -->
-    <path d="M22 36L30 12L38 36M25 28H35" 
-          stroke="#34D399" 
-          stroke-width="2.5" 
+    
+    <!-- Right scale pan -->
+    <path d="M30 18L30 24L34 24L34 18" 
+          stroke="#2A5C85" 
+          stroke-width="1.5" 
           stroke-linecap="round" 
           stroke-linejoin="round"
-          fill="none"
-          opacity="0.9"/>
+          fill="none"/>
+    
+    <!-- Base -->
+    <path d="M20 30L28 30" 
+          stroke="#2A5C85" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
   </g>
   
-  <!-- Logotype -->
-  <g id="logotype" transform="translate(50, 0)">
-    <!-- Avukat -->
-    <text x="0" y="22" 
-          font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" 
-          font-size="16" 
-          font-weight="600" 
-          fill="#F3F4F6">
-      Avukat
-    </text>
-    <!-- Ajanda -->
-    <text x="0" y="38" 
-          font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" 
-          font-size="16" 
-          font-weight="400" 
-          fill="#9CA3AF">
-      Ajanda
-    </text>
-  </g>
-  
-  <!-- Decorative accent -->
-  <circle cx="185" cy="24" r="2" fill="#34D399" opacity="0.8"/>
+  <!-- Logo text for dark mode -->
+  <text x="56" y="30" 
+        font-family="'Nunito Sans', sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="url(#textGradientDark)">
+    AvukatAjanda
+  </text>
 </svg>

@@ -47,7 +47,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <MarketingHeader />
       
       <main className="pt-20">
         {/* Hero Section */}
@@ -103,10 +102,11 @@ export default function ContactPage() {
                       </label>
                       <Input
                         id="name"
+                        name="fullName"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="Adınız Soyadınız"
+                        placeholder="Ad Soyad"
                       />
                     </div>
                     
@@ -200,7 +200,12 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Telefon</h3>
-                      <p className="text-gray-600">+90 (212) 555 0123</p>
+                      <a 
+                        href="tel:+905443252500" 
+                        className="text-gray-600 hover:text-primary"
+                      >
+                        +90 (544) 325 2500
+                      </a>
                       <p className="text-sm text-gray-500">Pazartesi - Cuma, 09:00 - 18:00</p>
                     </div>
                   </div>
@@ -223,8 +228,8 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Ofis</h3>
                       <p className="text-gray-600">
-                        Levent, Büyükdere Caddesi No:123<br />
-                        34394 Şişli/İstanbul
+                        Çamlık Mah. Gönülden Sok.<br />
+                        No: 15/A Şişli/İstanbul
                       </p>
                     </div>
                   </div>
@@ -244,9 +249,18 @@ export default function ContactPage() {
                   </div>
                 </div>
                 
-                {/* Map Section */}
-                <div className="mt-8 bg-gray-100 rounded-xl h-64 flex items-center justify-center">
-                  <p className="text-gray-500">Harita Alanı</p>
+                {/* Google Maps Embed */}
+                <div className="mt-8 rounded-xl overflow-hidden h-64">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.9434994556943!2d28.985!3d41.048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAyJzUyLjgiTiAyOMKwNTknMDYuMCJF!5e0!3m2!1str!2str!4v1234567890"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="AvukatAjanda Ofis Konumu"
+                  />
                 </div>
                 
                 {/* Support Box */}
@@ -259,7 +273,7 @@ export default function ContactPage() {
                     destek merkezimizi ziyaret edebilirsiniz.
                   </p>
                   <button 
-                    onClick={() => window.location.href = '/destek'}
+                    onClick={() => window.location.href = '/destek-merkezi'}
                     className="bg-white text-primary px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
                   >
                     Destek Merkezi
@@ -300,9 +314,9 @@ export default function ContactPage() {
                   <h3 className="font-semibold text-gray-900 mb-1">KVKK</h3>
                   <p className="text-sm text-gray-600">Veri güvenliği politikaları</p>
                 </a>
-                <a href="/hakkimizda" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
-                  <h3 className="font-semibold text-gray-900 mb-1">Hakkımızda</h3>
-                  <p className="text-sm text-gray-600">Şirket ve ekip bilgileri</p>
+                <a href="/destek-merkezi" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
+                  <h3 className="font-semibold text-gray-900 mb-1">Destek</h3>
+                  <p className="text-sm text-gray-600">Yardım ve SSS</p>
                 </a>
               </div>
             </motion.div>
