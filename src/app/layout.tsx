@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from 'next';
-import { Nunito } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
 import { GlobalHeader } from '@/components/layout/GlobalHeader';
 import { CookieConsent } from '@/components/CookieConsent';
 
-const nunito = Nunito({ 
+const inter = Inter({ 
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-nunito',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -45,10 +45,10 @@ export const metadata: Metadata = {
   robots: 'index, follow',
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico?v=2' },
+      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
     ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180' },
@@ -80,8 +80,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr" className={nunito.variable}>
-      <body className={`${nunito.className} font-sans`}>
+    <html lang="tr" className={inter.variable}>
+      <body className={`${inter.className} font-sans antialiased`}>
         <GlobalHeader />
         <main className="min-h-screen">
           {children}

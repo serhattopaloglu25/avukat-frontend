@@ -64,11 +64,13 @@ export function GlobalHeader() {
 
   return (
     <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      scrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-3" : "bg-white py-4"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+      scrolled 
+        ? "bg-white/95 backdrop-blur-md shadow-sm h-16 border-gray-200" 
+        : "bg-white/90 backdrop-blur-sm h-[72px] border-gray-100"
     )}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <nav className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
@@ -88,10 +90,10 @@ export function GlobalHeader() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
+                  "text-sm font-medium transition-all duration-200 py-2 border-b-2",
                   pathname === item.href 
-                    ? "text-primary" 
-                    : "text-gray-600"
+                    ? "text-primary border-primary" 
+                    : "text-gray-600 border-transparent hover:text-primary hover:border-primary/50"
                 )}
               >
                 {item.name}

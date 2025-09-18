@@ -3,6 +3,7 @@
 import { MarketingHeader } from '@/components/marketing/MarketingHeader';
 import { MarketingFooter } from '@/components/marketing/MarketingFooter';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Calendar, Clock, User, Tag } from 'lucide-react';
 
@@ -54,9 +55,32 @@ const blogPosts = [
   }
 ];
 
-const categories = ['Tümü', 'KVKK', 'Dijital Dönüşüm', 'Güvenlik', 'Verimlilik'];
+const categories = [
+  { id: 'all', name: 'Tümü', count: 8 },
+  { id: 'kvkk', name: 'KVKK', count: 2 },
+  { id: 'dijital-donusum', name: 'Dijital Dönüşüm', count: 3 },
+  { id: 'guvenlik', name: 'Güvenlik', count: 1 },
+  { id: 'verimlilik', name: 'Verimlilik', count: 2 },
+];
 
 export default function BlogPage() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [displayCount, setDisplayCount] = useState(6);
+  
+  const filteredPosts = selectedCategory === 'all' 
+    ? blogPosts 
+    : blogPosts.filter(post => 
+        post.category.toLowerCase().replace(/ç/g, 'c').replace(/ş/g, 's').replace(/ı/g, 'i')
+          .replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ğ/g, 'g').replace(/ /g, '-')
+          .includes(selectedCategory)
+      );
+  
+  const visiblePosts = filteredPosts.slice(0, displayCount);
+  const hasMore = filteredPosts.length > displayCount;
+  
+  const handleLoadMore = () => {
+    setDisplayCount(prev => prev + 3);
+  };
   return (
     <div className="min-h-screen bg-white">
       <MarketingHeader />
@@ -88,14 +112,15 @@ export default function BlogPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               {categories.map((category) => (
                 <button
-                  key={category}
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
                   className={`px-4 py-2 rounded-full transition-colors ${
-                    category === 'Tümü'
+                    selectedCategory === category.id
                       ? 'bg-primary text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {category}
+                  {category.name} ({category.count})
                 </button>
               ))}
             </div>
@@ -106,7 +131,7 @@ export default function BlogPage() {
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post, index) => (
+              {visiblePosts.map((post, index) => (
                 <motion.article
                   key={post.slug}
                   initial={{ opacity: 0, y: 20 }}
@@ -168,17 +193,22 @@ export default function BlogPage() {
             </div>
             
             {/* Load More */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center mt-12"
-            >
-              <button className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors">
-                Daha Fazla Yazı
-              </button>
-            </motion.div>
+            {hasMore && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="text-center mt-12"
+              >
+                <button 
+                  onClick={handleLoadMore}
+                  className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors"
+                >
+                  Daha Fazla Yükle
+                </button>
+              </motion.div>
+            )}
           </div>
         </section>
 

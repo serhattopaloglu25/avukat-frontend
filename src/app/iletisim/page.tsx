@@ -229,7 +229,7 @@ export default function ContactPage() {
                       <h3 className="font-semibold text-gray-900 mb-1">Ofis</h3>
                       <p className="text-gray-600">
                         Çamlık Mah. Gönülden Sok.<br />
-                        No: 15/A Şişli/İstanbul
+                        No: 3 Ümraniye/İstanbul
                       </p>
                     </div>
                   </div>
@@ -250,16 +250,16 @@ export default function ContactPage() {
                 </div>
                 
                 {/* Google Maps Embed */}
-                <div className="mt-8 rounded-xl overflow-hidden h-64">
+                <div className="mt-8 rounded-xl overflow-hidden h-64 md:h-80">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.9434994556943!2d28.985!3d41.048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAyJzUyLjgiTiAyOMKwNTknMDYuMCJF!5e0!3m2!1str!2str!4v1234567890"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.2!2d29.1!3d41.02!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s%C3%87aml%C4%B1k%20Mah.%20G%C3%B6n%C3%BClden%20Sok.%20No%3A3%20%C3%9Cmraniye%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1234567890"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="AvukatAjanda Ofis Konumu"
+                    title="AvukatAjanda Ofis Konumu - Çamlık Mah. Gönülden Sok. No:3 Ümraniye/İstanbul"
                   />
                 </div>
                 

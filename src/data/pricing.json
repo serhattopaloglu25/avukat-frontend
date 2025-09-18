@@ -4,10 +4,10 @@
   "plans": [
     {
       "id": "bireysel",
-      "name": "Bireysel",
+      "name": "Bireysel - Mini",
       "description": "Tek avukat ve küçük ölçekli uygulamalar için",
-      "price": 149,
-      "originalPrice": 199,
+      "price": 4999,
+      "originalPrice": null,
       "badge": null,
       "features": {
         "included": [
@@ -38,11 +38,11 @@
     },
     {
       "id": "buro",
-      "name": "Büro",
+      "name": "Büro - Orta",
       "description": "Küçük ve orta ölçekli hukuk büroları için",
-      "price": 399,
-      "originalPrice": 499,
-      "badge": "En Popüler",
+      "price": 6999,
+      "originalPrice": null,
+      "badge": "En çok tercih edilen",
       "features": {
         "included": [
           "5 Kullanıcı hesabı",
@@ -76,11 +76,11 @@
     },
     {
       "id": "kurumsal",
-      "name": "Kurumsal",
+      "name": "Büyük",
       "description": "Büyük bürolar ve kurumlar için özel çözümler",
-      "price": null,
+      "price": 9999,
       "originalPrice": null,
-      "badge": "Özel Fiyat",
+      "badge": null,
       "features": {
         "included": [
           "Sınırsız kullanıcı hesabı",
