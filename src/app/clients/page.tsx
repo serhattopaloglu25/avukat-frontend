@@ -7,9 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Dialog,
   DialogContent,
@@ -17,7 +14,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Table,
@@ -27,503 +23,251 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { 
   UserPlus, 
   Search, 
-  MoreHorizontal, 
   Edit, 
   Trash2, 
   Phone, 
   Mail, 
   MapPin,
-  User,
-  Calendar,
-  AlertCircle,
-  Filter,
-  Download,
-  Eye,
-  Scale
 } from 'lucide-react';
-import { apiService } from '@/services';
-import type { Client } from '@/services';
+import { apiService } from '@/services/api.service';
 
 export default function ClientsPage() {
   const router = useRouter();
-  const [clients, setClients] = useState<Client[]>([]);
+  const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-  const [formLoading, setFormLoading] = useState(false);
-  
-  // Form state
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    address: '',
-    notes: ''
+    address: ''
   });
 
   useEffect(() => {
-    // Only run on client side
-    if (typeof window !== 'undefined') {
-      loadClients();
-    }
+    loadClients();
   }, []);
 
   const loadClients = async () => {
     try {
       setLoading(true);
-      setError(null);
-      const data = await apiService.getClients();
+      const data = await apiService.getClients(searchQuery ? { q: searchQuery } : {});
       setClients(data);
-    } catch (err) {
-      console.error('Error loading clients:', err);
-      setError('Müvekkiller yüklenirken bir hata oluştu.');
+    } catch (error) {
+      console.error('Error loading clients:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    loadClients();
+  };
+
+  const handleAdd = async () => {
+    try {
+      await apiService.createClient(formData);
+      setShowAddDialog(false);
+      setFormData({ name: '', email: '', phone: '', address: '' });
       loadClients();
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const data = await apiService.getClients({ search: searchQuery });
-      setClients(data);
-    } catch (err) {
-      console.error('Search error:', err);
-      setError('Arama yapılırken bir hata oluştu.');
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error('Error creating client:', error);
     }
   };
 
-  const handleAddClient = async () => {
-    try {
-      setFormLoading(true);
-      const newClient = await apiService.createClient(formData);
-      setClients([newClient, ...clients]);
-      setIsAddDialogOpen(false);
-      resetForm();
-    } catch (err) {
-      console.error('Error creating client:', err);
-      setError('Müvekkil eklenirken bir hata oluştu.');
-    } finally {
-      setFormLoading(false);
-    }
-  };
-
-  const handleEditClient = async () => {
+  const handleEdit = async () => {
     if (!selectedClient) return;
-
     try {
-      setFormLoading(true);
-      const updatedClient = await apiService.updateClient(selectedClient.id!, formData);
-      setClients(clients.map(c => c.id === selectedClient.id ? updatedClient : c));
-      setIsEditDialogOpen(false);
+      await apiService.updateClient(selectedClient.id, formData);
+      setShowEditDialog(false);
       setSelectedClient(null);
-      resetForm();
-    } catch (err) {
-      console.error('Error updating client:', err);
-      setError('Müvekkil güncellenirken bir hata oluştu.');
-    } finally {
-      setFormLoading(false);
+      setFormData({ name: '', email: '', phone: '', address: '' });
+      loadClients();
+    } catch (error) {
+      console.error('Error updating client:', error);
     }
   };
 
-  const handleDeleteClient = async () => {
-    if (!selectedClient) return;
-
+  const handleDelete = async (id: number) => {
+    if (!confirm('Bu müvekkili silmek istediğinizden emin misiniz?')) return;
     try {
-      setFormLoading(true);
-      await apiService.deleteClient(selectedClient.id!);
-      setClients(clients.filter(c => c.id !== selectedClient.id));
-      setIsDeleteDialogOpen(false);
-      setSelectedClient(null);
-    } catch (err) {
-      console.error('Error deleting client:', err);
-      setError('Müvekkil silinirken bir hata oluştu.');
-    } finally {
-      setFormLoading(false);
+      await apiService.deleteClient(id);
+      loadClients();
+    } catch (error) {
+      console.error('Error deleting client:', error);
     }
   };
 
-  const openEditDialog = (client: Client) => {
+  const openEditDialog = (client: any) => {
     setSelectedClient(client);
     setFormData({
       name: client.name,
       email: client.email || '',
       phone: client.phone || '',
-      address: client.address || '',
-      notes: client.notes || ''
+      address: client.address || ''
     });
-    setIsEditDialogOpen(true);
-  };
-
-  const openDeleteDialog = (client: Client) => {
-    setSelectedClient(client);
-    setIsDeleteDialogOpen(true);
-  };
-
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
-      notes: ''
-    });
-  };
-
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('tr-TR');
-  };
-
-  const exportClients = () => {
-    const csv = [
-      ['Ad Soyad', 'E-posta', 'Telefon', 'Adres', 'Notlar', 'Kayıt Tarihi'],
-      ...clients.map(c => [
-        c.name,
-        c.email || '',
-        c.phone || '',
-        c.address || '',
-        c.notes || '',
-        formatDate(c.created_at)
-      ])
-    ].map(row => row.join(',')).join('\n');
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `muvekiller-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
+    setShowEditDialog(true);
   };
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <Skeleton className="h-10 w-48" />
-          <Skeleton className="h-10 w-36" />
-        </div>
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              {[1, 2, 3, 4].map((i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Müvekkiller</h1>
-          <p className="text-gray-600 mt-1">Tüm müvekkillerinizi buradan yönetebilirsiniz</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={exportClients} disabled={clients.length === 0}>
-            <Download className="h-4 w-4 mr-2" />
-            Dışa Aktar
-          </Button>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <UserPlus className="h-4 w-4 mr-2" />
-                Yeni Müvekkil
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Yeni Müvekkil Ekle</DialogTitle>
-                <DialogDescription>
-                  Müvekkil bilgilerini girin
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Ad Soyad *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Örn: Ahmet Yılmaz"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">E-posta</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="ornek@email.com"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="phone">Telefon</Label>
-                  <Input
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="0555 123 45 67"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="address">Adres</Label>
-                  <Textarea
-                    id="address"
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    placeholder="Tam adres bilgisi"
-                    rows={2}
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="notes">Notlar</Label>
-                  <Textarea
-                    id="notes"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    placeholder="Ek notlar..."
-                    rows={3}
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                  İptal
-                </Button>
-                <Button onClick={handleAddClient} disabled={!formData.name || formLoading}>
-                  {formLoading ? 'Ekleniyor...' : 'Ekle'}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
-
-      {/* Error Alert */}
-      {error && (
-        <Alert variant="destructive" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      {/* Search and Filter Bar */}
-      <Card className="mb-6">
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-              <Input
-                placeholder="Müvekkil ara..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="pl-10"
-              />
-            </div>
-            <Button onClick={handleSearch} variant="secondary">
-              <Search className="h-4 w-4 mr-2" />
-              Ara
-            </Button>
-            <Button variant="outline">
-              <Filter className="h-4 w-4 mr-2" />
-              Filtrele
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Toplam Müvekkil</p>
-                <p className="text-2xl font-bold">{clients.length}</p>
-              </div>
-              <User className="h-8 w-8 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Bu Ay Eklenen</p>
-                <p className="text-2xl font-bold">
-                  {clients.filter(c => {
-                    const date = new Date(c.created_at!);
-                    const now = new Date();
-                    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-                  }).length}
-                </p>
-              </div>
-              <Calendar className="h-8 w-8 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Aktif Davalar</p>
-                <p className="text-2xl font-bold">-</p>
-              </div>
-              <Scale className="h-8 w-8 text-purple-500" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Clients Table */}
+    <div className="container mx-auto py-8">
       <Card>
         <CardHeader>
-          <CardTitle>Müvekkil Listesi</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-2xl font-bold">Müvekkillerim</CardTitle>
+            <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+              <Button onClick={() => setShowAddDialog(true)}>
+                <UserPlus className="mr-2 h-4 w-4" />
+                Yeni Müvekkil
+              </Button>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Yeni Müvekkil Ekle</DialogTitle>
+                  <DialogDescription>
+                    Yeni müvekkil bilgilerini girin
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label>Ad Soyad</Label>
+                    <Input
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label>E-posta</Label>
+                    <Input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <Label>Telefon</Label>
+                    <Input
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <Label>Adres</Label>
+                    <Textarea
+                      value={formData.address}
+                      onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setShowAddDialog(false)}>
+                    İptal
+                  </Button>
+                  <Button onClick={handleAdd}>Ekle</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          
+          <form onSubmit={handleSearch} className="flex gap-2 mt-4">
+            <Input
+              placeholder="Müvekkil ara..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="max-w-sm"
+            />
+            <Button type="submit">
+              <Search className="h-4 w-4" />
+            </Button>
+          </form>
         </CardHeader>
+        
         <CardContent>
           {clients.length === 0 ? (
-            <div className="text-center py-12">
-              <User className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-              <p className="text-gray-500 mb-4">Henüz müvekkil eklenmemiş</p>
-              <Button onClick={() => setIsAddDialogOpen(true)}>
-                <UserPlus className="h-4 w-4 mr-2" />
-                İlk Müvekkilinizi Ekleyin
-              </Button>
+            <div className="text-center py-8 text-gray-500">
+              Henüz müvekkil kaydı bulunmuyor
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Ad Soyad</TableHead>
-                    <TableHead>İletişim</TableHead>
-                    <TableHead>Adres</TableHead>
-                    <TableHead>Kayıt Tarihi</TableHead>
-                    <TableHead className="text-right">İşlemler</TableHead>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Ad Soyad</TableHead>
+                  <TableHead>E-posta</TableHead>
+                  <TableHead>Telefon</TableHead>
+                  <TableHead>Adres</TableHead>
+                  <TableHead className="text-right">İşlemler</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {clients.map((client) => (
+                  <TableRow key={client.id}>
+                    <TableCell className="font-medium">{client.name}</TableCell>
+                    <TableCell>
+                      {client.email && (
+                        <div className="flex items-center gap-1">
+                          <Mail className="h-3 w-3" />
+                          {client.email}
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {client.phone && (
+                        <div className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" />
+                          {client.phone}
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {client.address && (
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {client.address}
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => openEditDialog(client)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(client.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {clients.map((client) => (
-                    <TableRow key={client.id} className="hover:bg-gray-50">
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                            <span className="text-sm font-semibold text-blue-600">
-                              {client.name.charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="font-medium">{client.name}</p>
-                            {client.notes && (
-                              <p className="text-xs text-gray-500 truncate max-w-[200px]">
-                                {client.notes}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="space-y-1">
-                          {client.email && (
-                            <div className="flex items-center gap-1 text-sm">
-                              <Mail className="h-3 w-3 text-gray-400" />
-                              <span className="text-gray-600">{client.email}</span>
-                            </div>
-                          )}
-                          {client.phone && (
-                            <div className="flex items-center gap-1 text-sm">
-                              <Phone className="h-3 w-3 text-gray-400" />
-                              <span className="text-gray-600">{client.phone}</span>
-                            </div>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {client.address ? (
-                          <div className="flex items-start gap-1">
-                            <MapPin className="h-3 w-3 text-gray-400 mt-0.5" />
-                            <span className="text-sm text-gray-600 line-clamp-2 max-w-[200px]">
-                              {client.address}
-                            </span>
-                          </div>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm text-gray-600">
-                          {formatDate(client.created_at)}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>İşlemler</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => router.push(`/clients/${client.id}`)}>
-                              <Eye className="h-4 w-4 mr-2" />
-                              Görüntüle
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => openEditDialog(client)}>
-                              <Edit className="h-4 w-4 mr-2" />
-                              Düzenle
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => openDeleteDialog(client)}
-                              className="text-red-600"
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Sil
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
 
       {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Müvekkil Düzenle</DialogTitle>
@@ -531,83 +275,43 @@ export default function ClientsPage() {
               Müvekkil bilgilerini güncelleyin
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="edit-name">Ad Soyad *</Label>
+          <div className="space-y-4">
+            <div>
+              <Label>Ad Soyad</Label>
               <Input
-                id="edit-name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                required
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="edit-email">E-posta</Label>
+            <div>
+              <Label>E-posta</Label>
               <Input
-                id="edit-email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="edit-phone">Telefon</Label>
+            <div>
+              <Label>Telefon</Label>
               <Input
-                id="edit-phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="edit-address">Adres</Label>
+            <div>
+              <Label>Adres</Label>
               <Textarea
-                id="edit-address"
                 value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                rows={2}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="edit-notes">Notlar</Label>
-              <Textarea
-                id="edit-notes"
-                value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                rows={3}
+                onChange={(e) => setFormData({...formData, address: e.target.value})}
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setShowEditDialog(false)}>
               İptal
             </Button>
-            <Button onClick={handleEditClient} disabled={!formData.name || formLoading}>
-              {formLoading ? 'Güncelleniyor...' : 'Güncelle'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Müvekkili Sil</DialogTitle>
-            <DialogDescription>
-              <strong>{selectedClient?.name}</strong> adlı müvekkili silmek istediğinizden emin misiniz?
-              Bu işlem geri alınamaz.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-              İptal
-            </Button>
-            <Button 
-              variant="destructive" 
-              onClick={handleDeleteClient} 
-              disabled={formLoading}
-            >
-              {formLoading ? 'Siliniyor...' : 'Sil'}
-            </Button>
+            <Button onClick={handleEdit}>Güncelle</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

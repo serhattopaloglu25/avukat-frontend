@@ -1,4 +1,4 @@
-// Gerçek API Servisi
+// Real API Service for AvukatAjanda
 class ApiService {
   private baseURL: string;
 
@@ -28,8 +28,8 @@ class ApiService {
     const response = await fetch(`${this.baseURL}${endpoint}`, config);
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ detail: 'Bir hata oluştu' }));
-      throw new Error(error.detail || 'API isteği başarısız');
+      const error = await response.json().catch(() => ({ error: 'Bir hata oluştu' }));
+      throw new Error(error.error || error.detail || 'API isteği başarısız');
     }
 
     return response.json();
@@ -50,8 +50,8 @@ class ApiService {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ detail: 'Giriş başarısız' }));
-      throw new Error(error.detail);
+      const error = await response.json().catch(() => ({ error: 'Giriş başarısız' }));
+      throw new Error(error.error || error.detail || 'Giriş başarısız');
     }
 
     const data = await response.json();
@@ -62,42 +62,51 @@ class ApiService {
   }
 
   async register(userData: any) {
-    return this.request('/auth/register', {
+    const response = await this.request('/auth/register', {
       method: 'POST',
       body: JSON.stringify(userData)
     });
+    
+    if (response.access_token) {
+      localStorage.setItem('auth_token', response.access_token);
+    }
+    return response;
   }
 
   async logout() {
     localStorage.removeItem('auth_token');
   }
 
+  async getMe() {
+    return this.request('/auth/me');
+  }
+
   // Client endpoints
   async getClients(params?: any) {
     const query = params ? `?${new URLSearchParams(params).toString()}` : '';
-    return this.request(`/clients${query}`);
+    return this.request(`/api/clients${query}`);
   }
 
   async getClient(id: number) {
-    return this.request(`/clients/${id}`);
+    return this.request(`/api/clients/${id}`);
   }
 
   async createClient(data: any) {
-    return this.request('/clients', {
+    return this.request('/api/clients', {
       method: 'POST',
       body: JSON.stringify(data)
     });
   }
 
   async updateClient(id: number, data: any) {
-    return this.request(`/clients/${id}`, {
+    return this.request(`/api/clients/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data)
     });
   }
 
   async deleteClient(id: number) {
-    return this.request(`/clients/${id}`, {
+    return this.request(`/api/clients/${id}`, {
       method: 'DELETE'
     });
   }
@@ -105,80 +114,90 @@ class ApiService {
   // Case endpoints
   async getCases(params?: any) {
     const query = params ? `?${new URLSearchParams(params).toString()}` : '';
-    return this.request(`/cases${query}`);
+    return this.request(`/api/cases${query}`);
   }
 
   async getCase(id: number) {
-    return this.request(`/cases/${id}`);
+    return this.request(`/api/cases/${id}`);
   }
 
   async createCase(data: any) {
-    return this.request('/cases', {
+    return this.request('/api/cases', {
       method: 'POST',
       body: JSON.stringify(data)
     });
   }
 
   async updateCase(id: number, data: any) {
-    return this.request(`/cases/${id}`, {
+    return this.request(`/api/cases/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data)
     });
   }
 
   async deleteCase(id: number) {
-    return this.request(`/cases/${id}`, {
+    return this.request(`/api/cases/${id}`, {
       method: 'DELETE'
     });
   }
 
   async searchCases(query: string) {
-    return this.request(`/cases/search?q=${encodeURIComponent(query)}`);
+    return this.request(`/api/cases?q=${encodeURIComponent(query)}`);
   }
 
   // Event endpoints
-  async getEvents() {
-    return this.request('/events');
+  async getEvents(params?: any) {
+    const query = params ? `?${new URLSearchParams(params).toString()}` : '';
+    return this.request(`/api/events${query}`);
   }
 
   async createEvent(data: any) {
-    return this.request('/events', {
+    return this.request('/api/events', {
       method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async updateEvent(id: number, data: any) {
+    return this.request(`/api/events/${id}`, {
+      method: 'PUT',
       body: JSON.stringify(data)
     });
   }
 
   async deleteEvent(id: number) {
-    return this.request(`/events/${id}`, {
+    return this.request(`/api/events/${id}`, {
       method: 'DELETE'
     });
   }
 
-  // Invoice endpoints
+  // Invoice endpoints (keeping for compatibility)
   async getInvoices() {
-    return this.request('/invoices');
+    // Mock for now - can be implemented later
+    return Promise.resolve([]);
   }
 
   async createInvoice(data: any) {
-    return this.request('/invoices', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
+    // Mock for now - can be implemented later
+    return Promise.resolve({ id: Date.now(), ...data });
   }
 
   // Dashboard
   async getDashboardStats() {
-    return this.request('/dashboard/stats');
+    return this.request('/api/stats');
   }
 
   // Health check
   async healthCheck() {
-    return this.request('/health');
+    const response = await fetch(`${this.baseURL}/health`);
+    return response.json();
+  }
+
+  async ping() {
+    const response = await fetch(`${this.baseURL}/ping`);
+    return response.json();
   }
 }
 
 // Export singleton
 export const apiService = new ApiService();
-
-// Mock servisini de export edelim (geçiş için)
-export { MockApiService } from './mock-api.service';
