@@ -12,9 +12,9 @@ interface LogoProps {
 }
 
 export function Logo({ 
-  className = 'h-10 w-auto', 
+  className = 'h-12 w-auto', 
   width = 240, 
-  height = 48,
+  height = 80,
   variant = 'full'
 }: LogoProps) {
   const { theme, resolvedTheme } = useTheme();
@@ -30,8 +30,8 @@ export function Logo({
       <Image
         src={variant === 'mark' ? '/brand/avukatajanda-mark.svg' : '/brand/avukatajanda-logo.svg'}
         alt="AvukatAjanda"
-        width={variant === 'mark' ? 48 : width}
-        height={variant === 'mark' ? 48 : height}
+        width={variant === 'mark' ? 60 : width}
+        height={variant === 'mark' ? 60 : height}
         className={className}
         priority
       />
@@ -52,8 +52,8 @@ export function Logo({
     <Image
       src={logoSrc}
       alt="AvukatAjanda"
-      width={variant === 'mark' ? 48 : width}
-      height={variant === 'mark' ? 48 : height}
+      width={variant === 'mark' ? 60 : width}
+      height={variant === 'mark' ? 60 : height}
       className={className}
       priority
     />

@@ -44,8 +44,8 @@ export function MarketingFooter() {
                 src="/brand/avukatajanda-logo-dark.svg"
                 alt="AvukatAjanda"
                 width={240}
-                height={48}
-                className="h-10 w-auto"
+                height={80}
+                className="h-12 w-auto"
               />
             </Link>
             <p className="text-sm text-gray-400 mb-4">

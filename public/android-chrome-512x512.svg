@@ -1,34 +1,18 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <!-- Extra padding for maskable -->
-  <rect width="512" height="512" fill="#2A5C85"/>
+  <rect width="512" height="512" fill="#1976D2"/>
   
-  <!-- Shield with scales centered and with safe area padding -->
-  <g transform="translate(256, 256)">
-    <!-- Shield shape (scaled down for safe area) -->
-    <path d="M0 -96C0 -96 -80 -80 -80 0C-80 60 0 96 0 96C0 96 80 60 80 0C80 -80 0 -96 0 -96Z" 
-          fill="white" 
-          opacity="0.2"/>
+  <!-- Logo icon centered with safe area padding -->
+  <g transform="translate(180, 150)">
+    <!-- Sütun -->
+    <rect x="0" y="0" width="60" height="200" rx="8" fill="white" opacity="0.95"/>
     
-    <!-- Scales of justice -->
-    <line x1="0" y1="-48" x2="0" y2="48" 
-          stroke="white" 
-          stroke-width="8" 
-          stroke-linecap="round"/>
-    <line x1="-48" y1="-24" x2="48" y2="-24" 
-          stroke="white" 
-          stroke-width="8" 
-          stroke-linecap="round"/>
-    <circle cx="-48" cy="-8" r="20" 
-            stroke="white" 
-            stroke-width="6" 
-            fill="none"/>
-    <circle cx="48" cy="-8" r="20" 
-            stroke="white" 
-            stroke-width="6" 
-            fill="none"/>
-    <line x1="-24" y1="48" x2="24" y2="48" 
-          stroke="white" 
-          stroke-width="8" 
-          stroke-linecap="round"/>
+    <!-- Onay İşareti -->
+    <path d="M30 100 L70 140 L152 50" 
+          stroke="#4CAF50" 
+          stroke-width="20" 
+          fill="none" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
   </g>
 </svg>

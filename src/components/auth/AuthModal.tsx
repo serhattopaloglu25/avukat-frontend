@@ -150,9 +150,9 @@ export function AuthModal({ defaultTab = 'login' }: AuthModalProps = {}) {
               src="/brand/avukatajanda-logo.svg"
               alt="AvukatAjanda"
               width={240}
-              height={48}
+              height={80}
               priority
-              className="h-10 w-auto"
+              className="h-14 w-auto"
             />
           </div>
           <DialogDescription>

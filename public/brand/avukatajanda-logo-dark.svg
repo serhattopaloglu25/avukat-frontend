@@ -1,67 +1,29 @@
-<svg width="240" height="48" viewBox="0 0 240 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AvukatAjanda">
+<svg width="240" height="80" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Light gradient for dark mode -->
-    <linearGradient id="textGradientDark" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#5CA3D4;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3DAF85;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="iconGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
-    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&amp;display=swap');
+      .nunito { font-family: 'Nunito', sans-serif; }
+    </style>
   </defs>
   
-  <!-- Shield with scales icon for dark mode -->
-  <g id="logo-icon-dark">
-    <!-- Shield shape -->
-    <path d="M24 4C24 4 8 8 8 24C8 36 24 44 24 44C24 44 40 36 40 24C40 8 24 4 24 4Z" 
-          fill="white" 
-          stroke="url(#iconGradientDark)" 
-          stroke-width="1.5"
-          opacity="0.95"/>
+  <!-- LOGO İKONU (Sol Taraf) - Dark Mode -->
+  <g transform="translate(20, 15)">
+    <!-- Sütun (Hukuk/Düzen) - Lighter blue for dark background -->
+    <rect x="0" y="0" width="14" height="50" rx="2" fill="#42A5F5"/>
     
-    <!-- Scales of justice inside shield -->
-    <!-- Central pillar -->
-    <line x1="24" y1="14" x2="24" y2="30" 
-          stroke="#2A5C85" 
-          stroke-width="2" 
-          stroke-linecap="round"/>
-    
-    <!-- Horizontal beam -->
-    <line x1="16" y1="18" x2="32" y2="18" 
-          stroke="#2A5C85" 
-          stroke-width="2" 
-          stroke-linecap="round"/>
-    
-    <!-- Left scale pan -->
-    <path d="M14 18L14 24L18 24L18 18" 
-          stroke="#2A5C85" 
-          stroke-width="1.5" 
+    <!-- Entegre Onay İşareti (Ajanda/Tamamlanan Görev) - Lighter green -->
+    <path d="M7 25 L17 35 L39 10" 
+          stroke="#66BB6A" 
+          stroke-width="5" 
+          fill="none" 
           stroke-linecap="round" 
-          stroke-linejoin="round"
-          fill="none"/>
-    
-    <!-- Right scale pan -->
-    <path d="M30 18L30 24L34 24L34 18" 
-          stroke="#2A5C85" 
-          stroke-width="1.5" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"
-          fill="none"/>
-    
-    <!-- Base -->
-    <path d="M20 30L28 30" 
-          stroke="#2A5C85" 
-          stroke-width="2" 
-          stroke-linecap="round"/>
+          stroke-linejoin="round"/>
   </g>
   
-  <!-- Logo text for dark mode -->
-  <text x="56" y="30" 
-        font-family="'Nunito Sans', sans-serif" 
-        font-size="24" 
-        font-weight="700" 
-        fill="url(#textGradientDark)">
-    AvukatAjanda
-  </text>
+  <!-- YAZI (Sağ Taraf) - White text for dark mode -->
+  <g transform="translate(80, 50)" class="nunito">
+    <text font-size="30" font-weight="700" fill="#FFFFFF">
+      Avukat<tspan fill="#42A5F5">Ajanda</tspan>
+    </text>
+  </g>
 </svg>

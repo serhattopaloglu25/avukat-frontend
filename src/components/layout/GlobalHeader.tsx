@@ -77,9 +77,9 @@ export function GlobalHeader() {
               src="/brand/avukatajanda-logo.svg"
               alt="AvukatAjanda"
               width={240}
-              height={48}
+              height={80}
               priority
-              className="h-8 sm:h-10 w-auto"
+              className="h-12 sm:h-14 w-auto"
             />
           </Link>
 

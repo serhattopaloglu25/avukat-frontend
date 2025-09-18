@@ -1,29 +1,18 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="4" fill="#2A5C85"/>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded background -->
+  <rect width="32" height="32" rx="6" fill="#F5F5F5"/>
   
-  <!-- Simplified shield with scales for small size -->
-  <g transform="translate(16, 16)">
-    <!-- Shield -->
-    <path d="M0 -10C0 -10 -8 -8 -8 0C-8 6 0 10 0 10C0 10 8 6 8 0C8 -8 0 -10 0 -10Z" 
-          fill="white" 
-          opacity="0.2"/>
+  <!-- LOGO İKONU (Küçük boyut için optimize) -->
+  <g transform="translate(5, 3)">
+    <!-- Sütun -->
+    <rect x="0" y="0" width="8" height="26" rx="1" fill="#1976D2"/>
     
-    <!-- Scales - simplified -->
-    <line x1="0" y1="-5" x2="0" y2="5" 
-          stroke="white" 
-          stroke-width="1.5" 
-          stroke-linecap="round"/>
-    <line x1="-5" y1="-3" x2="5" y2="-3" 
-          stroke="white" 
-          stroke-width="1.5" 
-          stroke-linecap="round"/>
-    <circle cx="-5" cy="-1" r="2" 
-            stroke="white" 
-            stroke-width="1" 
-            fill="none"/>
-    <circle cx="5" cy="-1" r="2" 
-            stroke="white" 
-            stroke-width="1" 
-            fill="none"/>
+    <!-- Onay İşareti -->
+    <path d="M4 13 L9 18 L20 5" 
+          stroke="#4CAF50" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
   </g>
 </svg>
