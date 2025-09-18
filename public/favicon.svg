@@ -1,18 +1,16 @@
 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <!-- Rounded background -->
-  <rect width="32" height="32" rx="6" fill="#F5F5F5"/>
+  <!-- Background -->
+  <rect width="32" height="32" rx="4" fill="#FFFFFF"/>
   
-  <!-- LOGO İKONU (Küçük boyut için optimize) -->
-  <g transform="translate(5, 3)">
-    <!-- Sütun -->
-    <rect x="0" y="0" width="8" height="26" rx="1" fill="#1976D2"/>
-    
-    <!-- Onay İşareti -->
-    <path d="M4 13 L9 18 L20 5" 
-          stroke="#4CAF50" 
-          stroke-width="3" 
-          fill="none" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"/>
-  </g>
+  <!-- Ajanda (simplified for small size) -->
+  <rect x="6" y="8" width="20" height="20" rx="3" fill="#F5F5F5" stroke="#2D6A4F" stroke-width="2"/>
+  
+  <!-- Lines -->
+  <line x1="10" y1="13" x2="22" y2="13" stroke="#B7E4C7" stroke-width="1.5"/>
+  <line x1="10" y1="18" x2="22" y2="18" stroke="#B7E4C7" stroke-width="1.5"/>
+  <line x1="10" y1="23" x2="22" y2="23" stroke="#B7E4C7" stroke-width="1.5"/>
+  
+  <!-- Terazi (simplified) -->
+  <line x1="16" y1="8" x2="16" y2="4" stroke="#2D6A4F" stroke-width="1.5"/>
+  <circle cx="16" cy="4" r="1.5" fill="#2D6A4F"/>
 </svg>

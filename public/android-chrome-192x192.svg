@@ -1,17 +1,22 @@
 <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-  <rect width="192" height="192" rx="24" fill="#1976D2"/>
+  <rect width="192" height="192" rx="24" fill="#2D6A4F"/>
   
   <!-- Logo icon centered -->
-  <g transform="translate(64, 56)">
-    <!-- Sütun -->
-    <rect x="0" y="0" width="24" height="80" rx="3" fill="white" opacity="0.95"/>
+  <g transform="translate(96, 96)">
+    <!-- Ajanda -->
+    <rect x="-40" y="-40" width="80" height="80" rx="12" fill="white" opacity="0.95"/>
     
-    <!-- Onay İşareti -->
-    <path d="M12 40 L28 56 L64 20" 
-          stroke="#4CAF50" 
-          stroke-width="8" 
-          fill="none" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"/>
+    <!-- Lines -->
+    <line x1="-30" y1="-20" x2="30" y2="-20" stroke="#52B788" stroke-width="3"/>
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#52B788" stroke-width="3"/>
+    <line x1="-30" y1="20" x2="30" y2="20" stroke="#52B788" stroke-width="3"/>
+    
+    <!-- Terazi -->
+    <line x1="0" y1="-40" x2="0" y2="-55" stroke="white" stroke-width="4"/>
+    <circle cx="0" cy="-55" r="5" fill="white"/>
+    
+    <!-- Terazi kolları -->
+    <line x1="0" y1="-50" x2="-30" y2="-20" stroke="white" stroke-width="3"/>
+    <line x1="0" y1="-50" x2="30" y2="-20" stroke="white" stroke-width="3"/>
   </g>
 </svg>

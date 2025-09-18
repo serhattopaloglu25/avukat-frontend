@@ -1,18 +1,19 @@
 <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
   <rect width="180" height="180" fill="white"/>
-  <rect x="10" y="10" width="160" height="160" rx="20" fill="#1976D2"/>
+  <rect x="10" y="10" width="160" height="160" rx="20" fill="#2D6A4F"/>
   
   <!-- Logo icon centered for Apple -->
-  <g transform="translate(60, 50)">
-    <!-- Sütun -->
-    <rect x="0" y="0" width="24" height="80" rx="3" fill="white" opacity="0.95"/>
+  <g transform="translate(90, 90)">
+    <!-- Ajanda -->
+    <rect x="-35" y="-35" width="70" height="70" rx="10" fill="white" opacity="0.95"/>
     
-    <!-- Onay İşareti -->
-    <path d="M12 40 L28 56 L60 20" 
-          stroke="#4CAF50" 
-          stroke-width="8" 
-          fill="none" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"/>
+    <!-- Lines -->
+    <line x1="-25" y1="-15" x2="25" y2="-15" stroke="#52B788" stroke-width="3"/>
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#52B788" stroke-width="3"/>
+    <line x1="-25" y1="15" x2="25" y2="15" stroke="#52B788" stroke-width="3"/>
+    
+    <!-- Terazi -->
+    <line x1="0" y1="-35" x2="0" y2="-50" stroke="white" stroke-width="4"/>
+    <circle cx="0" cy="-50" r="4" fill="white"/>
   </g>
 </svg>
