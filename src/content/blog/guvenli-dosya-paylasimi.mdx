@@ -1,0 +1,167 @@
+---
+title: "Hukuk Bürolarında Güvenli Dosya Paylaşımı: En İyi Uygulamalar"
+date: "2024-02-05"
+author: "AvukatAjanda Ekibi"
+excerpt: "Müvekkil belgelerini güvenli şekilde saklamak ve paylaşmak için modern yöntemler ve güvenlik protokolleri."
+category: "Güvenlik"
+tags: ["Dosya Yönetimi", "Güvenlik", "Veri Koruma"]
+readingTime: "6 dakika"
+---
+
+# Güvenli Dosya Paylaşımı: Hukuk Büroları İçin Rehber
+
+Hukuk büroları, müvekkillerin en hassas belgelerini yönetir. Bu belgelerin güvenli saklanması ve paylaşılması hem yasal hem de etik bir zorunluluktur.
+
+## Geleneksel Yöntemlerin Riskleri
+
+### E-posta Ekleri
+- Şifrelenmemiş iletim riski
+- Boyut sınırlamaları
+- Yanlış alıcıya gönderim tehlikesi
+- Takip edilemeyen erişim
+
+### USB ve Fiziksel Medya
+- Kayıp veya çalınma riski
+- Virüs bulaşma tehlikesi
+- Versiyon kontrolü zorluğu
+- Erişim loglarının olmaması
+
+### WhatsApp ve Mesajlaşma
+- Veri güvenliği belirsizliği
+- Profesyonel olmayan görünüm
+- Belge organizasyon zorluğu
+- KVKK uyumsuzluğu
+
+## Modern Güvenlik Protokolleri
+
+### 1. End-to-End Şifreleme
+Verileriniz hem aktarım hem de depolama aşamasında şifrelenir:
+- AES-256 şifreleme standardı
+- TLS 1.3 protokolü
+- Zero-knowledge architecture
+
+### 2. Erişim Kontrolü
+- Role dayalı yetkilendirme
+- İki faktörlü kimlik doğrulama (2FA)
+- IP kısıtlamaları
+- Zaman bazlı erişim
+
+### 3. Denetim İzi (Audit Trail)
+Her işlem kayıt altına alınır:
+- Kim, ne zaman erişti?
+- Hangi değişiklikleri yaptı?
+- Nereden bağlandı?
+- Ne kadar süre inceledi?
+
+## Dosya Organizasyonu
+
+### Klasör Yapısı
+```
+📁 Müvekkilller
+  └── 📁 [Müvekkil Adı]
+      ├── 📁 Kimlik Belgeleri
+      ├── 📁 Vekaletnameler
+      ├── 📁 Dava Dosyaları
+      │   └── 📁 [Dava No]
+      │       ├── 📄 Dilekçeler
+      │       ├── 📄 Kararlar
+      │       └── 📄 Deliller
+      └── 📁 Yazışmalar
+```
+
+### Dosya Adlandırma
+Tutarlı bir adlandırma sistemi kullanın:
+- `2024-01-15_Dava_Dilekçesi_v1.pdf`
+- `2024-02-20_Müvekkil_Sözleşmesi_İmzalı.pdf`
+- `ESAS_2024_1234_Karar.pdf`
+
+## Veri Yedekleme Stratejisi
+
+### 3-2-1 Kuralı
+- **3** kopya: Orijinal + 2 yedek
+- **2** farklı medya türü
+- **1** offsite yedek
+
+### Otomatik Yedekleme
+- Günlük incremental backup
+- Haftalık full backup
+- Aylık arşiv backup
+
+## KVKK ve Yasal Uyum
+
+### Veri Saklama Süreleri
+- Dava dosyaları: 10 yıl
+- Müvekkil sözleşmeleri: 10 yıl
+- Mali belgeler: 5 yıl
+- İletişim kayıtları: 2 yıl
+
+### Veri İmha Prosedürü
+Yasal süre sonunda:
+1. İmha komisyonu kararı
+2. Güvenli silme (DoD 5220.22-M)
+3. İmha tutanağı
+4. KVKK bildirimi
+
+## Müvekkille Güvenli Paylaşım
+
+### Portal Erişimi
+Müvekkillerinize özel portal sağlayın:
+- Güvenli giriş
+- Sadece kendi dosyalarına erişim
+- İndirme limitleri
+- Watermark koruması
+
+### Zaman Sınırlı Linkler
+- Otomatik son kullanma tarihi
+- İndirme sayısı limiti
+- Şifre koruması
+- IP kısıtlaması
+
+## Mobil Güvenlik
+
+### BYOD Politikası
+Kişisel cihazlarda:
+- MDM (Mobile Device Management)
+- Uygulama sandbox
+- Remote wipe özelliği
+- VPN zorunluluğu
+
+### Güvenli Uygulamalar
+- Resmi app store'dan indirme
+- Düzenli güncelleme
+- Biyometrik kilit
+- Offline erişim kontrolü
+
+## Acil Durum Planı
+
+### Veri İhlali Durumunda
+1. **İlk 24 saat**: Tespit ve izolasyon
+2. **48 saat**: Etki analizi
+3. **72 saat**: KVKK bildirimi
+4. **1 hafta**: Müvekkil bilgilendirme
+
+### Felaket Kurtarma
+- RTO (Recovery Time Objective): 4 saat
+- RPO (Recovery Point Objective): 1 saat
+- Yedek sunucu aktivasyonu
+- Veri restorasyon prosedürü
+
+## Eğitim ve Farkındalık
+
+### Çalışan Eğitimi
+- Aylık güvenlik brifingi
+- Phishing simülasyonları
+- Güvenli dosya paylaşım eğitimi
+- KVKK farkındalık programı
+
+### Müvekkil Bilgilendirme
+- Güvenlik politikalarınızı açıklayın
+- Portal kullanım kılavuzu
+- Güvenli iletişim yöntemleri
+- Acil durum iletişim kanalları
+
+## Sonuç
+
+Güvenli dosya yönetimi, modern hukuk bürolarının vazgeçilmez bir parçasıdır. Doğru araçlar ve protokollerle hem müvekkil güvenini kazanır hem de yasal yükümlülüklerinizi yerine getirirsiniz.
+
+AvukatAjanda ile tüm bu güvenlik özelliklerini tek platformda bulabilirsiniz.

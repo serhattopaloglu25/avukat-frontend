@@ -1,0 +1,146 @@
+{
+  "currency": "₺",
+  "billingPeriod": "aylık",
+  "plans": [
+    {
+      "id": "bireysel",
+      "name": "Bireysel",
+      "description": "Tek avukat ve küçük ölçekli uygulamalar için",
+      "price": 149,
+      "originalPrice": 199,
+      "badge": null,
+      "features": {
+        "included": [
+          "1 Kullanıcı hesabı",
+          "50 Müvekkil kaydı",
+          "Sınırsız dava takibi",
+          "5 GB güvenli depolama",
+          "Temel raporlama",
+          "E-posta desteği",
+          "KVKK uyumlu veri saklama",
+          "Günlük otomatik yedekleme",
+          "SSL şifrelemeli bağlantı",
+          "Mobil cihaz desteği"
+        ],
+        "excluded": [
+          "Gelişmiş raporlama",
+          "API erişimi",
+          "Özel entegrasyonlar",
+          "Telefon desteği",
+          "Eğitim ve kurulum desteği"
+        ]
+      },
+      "cta": {
+        "text": "14 Gün Ücretsiz Dene",
+        "href": "/register"
+      },
+      "trial": 14
+    },
+    {
+      "id": "buro",
+      "name": "Büro",
+      "description": "Küçük ve orta ölçekli hukuk büroları için",
+      "price": 399,
+      "originalPrice": 499,
+      "badge": "En Popüler",
+      "features": {
+        "included": [
+          "5 Kullanıcı hesabı",
+          "Sınırsız müvekkil kaydı",
+          "Sınırsız dava takibi",
+          "50 GB güvenli depolama",
+          "Gelişmiş raporlama ve analitik",
+          "Öncelikli e-posta desteği",
+          "KVKK uyumlu veri saklama",
+          "Saatlik otomatik yedekleme",
+          "SSL şifrelemeli bağlantı",
+          "Mobil ve tablet uygulaması",
+          "Takvim senkronizasyonu",
+          "Belge şablonları",
+          "Toplu veri aktarımı",
+          "Kullanıcı yetki yönetimi",
+          "Özel dashboard"
+        ],
+        "excluded": [
+          "API erişimi",
+          "Özel entegrasyonlar",
+          "7/24 telefon desteği",
+          "SLA garantisi"
+        ]
+      },
+      "cta": {
+        "text": "14 Gün Ücretsiz Dene",
+        "href": "/register"
+      },
+      "trial": 14
+    },
+    {
+      "id": "kurumsal",
+      "name": "Kurumsal",
+      "description": "Büyük bürolar ve kurumlar için özel çözümler",
+      "price": null,
+      "originalPrice": null,
+      "badge": "Özel Fiyat",
+      "features": {
+        "included": [
+          "Sınırsız kullanıcı hesabı",
+          "Sınırsız müvekkil kaydı",
+          "Sınırsız dava takibi",
+          "Sınırsız güvenli depolama",
+          "Özel raporlama ve analitik",
+          "7/24 telefon ve e-posta desteği",
+          "KVKK ve GDPR uyumlu",
+          "Anlık otomatik yedekleme",
+          "Özel SSL sertifikası",
+          "Tüm platform entegrasyonu",
+          "API erişimi",
+          "Özel entegrasyonlar",
+          "Yerinde kurulum desteği",
+          "Özel eğitim programı",
+          "SLA garantisi (%99.9 uptime)",
+          "Özel güvenlik protokolleri",
+          "Veri taşıma hizmeti",
+          "Özel subdomain"
+        ],
+        "excluded": []
+      },
+      "cta": {
+        "text": "İletişime Geç",
+        "href": "/iletisim"
+      },
+      "trial": 30
+    }
+  ],
+  "comparison": {
+    "features": [
+      {"name": "Kullanıcı Sayısı", "bireysel": "1", "buro": "5", "kurumsal": "Sınırsız"},
+      {"name": "Müvekkil Kaydı", "bireysel": "50", "buro": "Sınırsız", "kurumsal": "Sınırsız"},
+      {"name": "Dava Takibi", "bireysel": "✓", "buro": "✓", "kurumsal": "✓"},
+      {"name": "Depolama Alanı", "bireysel": "5 GB", "buro": "50 GB", "kurumsal": "Sınırsız"},
+      {"name": "E-posta Desteği", "bireysel": "✓", "buro": "Öncelikli", "kurumsal": "7/24"},
+      {"name": "Telefon Desteği", "bireysel": "—", "buro": "—", "kurumsal": "7/24"},
+      {"name": "Raporlama", "bireysel": "Temel", "buro": "Gelişmiş", "kurumsal": "Özel"},
+      {"name": "API Erişimi", "bireysel": "—", "buro": "—", "kurumsal": "✓"},
+      {"name": "Yedekleme", "bireysel": "Günlük", "buro": "Saatlik", "kurumsal": "Anlık"},
+      {"name": "SLA Garantisi", "bireysel": "—", "buro": "—", "kurumsal": "%99.9"}
+    ]
+  },
+  "faqs": [
+    {
+      "question": "14 günlük deneme süresi nasıl işler?",
+      "answer": "Kayıt olduktan sonra 14 gün boyunca tüm özelliklere sınırsız erişiminiz olur. Kredi kartı bilgisi gerekmez ve otomatik ödeme alınmaz."
+    },
+    {
+      "question": "Planımı değiştirebilir miyim?",
+      "answer": "Evet, istediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. Değişiklik bir sonraki faturalama döneminde geçerli olur."
+    },
+    {
+      "question": "Verilerim güvende mi?",
+      "answer": "Tüm verileriniz 256-bit SSL şifreleme ile korunur ve KVKK standartlarına uygun olarak saklanır. Günlük yedeklemeler ile veri kaybına karşı koruma sağlanır."
+    },
+    {
+      "question": "İptal etmek istersem ne olur?",
+      "answer": "İstediğiniz zaman aboneliğinizi iptal edebilirsiniz. İptal sonrası mevcut dönem sonuna kadar erişiminiz devam eder."
+    }
+  ]
+}
