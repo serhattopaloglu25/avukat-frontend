@@ -4,8 +4,8 @@ import { MarketingHeader } from '@/components/marketing/MarketingHeader';
 import { MarketingFooter } from '@/components/marketing/MarketingFooter';
 import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
-import pricingData from '@/data/pricing.json';
 import { Button } from '@/components/ui/button';
+import { PRICING_PLANS, formatTRY } from '@/config/pricing';
 
 export default function PricingPage() {
   return (
@@ -37,7 +37,7 @@ export default function PricingPage() {
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {pricingData.plans.map((plan, index) => (
+              {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -46,17 +46,13 @@ export default function PricingPage() {
                   className="relative"
                 >
                   <div className={`rounded-2xl ${
-                    plan.badge === 'En Popüler' 
+                    plan.badge === 'En çok tercih edilen' 
                       ? 'border-2 border-primary shadow-xl' 
                       : 'border border-gray-200'
                   } p-8 h-full bg-white`}>
                     {plan.badge && (
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                        <span className={`px-4 py-1 rounded-full text-sm font-medium ${
-                          plan.badge === 'En Popüler'
-                            ? 'bg-primary text-white'
-                            : 'bg-gray-900 text-white'
-                        }`}>
+                        <span className="bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
                           {plan.badge}
                         </span>
                       </div>
@@ -64,37 +60,22 @@ export default function PricingPage() {
                     
                     <div className="text-center mb-8">
                       <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                        {plan.name}
+                        {plan.title}
                       </h3>
                       <p className="text-gray-600 mb-6">
                         {plan.description}
                       </p>
                       
                       <div className="flex items-baseline justify-center gap-1">
-                        {plan.price ? (
-                          <>
-                            {plan.originalPrice && (
-                              <span className="text-2xl text-gray-400 line-through">
-                                {pricingData.currency}{plan.originalPrice}
-                              </span>
-                            )}
-                            <span className="text-5xl font-bold text-gray-900">
-                              {pricingData.currency}{plan.price}
-                            </span>
-                            <span className="text-gray-600">/{pricingData.billingPeriod}</span>
-                          </>
-                        ) : (
-                          <span className="text-3xl font-bold text-gray-900">
-                            Özel Fiyatlama
-                          </span>
-                        )}
+                        <span className="text-5xl font-bold text-gray-900">
+                          {formatTRY(plan.priceTRY)}
+                        </span>
+                        <span className="text-gray-600">/aylık</span>
                       </div>
                       
-                      {plan.trial && (
-                        <p className="text-sm text-green-600 mt-2">
-                          {plan.trial} gün ücretsiz deneme
-                        </p>
-                      )}
+                      <p className="text-sm text-green-600 mt-2">
+                        14 gün ücretsiz deneme
+                      </p>
                     </div>
                     
                     <ul className="space-y-3 mb-8">
@@ -114,13 +95,13 @@ export default function PricingPage() {
                     
                     <Button
                       className={`w-full ${
-                        plan.badge === 'En Popüler'
+                        plan.badge === 'En çok tercih edilen'
                           ? 'bg-primary hover:bg-primary/90'
                           : 'bg-gray-900 hover:bg-gray-800'
                       }`}
                       onClick={() => window.location.href = '/register'}
                     >
-                      {plan.id === 'kurumsal' ? 'İletişime Geç' : 'Ücretsiz Başla'}
+                      Ücretsiz Başla
                     </Button>
                   </div>
                 </motion.div>
@@ -150,48 +131,46 @@ export default function PricingPage() {
                       <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                         Özellikler
                       </th>
-                      {pricingData.plans.map((plan) => (
+                      {PRICING_PLANS.map((plan) => (
                         <th key={plan.id} className="px-6 py-4 text-center text-sm font-semibold text-gray-900">
-                          {plan.name}
+                          {plan.title}
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {pricingData.comparison.features.map((feature) => (
-                      <tr key={feature.name}>
-                        <td className="px-6 py-4 text-sm text-gray-700">
-                          {feature.name}
+                    <tr>
+                      <td className="px-6 py-4 text-sm text-gray-700">Fiyat</td>
+                      {PRICING_PLANS.map((plan) => (
+                        <td key={plan.id} className="px-6 py-4 text-center text-sm font-bold">
+                          {formatTRY(plan.priceTRY)}
                         </td>
-                        <td className="px-6 py-4 text-center text-sm">
-                          {feature.bireysel === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
-                          ) : feature.bireysel === '—' ? (
-                            <X className="h-5 w-5 text-gray-400 mx-auto" />
-                          ) : (
-                            <span className="text-gray-700">{feature.bireysel}</span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-center text-sm">
-                          {feature.buro === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
-                          ) : feature.buro === '—' ? (
-                            <X className="h-5 w-5 text-gray-400 mx-auto" />
-                          ) : (
-                            <span className="text-gray-700">{feature.buro}</span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-center text-sm">
-                          {feature.kurumsal === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
-                          ) : feature.kurumsal === '—' ? (
-                            <X className="h-5 w-5 text-gray-400 mx-auto" />
-                          ) : (
-                            <span className="text-gray-700">{feature.kurumsal}</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                      ))}
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 text-sm text-gray-700">Kullanıcı Sayısı</td>
+                      <td className="px-6 py-4 text-center text-sm">1</td>
+                      <td className="px-6 py-4 text-center text-sm">5</td>
+                      <td className="px-6 py-4 text-center text-sm">Sınırsız</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 text-sm text-gray-700">Müvekkil Kaydı</td>
+                      <td className="px-6 py-4 text-center text-sm">50</td>
+                      <td className="px-6 py-4 text-center text-sm">Sınırsız</td>
+                      <td className="px-6 py-4 text-center text-sm">Sınırsız</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 text-sm text-gray-700">Depolama</td>
+                      <td className="px-6 py-4 text-center text-sm">5 GB</td>
+                      <td className="px-6 py-4 text-center text-sm">50 GB</td>
+                      <td className="px-6 py-4 text-center text-sm">Sınırsız</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 text-sm text-gray-700">Destek</td>
+                      <td className="px-6 py-4 text-center text-sm">E-posta</td>
+                      <td className="px-6 py-4 text-center text-sm">Öncelikli E-posta</td>
+                      <td className="px-6 py-4 text-center text-sm">7/24 Telefon + E-posta</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -199,45 +178,8 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* FAQs */}
-        <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="max-w-3xl mx-auto"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-                Sıkça Sorulan Sorular
-              </h2>
-              
-              <div className="space-y-6">
-                {pricingData.faqs.map((faq, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-gray-50 rounded-xl p-6"
-                  >
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                      {faq.question}
-                    </h3>
-                    <p className="text-gray-600">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-blue-600 to-green-600">
+        <section className="py-16 bg-gradient-to-r from-primary to-secondary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-4">

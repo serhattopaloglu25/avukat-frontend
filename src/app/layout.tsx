@@ -50,20 +50,21 @@ export const metadata: Metadata = {
       { url: '/favicon-32x32.png?v=3', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-16x16.png?v=3', sizes: '16x16', type: 'image/png' },
     ],
+    shortcut: '/favicon.ico?v=3',
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180' },
+      { url: '/apple-touch-icon.png?v=3', sizes: '180x180' },
     ],
     other: [
       {
         rel: 'mask-icon',
         url: '/safari-pinned-tab.svg',
-        color: '#2D6A4F',
+        color: '#1D4ED8',
       },
     ],
   },
   other: {
-    'msapplication-TileColor': '#2D6A4F',
-    'theme-color': '#2D6A4F',
+    'msapplication-TileColor': '#1D4ED8',
+    'theme-color': '#1D4ED8',
   },
 };
 

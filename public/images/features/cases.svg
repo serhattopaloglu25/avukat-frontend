@@ -1,0 +1,48 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F8FAFB"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#grid)" opacity="0.4"/>
+  
+  <!-- Main Content -->
+  <g transform="translate(400, 225)">
+    
+    <!-- Folder Stack -->
+    <g transform="translate(-150, -50)">
+      <rect x="0" y="10" width="120" height="90" rx="4" fill="#FEF3C7"/>
+      <rect x="5" y="5" width="120" height="90" rx="4" fill="#FED7AA"/>
+      <rect x="10" y="0" width="120" height="90" rx="4" fill="#FFE4B5">
+        <animate attributeName="y" values="0;-5;0" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <text x="70" y="45" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#92400E">Müvekkil</text>
+    </g>
+    
+    <!-- Justice Scale -->
+    <g transform="translate(0, -50)">
+      <line x1="0" y1="-30" x2="0" y2="30" stroke="#1D4ED8" stroke-width="3"/>
+      <line x1="-40" y1="-20" x2="40" y2="-20" stroke="#1D4ED8" stroke-width="3"/>
+      <circle cx="-40" cy="-10" r="15" fill="none" stroke="#1D4ED8" stroke-width="2">
+        <animateTransform attributeName="transform" type="rotate" values="0 -40 -20;-5 -40 -20;0 -40 -20" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="40" cy="-10" r="15" fill="none" stroke="#1D4ED8" stroke-width="2">
+        <animateTransform attributeName="transform" type="rotate" values="0 40 -20;5 40 -20;0 40 -20" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    
+    <!-- Client Cards -->
+    <g transform="translate(120, -30)">
+      <rect x="0" y="0" width="80" height="100" rx="6" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="1"/>
+      <circle cx="40" cy="30" r="15" fill="#93C5FD"/>
+      <rect x="15" y="55" width="50" height="8" rx="2" fill="#1D4ED8" opacity="0.3"/>
+      <rect x="15" y="68" width="35" height="8" rx="2" fill="#1D4ED8" opacity="0.3"/>
+      <rect x="15" y="81" width="45" height="8" rx="2" fill="#1D4ED8" opacity="0.3"/>
+    </g>
+    
+  </g>
+</svg>

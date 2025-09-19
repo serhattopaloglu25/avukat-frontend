@@ -4,7 +4,7 @@
   "plans": [
     {
       "id": "bireysel",
-      "name": "Mini",
+      "name": "Bireysel - Mini",
       "description": "Tek avukat ve küçük ölçekli uygulamalar için",
       "price": 4999,
       "originalPrice": null,
@@ -38,7 +38,7 @@
     },
     {
       "id": "buro",
-      "name": "Orta",
+      "name": "Büro - Orta",
       "description": "Küçük ve orta ölçekli hukuk büroları için",
       "price": 6999,
       "originalPrice": null,
