@@ -8,6 +8,8 @@ export interface Client {
   address?: string;
   notes?: string;
   tcno?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Case {
