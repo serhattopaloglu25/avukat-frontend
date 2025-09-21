@@ -46,3 +46,11 @@ export const blogPosts: BlogPost[] = [
     tags: ['dijitalleşme', 'büro yönetimi', 'teknoloji']
   }
 ];
+
+export function getPostBySlug(slug: string): BlogPost | undefined {
+  return blogPosts.find(post => post.id === slug);
+}
+
+export function getAllPosts(): BlogPost[] {
+  return blogPosts;
+}
