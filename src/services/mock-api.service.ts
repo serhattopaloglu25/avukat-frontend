@@ -242,6 +242,11 @@ class MockApiService {
     };
   }
 
+  // Dashboard stats için alias
+  async getDashboardStats() {
+    return this.getStats();
+  }
+
   // Mock events methods
   async createEvent(data: any) {
     await new Promise(resolve => setTimeout(resolve, 500));
