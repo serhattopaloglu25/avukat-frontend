@@ -6,6 +6,8 @@ export interface Client {
   email?: string;
   phone?: string;
   address?: string;
+  notes?: string;
+  tcno?: string;
 }
 
 export interface Case {
