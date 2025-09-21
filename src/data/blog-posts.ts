@@ -1,5 +1,6 @@
 export interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -14,6 +15,7 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
+    slug: 'e-tebligat-sistemi-rehber',
     title: 'E-Tebligat Sistemi: Avukatlar İçin Kapsamlı Rehber',
     excerpt: 'E-tebligat sisteminin avukatlar için önemi, kullanımı ve dikkat edilmesi gerekenler.',
     content: `E-tebligat sistemi, adli tebligatların elektronik ortamda yapılmasını sağlayan modern bir sistemdir...`,
@@ -25,6 +27,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: '2',
+    slug: 'kvkk-ve-avukatlarin-sorumluluklari',
     title: 'KVKK ve Avukatların Sorumlulukları',
     excerpt: 'Kişisel verilerin korunması kanunu kapsamında avukatların dikkat etmesi gereken hususlar.',
     content: `KVKK, avukatlar için hem mesleki hem de etik sorumluluklar getirmektedir...`,
@@ -36,6 +39,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: '3',
+    slug: 'dijital-donusum-hukuk-burolari',
     title: 'Dijital Dönüşüm: Hukuk Bürolarının Geleceği',
     excerpt: 'Hukuk bürolarında dijital dönüşümün önemi ve uygulanabilir stratejiler.',
     content: `Dijital çağda hukuk büroları da dönüşüm geçirmektedir...`,
@@ -48,7 +52,7 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(post => post.id === slug);
+  return blogPosts.find(post => post.slug === slug);
 }
 
 export function getAllPosts(): BlogPost[] {
