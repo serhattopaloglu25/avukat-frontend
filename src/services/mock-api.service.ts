@@ -38,7 +38,7 @@ class MockApiService {
   }
 
   // Mock client data
-  async getClients() {
+  async getClients(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     return [
       { id: 1, name: 'Ahmet Yılmaz', phone: '555-0001', email: 'ahmet@example.com', tcno: '12345678901' },
@@ -80,8 +80,9 @@ class MockApiService {
   }
 
   // Mock case data
-  async getCases() {
+  async getCases(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
+    // params ile filtreleme simülasyonu yapılabilir
     return [
       { id: 1, title: 'Boşanma Davası', client_id: 1, status: 'active', court: 'İstanbul 1. Aile Mahkemesi' },
       { id: 2, title: 'Kira Davası', client_id: 2, status: 'pending', court: 'İstanbul 5. Sulh Hukuk' },
@@ -122,7 +123,7 @@ class MockApiService {
   }
 
   // Mock events
-  async getEvents() {
+  async getEvents(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     const today = new Date();
     return [
@@ -144,7 +145,7 @@ class MockApiService {
   }
 
   // Mock invoices
-  async getInvoices() {
+  async getInvoices(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     return [
       { id: 1, client_id: 1, amount: 5000, status: 'paid', date: '2024-01-15' },
@@ -163,7 +164,7 @@ class MockApiService {
   }
 
   // Mock documents
-  async getDocuments() {
+  async getDocuments(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     return [
       { id: 1, name: 'Dava Dilekçesi.pdf', size: 245000, type: 'application/pdf', created_at: '2024-01-15' },
@@ -240,7 +241,7 @@ class MockApiService {
   }
 
   // Files
-  async getFiles() {
+  async getFiles(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     return [
       { id: 1, name: 'Sözleşme.pdf', size: 1024000, type: 'pdf', created_at: '2024-01-15' },
