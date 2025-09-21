@@ -13,6 +13,7 @@ export interface Case {
   case_number?: string;
   title: string;
   client_id: number;
+  client?: Client; // İlişkili client objesi
   status?: string;
   description?: string;
   start_date?: string;

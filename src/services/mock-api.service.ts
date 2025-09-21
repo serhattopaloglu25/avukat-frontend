@@ -83,10 +83,32 @@ class MockApiService {
   async getCases(params?: any) {
     await new Promise(resolve => setTimeout(resolve, 300));
     // params ile filtreleme simülasyonu yapılabilir
+    const clients = await this.getClients();
     return [
-      { id: 1, title: 'Boşanma Davası', client_id: 1, status: 'active', court: 'İstanbul 1. Aile Mahkemesi' },
-      { id: 2, title: 'Kira Davası', client_id: 2, status: 'pending', court: 'İstanbul 5. Sulh Hukuk' },
-      { id: 3, title: 'İş Davası', client_id: 3, status: 'closed', court: 'İstanbul 10. İş Mahkemesi' }
+      { 
+        id: 1, 
+        title: 'Boşanma Davası', 
+        client_id: 1,
+        client: clients[0],
+        status: 'active', 
+        court: 'İstanbul 1. Aile Mahkemesi' 
+      },
+      { 
+        id: 2, 
+        title: 'Kira Davası', 
+        client_id: 2,
+        client: clients[1],
+        status: 'pending', 
+        court: 'İstanbul 5. Sulh Hukuk' 
+      },
+      { 
+        id: 3, 
+        title: 'İş Davası', 
+        client_id: 3,
+        client: clients[2],
+        status: 'closed', 
+        court: 'İstanbul 10. İş Mahkemesi' 
+      }
     ];
   }
 
