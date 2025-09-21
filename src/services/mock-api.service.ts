@@ -241,8 +241,22 @@ class MockApiService {
       monthly_revenue: 45000,
       pending_invoices: 8,
       recent_activities: [
-        { type: 'case_created', date: new Date().toISOString(), description: 'Yeni dava oluşturuldu' },
-        { type: 'client_added', date: new Date().toISOString(), description: 'Yeni müvekkil eklendi' }
+        {
+          id: '1',
+          action: 'create',
+          entityType: 'case',
+          entityId: '123',
+          createdAt: new Date().toISOString(),
+          user: { name: 'Demo User', email: 'demo@avukatajanda.com' }
+        },
+        {
+          id: '2',
+          action: 'create',
+          entityType: 'client',
+          entityId: '456',
+          createdAt: new Date().toISOString(),
+          user: { name: 'Demo User', email: 'demo@avukatajanda.com' }
+        }
       ]
     };
   }
