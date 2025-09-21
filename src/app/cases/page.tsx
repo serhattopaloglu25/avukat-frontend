@@ -190,7 +190,7 @@ export default function CasesPage() {
       case_number: caseItem.case_number || "",
       title: caseItem.title,
       client_id: caseItem.client_id,
-      status: caseItem.status || "pending",
+      status: (caseItem.status || "pending") as 'active' | 'pending' | 'closed',
       description: caseItem.description || '',
       start_date: caseItem.start_date || '',
       end_date: caseItem.end_date || ''

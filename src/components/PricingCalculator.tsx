@@ -28,6 +28,12 @@ export default function PricingCalculator() {
   };
 
   useEffect(() => {
+    const plansData = {
+      mini: { price: 99, lawyers: 1, cases: 100, clients: 50, storage: 5 },
+      orta: { price: 199, lawyers: 5, cases: 500, clients: 200, storage: 50 },
+      buyuk: { price: 399, lawyers: 999, cases: 9999, clients: 9999, storage: 999 }
+    };
+
     // Plan önerisi hesaplama
     let recommended = 'mini';
     
@@ -43,7 +49,7 @@ export default function PricingCalculator() {
     setRecommendedPlan(recommended);
     
     // Fiyat hesaplama
-    let basePrice = plans[recommended as keyof typeof plans].price;
+    let basePrice = plansData[recommended as keyof typeof plansData].price;
     
     // Ekstra özellikler için ek ücret
     if (inputs.features.sms) basePrice += 20;
