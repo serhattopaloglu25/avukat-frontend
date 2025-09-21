@@ -233,12 +233,13 @@ class MockApiService {
   // Mock stats
   async getStats() {
     return {
-      totalClients: 150,
-      activeCases: 45,
-      upcomingEvents: 12,
-      completedCases: 89,
-      monthlyRevenue: 45000,
-      pendingInvoices: 8
+      total_clients: 150,
+      active_cases: 45,
+      total_cases: 134,
+      upcoming_events: 12,
+      completed_cases: 89,
+      monthly_revenue: 45000,
+      pending_invoices: 8
     };
   }
 
