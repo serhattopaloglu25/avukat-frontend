@@ -14,6 +14,10 @@ export interface Case {
   title: string;
   client_id: number;
   status?: string;
+  description?: string;
+  start_date?: string;
+  end_date?: string;
+  court?: string;
 }
 
 export interface Event {
