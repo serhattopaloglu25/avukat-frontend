@@ -239,7 +239,11 @@ class MockApiService {
       upcoming_events: 12,
       completed_cases: 89,
       monthly_revenue: 45000,
-      pending_invoices: 8
+      pending_invoices: 8,
+      recent_activities: [
+        { type: 'case_created', date: new Date().toISOString(), description: 'Yeni dava oluşturuldu' },
+        { type: 'client_added', date: new Date().toISOString(), description: 'Yeni müvekkil eklendi' }
+      ]
     };
   }
 
