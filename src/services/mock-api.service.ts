@@ -156,7 +156,7 @@ class MockApiService {
         type: 'hearing' as 'hearing',
         description: 'Boşanma davası duruşması',
         startAt: new Date(today.getTime() + 86400000).toISOString(),
-        reminders: ['1-day-before', 'on-event-day']
+        reminders: [1, 24] // 1 saat önce, 24 saat önce
       },
       {
         id: 2,
@@ -165,7 +165,7 @@ class MockApiService {
         type: 'meeting' as 'meeting',
         description: 'Yeni dava görüşmesi',
         startAt: new Date(today.getTime() + 172800000).toISOString(),
-        reminders: ['1-hour-before']
+        reminders: [1] // 1 saat önce
       }
     ];
   }

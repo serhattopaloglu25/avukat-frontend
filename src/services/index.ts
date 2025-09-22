@@ -34,7 +34,7 @@ export interface Event {
   type?: 'hearing' | 'meeting' | 'reminder' | 'deadline' | string;
   description?: string;
   startAt?: string;
-  reminders?: string[];
+  reminders?: number[];
 }
 
 export interface Invoice {
