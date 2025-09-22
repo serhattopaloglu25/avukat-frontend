@@ -31,7 +31,7 @@ export interface Event {
   event_date?: string;
   event_type?: string;
   date?: string;
-  type?: string;
+  type?: 'hearing' | 'meeting' | 'reminder' | 'deadline' | string;
   description?: string;
   startAt?: string;
   reminders?: string[];

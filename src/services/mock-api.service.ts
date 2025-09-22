@@ -153,7 +153,7 @@ class MockApiService {
         id: 1,
         title: 'Duruşma',
         date: new Date(today.getTime() + 86400000).toISOString(),
-        type: 'hearing',
+        type: 'hearing' as 'hearing',
         description: 'Boşanma davası duruşması',
         startAt: new Date(today.getTime() + 86400000).toISOString(),
         reminders: ['1-day-before', 'on-event-day']
@@ -162,7 +162,7 @@ class MockApiService {
         id: 2,
         title: 'Müvekkil Görüşmesi',
         date: new Date(today.getTime() + 172800000).toISOString(),
-        type: 'meeting',
+        type: 'meeting' as 'meeting',
         description: 'Yeni dava görüşmesi',
         startAt: new Date(today.getTime() + 172800000).toISOString(),
         reminders: ['1-hour-before']
