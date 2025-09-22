@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { LogIn, AlertCircle } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -25,7 +25,7 @@ export default function LoginPage() {
     try {
       setLoading(true);
       
-      // TEST MODU - Backend bağlanana kadar
+      // Mock login
       if (formData.email === 'demo@avukatajanda.com' && formData.password === 'demo123') {
         localStorage.setItem('auth_token', 'demo_token_12345');
         localStorage.setItem('user_email', formData.email);
@@ -33,27 +33,9 @@ export default function LoginPage() {
         return;
       }
       
-      // Gerçek API çağrısı (şu an backend çalışmıyor)
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://avukatajanda-backend.onrender.com';
-      const response = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          username: formData.email,
-          password: formData.password
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('auth_token', data.access_token);
-        router.push('/dashboard');
-      } else {
-        throw new Error('Giriş başarısız');
-      }
+      setError('Geçersiz e-posta veya şifre');
     } catch (err: any) {
-      console.error('Login error:', err);
-      setError('Backend şu anda bakımda. Demo için: demo@avukatajanda.com / demo123');
+      setError('Giriş yapılamadı. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
     }
@@ -72,18 +54,6 @@ export default function LoginPage() {
             </p>
           </CardHeader>
           <CardContent>
-            {/* Demo bilgisi */}
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-blue-800 flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>
-                  <strong>Demo Hesabı:</strong><br />
-                  E-posta: demo@avukatajanda.com<br />
-                  Şifre: demo123
-                </span>
-              </p>
-            </div>
-
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
                 {error}
