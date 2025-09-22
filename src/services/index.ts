@@ -30,6 +30,11 @@ export interface Event {
   title: string;
   event_date?: string;
   event_type?: string;
+  date?: string;
+  type?: string;
+  description?: string;
+  startAt?: string;
+  reminders?: string[];
 }
 
 export interface Invoice {
