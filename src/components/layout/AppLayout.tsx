@@ -1,0 +1,177 @@
+'use client';
+
+import { Suspense } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/Logo';
+import { 
+  LayoutDashboard, 
+  Users, 
+  Briefcase, 
+  Calendar, 
+  FileText, 
+  Receipt,
+  Settings,
+  LogOut,
+  Menu,
+  X
+} from 'lucide-react';
+import { useState } from 'react';
+
+const navigation = [
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Müvekkiller', href: '/clients', icon: Users },
+  { name: 'Davalar', href: '/cases', icon: Briefcase },
+  { name: 'Takvim', href: '/calendar', icon: Calendar },
+  { name: 'Dokümanlar', href: '/documents', icon: FileText },
+  { name: 'Faturalar', href: '/invoices', icon: Receipt },
+];
+
+export default function AppLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Check if we're on a page that should have the sidebar
+  const shouldShowSidebar = navigation.some(item => pathname?.startsWith(item.href)) || 
+                            pathname?.startsWith('/admin') ||
+                            pathname?.startsWith('/settings') ||
+                            pathname?.startsWith('/profile');
+
+  // If not on an authenticated page, just render children
+  if (!shouldShowSidebar) {
+    return <>{children}</>;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Sidebar - Desktop */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+        <div className="flex flex-grow flex-col overflow-y-auto bg-white border-r">
+          <div className="flex h-16 items-center px-4 border-b">
+            <Logo variant="header" />
+          </div>
+          <nav className="flex-1 space-y-1 px-2 py-4">
+            {navigation.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || 
+                              (item.href !== '/dashboard' && pathname?.startsWith(item.href));
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`
+                    group flex items-center px-2 py-2 text-sm font-medium rounded-md
+                    ${isActive 
+                      ? 'bg-primary-50 text-primary-600' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    }
+                  `}
+                >
+                  <Icon className={`
+                    mr-3 h-5 w-5 flex-shrink-0
+                    ${isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-500'}
+                  `} />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="flex flex-shrink-0 border-t p-4">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center">
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-700">Avukat</p>
+                  <p className="text-xs font-medium text-gray-500">avukat@example.com</p>
+                </div>
+              </div>
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile sidebar */}
+      <div className="lg:hidden">
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 flex">
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
+            <div className="relative flex w-full max-w-xs flex-1 flex-col bg-white">
+              <div className="absolute top-0 right-0 -mr-12 pt-2">
+                <button
+                  type="button"
+                  className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <X className="h-6 w-6 text-white" />
+                </button>
+              </div>
+              <div className="flex h-16 items-center px-4 border-b">
+                <Logo variant="header" />
+              </div>
+              <nav className="flex-1 space-y-1 px-2 py-4">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href || 
+                                  (item.href !== '/dashboard' && pathname?.startsWith(item.href));
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`
+                        group flex items-center px-2 py-2 text-sm font-medium rounded-md
+                        ${isActive 
+                          ? 'bg-primary-50 text-primary-600' 
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        }
+                      `}
+                    >
+                      <Icon className={`
+                        mr-3 h-5 w-5 flex-shrink-0
+                        ${isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-500'}
+                      `} />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Main content */}
+      <div className="lg:pl-64">
+        {/* Top bar - Mobile */}
+        <div className="sticky top-0 z-10 flex h-16 bg-white border-b lg:hidden">
+          <button
+            type="button"
+            className="px-4 text-gray-500 focus:outline-none"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          <div className="flex flex-1 items-center justify-between px-4">
+            <Logo variant="header" />
+          </div>
+        </div>
+
+        {/* Page content */}
+        <main className="flex-1 p-8">
+          <Suspense fallback={<div className="p-8">Yükleniyor...</div>}>
+            {children}
+          </Suspense>
+        </main>
+      </div>
+    </div>
+  );
+}

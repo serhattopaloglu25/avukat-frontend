@@ -2,8 +2,18 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Nunito } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
-import { GlobalHeader } from '@/components/layout/GlobalHeader';
+import dynamic from 'next/dynamic';
 import { CookieConsent } from '@/components/CookieConsent';
+
+const ConditionalHeader = dynamic(
+  () => import('@/components/layout/ConditionalHeader'),
+  { ssr: false }
+);
+
+const AppLayout = dynamic(
+  () => import('@/components/layout/AppLayout'),
+  { ssr: false }
+);
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -90,10 +100,10 @@ export default function RootLayout({
   return (
     <html lang="tr" className={inter.variable}>
       <body className={`${inter.className} font-sans antialiased`}>
-        <GlobalHeader />
-        <main className="min-h-screen">
+        <ConditionalHeader />
+        <AppLayout>
           {children}
-        </main>
+        </AppLayout>
         <CookieConsent />
       </body>
     </html>
