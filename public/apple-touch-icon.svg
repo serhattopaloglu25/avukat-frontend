@@ -1,19 +1,22 @@
-<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-  <rect width="180" height="180" fill="white"/>
-  <rect x="10" y="10" width="160" height="160" rx="20" fill="#2D6A4F"/>
+<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Beyaz arka plan -->
+  <rect width="180" height="180" fill="#ffffff" rx="20"/>
   
-  <!-- Logo icon centered for Apple -->
-  <g transform="translate(90, 90)">
-    <!-- Ajanda -->
-    <rect x="-35" y="-35" width="70" height="70" rx="10" fill="white" opacity="0.95"/>
+  <!-- Gülümseyen Terazi Görseli - Merkezde -->
+  <g transform="translate(30, 40)">
+    <!-- Terazi kolu (üst çizgi) -->
+    <line x1="0" y1="22" x2="120" y2="22" stroke="#14B8A6" stroke-width="6"/>
     
-    <!-- Lines -->
-    <line x1="-25" y1="-15" x2="25" y2="-15" stroke="#52B788" stroke-width="3"/>
-    <line x1="-25" y1="0" x2="25" y2="0" stroke="#52B788" stroke-width="3"/>
-    <line x1="-25" y1="15" x2="25" y2="15" stroke="#52B788" stroke-width="3"/>
+    <!-- Sol zincir -->
+    <line x1="0" y1="22" x2="0" y2="68" stroke="#14B8A6" stroke-width="4.5"/>
+    <!-- Sağ zincir -->
+    <line x1="120" y1="22" x2="120" y2="68" stroke="#14B8A6" stroke-width="4.5"/>
     
-    <!-- Terazi -->
-    <line x1="0" y1="-35" x2="0" y2="-50" stroke="white" stroke-width="4"/>
-    <circle cx="0" cy="-50" r="4" fill="white"/>
+    <!-- Gözler (yuvarlak panlar) -->
+    <circle cx="0" cy="68" r="12" fill="#14B8A6"/>
+    <circle cx="120" cy="68" r="12" fill="#14B8A6"/>
+    
+    <!-- Gülümseme (eğri ağız) -->
+    <path d="M15 83 Q60 113 105 83" stroke="#14B8A6" stroke-width="4.5" stroke-linecap="round"/>
   </g>
 </svg>

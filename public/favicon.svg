@@ -1,16 +1,22 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="32" height="32" rx="4" fill="#FFFFFF"/>
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Beyaz arka plan -->
+  <rect width="120" height="120" fill="#ffffff"/>
   
-  <!-- Ajanda (simplified for small size) -->
-  <rect x="6" y="8" width="20" height="20" rx="3" fill="#F5F5F5" stroke="#2D6A4F" stroke-width="2"/>
-  
-  <!-- Lines -->
-  <line x1="10" y1="13" x2="22" y2="13" stroke="#B7E4C7" stroke-width="1.5"/>
-  <line x1="10" y1="18" x2="22" y2="18" stroke="#B7E4C7" stroke-width="1.5"/>
-  <line x1="10" y1="23" x2="22" y2="23" stroke="#B7E4C7" stroke-width="1.5"/>
-  
-  <!-- Terazi (simplified) -->
-  <line x1="16" y1="8" x2="16" y2="4" stroke="#2D6A4F" stroke-width="1.5"/>
-  <circle cx="16" cy="4" r="1.5" fill="#2D6A4F"/>
+  <!-- Gülümseyen Terazi Görseli - Merkezde -->
+  <g transform="translate(20, 25)">
+    <!-- Terazi kolu (üst çizgi) -->
+    <line x1="0" y1="15" x2="80" y2="15" stroke="#14B8A6" stroke-width="4"/>
+    
+    <!-- Sol zincir -->
+    <line x1="0" y1="15" x2="0" y2="45" stroke="#14B8A6" stroke-width="3"/>
+    <!-- Sağ zincir -->
+    <line x1="80" y1="15" x2="80" y2="45" stroke="#14B8A6" stroke-width="3"/>
+    
+    <!-- Gözler (yuvarlak panlar) -->
+    <circle cx="0" cy="45" r="8" fill="#14B8A6"/>
+    <circle cx="80" cy="45" r="8" fill="#14B8A6"/>
+    
+    <!-- Gülümseme (eğri ağız) -->
+    <path d="M10 55 Q40 75 70 55" stroke="#14B8A6" stroke-width="3" stroke-linecap="round"/>
+  </g>
 </svg>

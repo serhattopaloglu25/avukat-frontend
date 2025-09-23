@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { Logo } from '@/components/Logo';
 
 const footerLinks = {
   product: {
@@ -40,13 +40,7 @@ export function MarketingFooter() {
           {/* Logo and description */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <Image
-                src="/brand/avukatajanda-logo-dark.svg"
-                alt="AvukatAjanda"
-                width={240}
-                height={80}
-                className="h-12 w-auto"
-              />
+              <Logo size="lg" />
             </Link>
             <p className="text-sm text-gray-400 mb-4">
               Hukuk bürolarının dijital dönüşümü için tasarlanmış, 

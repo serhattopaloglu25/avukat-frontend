@@ -1,4 +1,29 @@
-<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <rect x="20" y="20" width="160" height="160" rx="20" fill="#3B82F6"/>
-  <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">A</text>
+<svg width="500" height="120" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Gülümseyen Terazi Görseli -->
+  <g transform="translate(40, 20)">
+    <!-- Terazi kolu (üst çizgi) -->
+    <line x1="0" y1="15" x2="80" y2="15" stroke="#14B8A6" stroke-width="3"/>
+    
+    <!-- Sol zincir -->
+    <line x1="0" y1="15" x2="0" y2="45" stroke="#14B8A6" stroke-width="2"/>
+    <!-- Sağ zincir -->
+    <line x1="80" y1="15" x2="80" y2="45" stroke="#14B8A6" stroke-width="2"/>
+    
+    <!-- Gözler (yuvarlak panlar) -->
+    <circle cx="0" cy="45" r="6" fill="#14B8A6"/>
+    <circle cx="80" cy="45" r="6" fill="#14B8A6"/>
+    
+    <!-- Gülümseme (eğri ağız) -->
+    <path d="M10 55 Q40 75 70 55" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Yazı: "avukatajanda.com" -->
+  <text x="130" y="70" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="28" 
+        font-weight="700" 
+        fill="#14B8A6" 
+        dominant-baseline="middle">
+    avukatajanda.com
+  </text>
 </svg>

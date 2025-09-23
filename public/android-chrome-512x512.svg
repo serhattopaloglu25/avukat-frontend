@@ -1,27 +1,22 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Extra padding for maskable -->
-  <rect width="512" height="512" fill="#2D6A4F"/>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Beyaz arka plan -->
+  <rect width="512" height="512" fill="#ffffff" rx="64"/>
   
-  <!-- Logo icon centered with safe area padding -->
-  <g transform="translate(256, 256)">
-    <!-- Ajanda -->
-    <rect x="-100" y="-100" width="200" height="200" rx="25" fill="white" opacity="0.95"/>
+  <!-- Gülümseyen Terazi Görseli - Merkezde ve büyük -->
+  <g transform="translate(85, 115)">
+    <!-- Terazi kolu (üst çizgi) -->
+    <line x1="0" y1="64" x2="342" y2="64" stroke="#14B8A6" stroke-width="17"/>
     
-    <!-- Lines -->
-    <line x1="-70" y1="-50" x2="70" y2="-50" stroke="#52B788" stroke-width="8"/>
-    <line x1="-70" y1="0" x2="70" y2="0" stroke="#52B788" stroke-width="8"/>
-    <line x1="-70" y1="50" x2="70" y2="50" stroke="#52B788" stroke-width="8"/>
+    <!-- Sol zincir -->
+    <line x1="0" y1="64" x2="0" y2="192" stroke="#14B8A6" stroke-width="13"/>
+    <!-- Sağ zincir -->
+    <line x1="342" y1="64" x2="342" y2="192" stroke="#14B8A6" stroke-width="13"/>
     
-    <!-- Terazi -->
-    <line x1="0" y1="-100" x2="0" y2="-140" stroke="white" stroke-width="10"/>
-    <circle cx="0" cy="-140" r="12" fill="white"/>
+    <!-- Gözler (yuvarlak panlar) -->
+    <circle cx="0" cy="192" r="34" fill="#14B8A6"/>
+    <circle cx="342" cy="192" r="34" fill="#14B8A6"/>
     
-    <!-- Terazi kolları -->
-    <line x1="0" y1="-125" x2="-70" y2="-50" stroke="white" stroke-width="8"/>
-    <line x1="0" y1="-125" x2="70" y2="-50" stroke="white" stroke-width="8"/>
-    
-    <!-- Kefeleri -->
-    <ellipse cx="-70" cy="-40" rx="20" ry="8" fill="white"/>
-    <ellipse cx="70" cy="-40" rx="20" ry="8" fill="white"/>
+    <!-- Gülümseme (eğri ağız) -->
+    <path d="M43 235 Q171 321 299 235" stroke="#14B8A6" stroke-width="13" stroke-linecap="round"/>
   </g>
 </svg>

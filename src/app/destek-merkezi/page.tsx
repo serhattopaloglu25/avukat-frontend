@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Search, HelpCircle, FileText, CreditCard, Settings, Shield, Phone } from 'lucide-react';
+import { MarketingHeader } from '@/components/marketing/MarketingHeader';
 import { MarketingFooter } from '@/components/marketing/MarketingFooter';
 
 const categories = [
@@ -70,6 +71,8 @@ export default function SupportCenterPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <MarketingHeader />
+      
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">

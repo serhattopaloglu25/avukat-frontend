@@ -47,6 +47,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <MarketingHeader />
       
       <main className="pt-20">
         {/* Hero Section */}
@@ -102,14 +103,14 @@ export default function ContactPage() {
                       </label>
                       <Input
                         id="name"
-                        name="fullName"
+                        type="text"
                         required
                         value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="Ad Soyad"
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full"
                       />
                     </div>
-                    
+
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                         E-posta *
@@ -119,207 +120,173 @@ export default function ContactPage() {
                         type="email"
                         required
                         value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        placeholder="ornek@email.com"
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full"
                       />
                     </div>
-                    
+
                     <div>
                       <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                         Konu *
                       </label>
                       <Input
                         id="subject"
+                        type="text"
                         required
                         value={formData.subject}
-                        onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                        placeholder="Mesajınızın konusu"
+                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                        className="w-full"
                       />
                     </div>
-                    
+
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        Mesaj *
+                        Mesajınız *
                       </label>
                       <Textarea
                         id="message"
                         required
                         rows={5}
                         value={formData.message}
-                        onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        placeholder="Mesajınızı buraya yazın..."
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         className="w-full"
                       />
                     </div>
-                    
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex items-start gap-3">
-                        <Checkbox
-                          id="kvkk"
-                          checked={formData.kvkkConsent}
-                          onCheckedChange={(checked) => 
-                            setFormData({...formData, kvkkConsent: checked as boolean})
-                          }
-                          className="mt-1"
-                        />
-                        <label htmlFor="kvkk" className="text-sm text-gray-600 cursor-pointer">
-                          <a href="/aydinlatma-metni" target="_blank" className="text-primary hover:underline">
-                            KVKK Aydınlatma Metni
-                          </a>
-                          'ni okudum, anladım ve kişisel verilerimin işlenmesini kabul ediyorum. *
-                        </label>
-                      </div>
+
+                    <div className="flex items-start">
+                      <Checkbox
+                        id="kvkk"
+                        checked={formData.kvkkConsent}
+                        onCheckedChange={(checked) => 
+                          setFormData({ ...formData, kvkkConsent: checked as boolean })
+                        }
+                        className="mt-1"
+                      />
+                      <label htmlFor="kvkk" className="ml-3 text-sm text-gray-600">
+                        <a href="/kvkk" className="text-primary hover:underline">KVKK aydınlatma metnini</a> 
+                        {' '}okudum ve onaylıyorum.
+                      </label>
                     </div>
-                    
-                    <Button
-                      type="submit"
-                      disabled={loading || !formData.kvkkConsent}
-                      className="w-full"
-                    >
-                      {loading ? 'Gönderiliyor...' : 'Mesajı Gönder'}
-                    </Button>
+
+                    <div className="flex gap-4">
+                      <Button 
+                        type="submit" 
+                        className="flex-1"
+                        disabled={loading}
+                      >
+                        {loading ? 'Gönderiliyor...' : 'Gönder'}
+                      </Button>
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={() => window.location.href = '/'}
+                      >
+                        Giriş Yap
+                      </Button>
+                    </div>
+
+                    <div className="text-center">
+                      <Button
+                        type="button"
+                        variant="default"
+                        className="w-full bg-green-600 hover:bg-green-700"
+                        onClick={() => window.location.href = '/register'}
+                      >
+                        Ücretsiz Başla
+                      </Button>
+                    </div>
                   </form>
                 )}
               </motion.div>
-              
-              {/* Contact Information */}
+
+              {/* Contact Info */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
+                className="space-y-8"
               >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  İletişim Bilgileri
-                </h2>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <Phone className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Telefon</h3>
-                      <a 
-                        href="tel:+905443252500" 
-                        className="text-gray-600 hover:text-primary"
-                      >
-                        +90 (544) 325 2500
-                      </a>
-                      <p className="text-sm text-gray-500">Pazartesi - Cuma, 09:00 - 18:00</p>
-                    </div>
-                  </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                    İletişim Bilgileri
+                  </h2>
                   
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <Mail className="h-6 w-6 text-primary" />
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg">
+                        <Phone className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">Telefon</h3>
+                        <p className="text-gray-600">+90 (212) 123 45 67</p>
+                        <p className="text-gray-600">+90 (850) 123 45 67</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">E-posta</h3>
-                      <p className="text-gray-600">destek@avukatajanda.com</p>
-                      <p className="text-gray-600">bilgi@avukatajanda.com</p>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg">
+                        <Mail className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">E-posta</h3>
+                        <p className="text-gray-600">info@avukatajanda.com</p>
+                        <p className="text-gray-600">destek@avukatajanda.com</p>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <MapPin className="h-6 w-6 text-primary" />
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg">
+                        <MapPin className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">Adres</h3>
+                        <p className="text-gray-600">
+                          Levent Mahallesi, Büyükdere Caddesi<br />
+                          No: 123, Kat: 5, 34394<br />
+                          Şişli / İstanbul
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Ofis</h3>
-                      <p className="text-gray-600">
-                        Çamlık Mah. Gönülden Sok.<br />
-                        No: 3 Ümraniye/İstanbul
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <Clock className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Çalışma Saatleri</h3>
-                      <p className="text-gray-600">
-                        Pazartesi - Cuma: 09:00 - 18:00<br />
-                        Cumartesi: 10:00 - 14:00<br />
-                        Pazar: Kapalı
-                      </p>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg">
+                        <Clock className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">Çalışma Saatleri</h3>
+                        <p className="text-gray-600">
+                          Pazartesi - Cuma: 09:00 - 18:00<br />
+                          Cumartesi: 09:00 - 13:00<br />
+                          Pazar: Kapalı
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Google Maps Embed */}
-                <div className="mt-8 rounded-xl overflow-hidden h-64 md:h-80">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.2!2d29.1!3d41.02!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s%C3%87aml%C4%B1k%20Mah.%20G%C3%B6n%C3%BClden%20Sok.%20No%3A3%20%C3%9Cmraniye%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1234567890"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="AvukatAjanda Ofis Konumu - Çamlık Mah. Gönülden Sok. No:3 Ümraniye/İstanbul"
-                  />
-                </div>
-                
-                {/* Support Box */}
-                <div className="mt-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl p-6 text-white">
-                  <h3 className="text-lg font-semibold mb-3">
-                    Destek Merkezi
+
+                {/* FAQ Section */}
+                <div className="bg-gray-50 rounded-xl p-6">
+                  <h3 className="font-semibold text-gray-900 mb-4">
+                    Sıkça Sorulan Sorular
                   </h3>
-                  <p className="text-white/90 mb-4">
-                    Sıkça sorulan sorular ve kullanım kılavuzları için 
-                    destek merkezimizi ziyaret edebilirsiniz.
-                  </p>
-                  <button 
-                    onClick={() => window.location.href = '/destek-merkezi'}
-                    className="bg-white text-primary px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-                  >
-                    Destek Merkezi
-                  </button>
+                  <div className="space-y-3">
+                    <a href="/destek-merkezi" className="block text-primary hover:underline">
+                      Ücretsiz deneme nasıl başlatılır?
+                    </a>
+                    <a href="/destek-merkezi" className="block text-primary hover:underline">
+                      Hangi ödeme yöntemlerini kabul ediyorsunuz?
+                    </a>
+                    <a href="/destek-merkezi" className="block text-primary hover:underline">
+                      Veri güvenliği nasıl sağlanıyor?
+                    </a>
+                    <a href="/destek-merkezi" className="block text-primary hover:underline">
+                      Teknik destek nasıl alınır?
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             </div>
-          </div>
-        </section>
-
-        {/* FAQ CTA */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-3xl mx-auto"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Hızlı Yanıtlar
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                En sık sorulan sorulara hızlıca göz atın. Aradığınızı 
-                bulamadıysanız, yukarıdaki formu kullanarak bize ulaşın.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a href="/fiyatlandirma#faq" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
-                  <h3 className="font-semibold text-gray-900 mb-1">Fiyatlandırma</h3>
-                  <p className="text-sm text-gray-600">Plan özellikleri ve fiyatlar</p>
-                </a>
-                <a href="/ozellikler" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
-                  <h3 className="font-semibold text-gray-900 mb-1">Özellikler</h3>
-                  <p className="text-sm text-gray-600">Platform özellikleri</p>
-                </a>
-                <a href="/kvkk" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
-                  <h3 className="font-semibold text-gray-900 mb-1">KVKK</h3>
-                  <p className="text-sm text-gray-600">Veri güvenliği politikaları</p>
-                </a>
-                <a href="/destek-merkezi" className="bg-white p-4 rounded-lg hover:shadow-md transition-shadow">
-                  <h3 className="font-semibold text-gray-900 mb-1">Destek</h3>
-                  <p className="text-sm text-gray-600">Yardım ve SSS</p>
-                </a>
-              </div>
-            </motion.div>
           </div>
         </section>
       </main>
