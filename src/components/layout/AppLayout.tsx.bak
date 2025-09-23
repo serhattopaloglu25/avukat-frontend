@@ -6,13 +6,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo';
 import { 
+  Scale,$
   LayoutDashboard, 
   Users, 
   Briefcase, 
   Calendar, 
   FileText, 
+  Scale,$
   Receipt,
-  Scale,
   Settings,
   LogOut,
   Menu,
@@ -27,7 +28,7 @@ const navigation = [
   { name: 'Takvim', href: '/calendar', icon: Calendar },
   { name: 'Dokümanlar', href: '/documents', icon: FileText },
   { name: 'Faturalar', href: '/invoices', icon: Receipt },
-  { name: 'Emsal Davalar', href: '/cases/precedents', icon: Scale },
+  { name: 'Emsal Davalar', href: '/law/precedents', icon: Scale },
 ];
 
 export default function AppLayout({
