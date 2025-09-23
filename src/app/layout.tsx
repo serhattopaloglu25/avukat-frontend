@@ -13,6 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://avukatajanda.com'),
   title: 'AvukatAjanda - Hukuk Büroları İçin Akıllı Yönetim Sistemi',
   description: 'Müvekkil takibi, dava yönetimi ve ajanda organizasyonunu tek platformda birleştirin.',
   keywords: 'avukat ajanda, hukuk bürosu yönetimi, dava takibi, müvekkil yönetimi, duruşma takvimi',

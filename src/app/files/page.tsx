@@ -40,7 +40,7 @@ export default function FilesPage() {
 
   const getFileIcon = (type: string) => {
     if (type?.includes('pdf')) return <FileText className="h-4 w-4 text-red-500" />;
-    if (type?.includes('image')) return <Image className="h-4 w-4 text-blue-500" />;
+    if (type?.includes('image')) return <Image className="h-4 w-4 text-blue-500" aria-hidden="true" />;
     return <File className="h-4 w-4 text-gray-500" />;
   };
 
