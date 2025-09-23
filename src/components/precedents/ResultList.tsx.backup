@@ -54,15 +54,7 @@ export function ResultList({ results, loading = false, searchQuery = '' }: Resul
     }
   }, [searchQuery]);
 
-  // searchQuery değiştiğinde displayResults sıfırla
-  useEffect(() => {
-    if (!searchQuery) {
-      setDisplayResults([]);
-    }
-  }, [searchQuery]);
-
   const fetchYargitayResults = async () => {
-    if (!searchQuery || searchQuery.trim().length < 2) return;
     setIsSearching(true);
     try {
       const yargitayResults = await searchYargitay(searchQuery);
@@ -118,7 +110,7 @@ export function ResultList({ results, loading = false, searchQuery = '' }: Resul
       <Card>
         <CardContent className="text-center py-12">
           <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500">&quot;{searchQuery}&quot; için Yargıtay kararı bulunamadı.</p>
+          <p className="text-gray-500">"{searchQuery}" için Yargıtay kararı bulunamadı.</p>
           <p className="text-sm text-gray-400 mt-2">Farklı anahtar kelimelerle tekrar deneyin.</p>
         </CardContent>
       </Card>
@@ -129,12 +121,12 @@ export function ResultList({ results, loading = false, searchQuery = '' }: Resul
     <>
       <div className="mb-4 flex justify-between items-center">
         <p className="text-sm text-gray-600">
-          &quot;{searchQuery}&quot; için {displayResults.length} Yargıtay kararı bulundu
+          "{searchQuery}" için {displayResults.length} Yargıtay kararı bulundu
         </p>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => window.open('https://karararama.yargitay.gov.tr', '_blank')}
+          onClick={() => window.open(selectedCase.link || 'https://karararama.yargitay.gov.tr', '_blank')}
         >
           <ExternalLink className="h-4 w-4 mr-2" />
           Yargıtay Karar Arama
@@ -217,10 +209,7 @@ export function ResultList({ results, loading = false, searchQuery = '' }: Resul
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                      const searchTerm = result.title.split(' - ')[0] || '';
-                      window.open(`https://karararama.yargitay.gov.tr/YargitayBilgiBankasiIstemciWeb/?kelime=${encodeURIComponent(searchTerm)}`, '_blank');
-                    }}
+                      onClick={() => window.open(result.link || 'https://karararama.yargitay.gov.tr', '_blank')}}}
                     >
                       <ExternalLink className="h-4 w-4" />
                     </Button>
@@ -264,13 +253,10 @@ export function ResultList({ results, loading = false, searchQuery = '' }: Resul
                   Tarih: {new Date(selectedCase.date).toLocaleDateString('tr-TR')}
                 </div>
                 <Button
-                  onClick={() => {
-                  const searchTerm = selectedCase?.title?.split(' - ')[0] || '';
-                  window.open(`https://karararama.yargitay.gov.tr/YargitayBilgiBankasiIstemciWeb/?kelime=${encodeURIComponent(searchTerm)}`, '_blank');
-                }}
+                  onClick={() => window.open(selectedCase.link || 'https://karararama.yargitay.gov.tr', '_blank')}
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  Yargıtay&apos;da Görüntüle
+                  Yargıtay'da Görüntüle
                 </Button>
               </div>
             </div>

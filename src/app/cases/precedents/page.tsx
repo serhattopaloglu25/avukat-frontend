@@ -40,7 +40,9 @@ export default function PrecedentsPage() {
       if (!response.ok) throw new Error('Arama başarısız');
       
       const data = await response.json();
-      setSearchResults(data.results || []);
+      const results = data.results || [];
+      console.log("API results:", results);
+      setSearchResults(results);
     } catch (err) {
       setError('Emsal davalar yüklenirken bir hata oluştu.');
       console.error('Search error:', err);
@@ -74,7 +76,7 @@ export default function PrecedentsPage() {
         </div>
       )}
 
-      {searchQuery && <ResultList results={searchResults} loading={loading} searchQuery={searchQuery} />}
+      <ResultList results={searchResults} loading={loading} searchQuery={searchQuery} />
     </div>
   );
 }
