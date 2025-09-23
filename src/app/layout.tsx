@@ -14,7 +14,7 @@ const inter = Inter({
 
 const nunito = Nunito({ 
   subsets: ['latin'],
-  weight: ['600', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-nunito',
   display: 'swap',
 });
@@ -89,7 +89,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr" className={inter.variable}>
-      <body className={`${inter.className} ${nunito.variable} font-sans antialiased`}>
+      <body className={`${inter.className} font-sans antialiased`}>
         <GlobalHeader />
         <main className="min-h-screen">
           {children}

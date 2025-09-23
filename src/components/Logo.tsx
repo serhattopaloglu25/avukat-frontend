@@ -48,18 +48,18 @@ export function Logo({
           </g>
         </svg>
         
-        {/* Text */}
+        {/* Text - .com kaldırıldı */}
         <span className={`text-xl font-bold ${textColor}`} style={{ fontFamily: 'Nunito, sans-serif' }}>
-          avukatajanda.com
+          AvukatAjanda
         </span>
       </div>
     );
   }
 
   const sizes = {
-    sm: { width: 300, height: 80, fontSize: 18, subFontSize: 10 },
-    md: { width: 400, height: 100, fontSize: 28, subFontSize: 13 },
-    lg: { width: 580, height: 150, fontSize: 36, subFontSize: 15 },
+    sm: { width: 250, height: 80, fontSize: 18, subFontSize: 10 },
+    md: { width: 350, height: 100, fontSize: 28, subFontSize: 13 },
+    lg: { width: 500, height: 150, fontSize: 36, subFontSize: 15 },
   };
 
   const currentSize = sizes[size];
@@ -68,7 +68,7 @@ export function Logo({
   if (size === 'sm') {
     return (
       <div className={`flex items-center ${className}`}>
-        <svg width={currentSize.width} height={currentSize.height} viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+        <svg width={currentSize.width} height={currentSize.height} viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
           {/* Sembol kısaltılarak yeniden ölçeklenmiş */}
           <g transform="translate(20,18)" stroke="#2ecc71" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path d="M0,0 L60,0" strokeWidth="3"/>
@@ -81,7 +81,7 @@ export function Logo({
           </g>
           {showText && (
             <text x="95" y="45" fontFamily="Nunito, system-ui, -apple-system, sans-serif" fontSize="18" fontWeight="700" fill="#2c3e50">
-              avukatajanda.com
+              AvukatAjanda
             </text>
           )}
         </svg>
@@ -95,7 +95,7 @@ export function Logo({
       <svg 
         width={currentSize.width} 
         height={currentSize.height} 
-        viewBox="0 0 580 150" 
+        viewBox="0 0 500 150" 
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* Arka Plan */}
@@ -121,7 +121,7 @@ export function Logo({
           <path d="M10 50 Q60 85 110 50" stroke="#2ecc71" strokeWidth="4"/>
         </g>
         
-        {/* Ana Metin */}
+        {/* Ana Metin - .com kaldırıldı */}
         {showText && (
           <text 
             x="180" 
@@ -131,7 +131,7 @@ export function Logo({
             fontWeight="700" 
             fill="#2c3e50"
           >
-            avukatajanda.com
+            AvukatAjanda
           </text>
         )}
         
