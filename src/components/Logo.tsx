@@ -6,57 +6,146 @@ interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
+  showSubtext?: boolean;
+  variant?: 'default' | 'header';
+  theme?: 'light' | 'dark';
 }
 
-export function Logo({ className = '', size = 'md', showText = true }: LogoProps) {
+export function Logo({ 
+  className = '', 
+  size = 'md', 
+  showText = true, 
+  showSubtext = false,
+  variant = 'default',
+  theme = 'light'
+}: LogoProps) {
+  
+  // Header için özel boyutlandırma
+  if (variant === 'header') {
+    const textColor = theme === 'dark' ? 'text-white' : 'text-gray-800';
+    
+    return (
+      <div className={`flex items-center gap-2 ${className}`}>
+        {/* Sadece terazi ikonu */}
+        <svg width="50" height="50" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(15,30)" stroke="#2ecc71" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            {/* Terazi Kirişi */}
+            <path d="M0,0 L120,0" strokeWidth="5"/>
+            
+            {/* Pivot */}
+            <circle cx="60" cy="0" r="4" fill="#2ecc71"/>
+            
+            {/* Zincirler */}
+            <line x1="20" y1="0" x2="20" y2="40" strokeWidth="3.5"/>
+            <line x1="100" y1="0" x2="100" y2="40" strokeWidth="3.5"/>
+            
+            {/* Kefeler (Gözler) */}
+            <circle cx="20" cy="40" r="6" fill="#2ecc71" stroke="none"/>
+            <circle cx="100" cy="40" r="6" fill="#2ecc71" stroke="none"/>
+            
+            {/* Gülümseme */}
+            <path d="M10 50 Q60 85 110 50" stroke="#2ecc71" strokeWidth="4"/>
+          </g>
+        </svg>
+        
+        {/* Text */}
+        <span className={`text-xl font-bold ${textColor}`} style={{ fontFamily: 'Nunito, sans-serif' }}>
+          avukatajanda.com
+        </span>
+      </div>
+    );
+  }
+
   const sizes = {
-    sm: { width: 200, height: 48, fontSize: 16 },
-    md: { width: 280, height: 67, fontSize: 22 },
-    lg: { width: 350, height: 84, fontSize: 28 },
+    sm: { width: 300, height: 80, fontSize: 18, subFontSize: 10 },
+    md: { width: 400, height: 100, fontSize: 28, subFontSize: 13 },
+    lg: { width: 580, height: 150, fontSize: 36, subFontSize: 15 },
   };
 
   const currentSize = sizes[size];
-  const scale = currentSize.height / 120; // Original SVG height is 120
 
+  // Mobil versiyonu için kısa SVG
+  if (size === 'sm') {
+    return (
+      <div className={`flex items-center ${className}`}>
+        <svg width={currentSize.width} height={currentSize.height} viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+          {/* Sembol kısaltılarak yeniden ölçeklenmiş */}
+          <g transform="translate(20,18)" stroke="#2ecc71" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M0,0 L60,0" strokeWidth="3"/>
+            <circle cx="30" cy="0" r="2" fill="#2ecc71"/>
+            <line x1="10" y1="0" x2="10" y2="20" strokeWidth="2"/>
+            <line x1="50" y1="0" x2="50" y2="20" strokeWidth="2"/>
+            <circle cx="10" cy="20" r="3" fill="#2ecc71" stroke="none"/>
+            <circle cx="50" cy="20" r="3" fill="#2ecc71" stroke="none"/>
+            <path d="M5 25 Q30 45 55 25" strokeWidth="2.5"/>
+          </g>
+          {showText && (
+            <text x="95" y="45" fontFamily="Nunito, system-ui, -apple-system, sans-serif" fontSize="18" fontWeight="700" fill="#2c3e50">
+              avukatajanda.com
+            </text>
+          )}
+        </svg>
+      </div>
+    );
+  }
+
+  // Normal ve büyük boyutlar için
   return (
     <div className={`flex items-center ${className}`}>
       <svg 
         width={currentSize.width} 
         height={currentSize.height} 
-        viewBox="0 0 500 120" 
-        xmlns="http://www.w3.org/2000/svg" 
-        fill="none"
+        viewBox="0 0 580 150" 
+        xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Gülümseyen Terazi Görseli */}
-        <g transform="translate(40, 20)">
-          {/* Terazi kolu (üst çizgi) */}
-          <line x1="0" y1="15" x2="80" y2="15" stroke="#14B8A6" strokeWidth="3"/>
+        {/* Arka Plan */}
+        <rect width="100%" height="100%" fill="transparent"/>
+        
+        {/* Gülümseyen Terazi */}
+        <g transform="translate(40,35)" stroke="#2ecc71" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          {/* Terazi Kirişi */}
+          <path d="M0,0 L120,0" strokeWidth="5"/>
           
-          {/* Sol zincir */}
-          <line x1="0" y1="15" x2="0" y2="45" stroke="#14B8A6" strokeWidth="2"/>
-          {/* Sağ zincir */}
-          <line x1="80" y1="15" x2="80" y2="45" stroke="#14B8A6" strokeWidth="2"/>
+          {/* Pivot */}
+          <circle cx="60" cy="0" r="4" fill="#2ecc71"/>
           
-          {/* Gözler (yuvarlak panlar) */}
-          <circle cx="0" cy="45" r="6" fill="#14B8A6"/>
-          <circle cx="80" cy="45" r="6" fill="#14B8A6"/>
+          {/* Zincirler */}
+          <line x1="20" y1="0" x2="20" y2="40" strokeWidth="3.5"/>
+          <line x1="100" y1="0" x2="100" y2="40" strokeWidth="3.5"/>
           
-          {/* Gülümseme (eğri ağız) */}
-          <path d="M10 55 Q40 75 70 55" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round"/>
+          {/* Kefeler (Gözler) */}
+          <circle cx="20" cy="40" r="6" fill="#2ecc71" stroke="none"/>
+          <circle cx="100" cy="40" r="6" fill="#2ecc71" stroke="none"/>
+          
+          {/* Gülümseme */}
+          <path d="M10 50 Q60 85 110 50" stroke="#2ecc71" strokeWidth="4"/>
         </g>
         
-        {/* Yazı: "avukatajanda.com" - sadece showText true ise */}
+        {/* Ana Metin */}
         {showText && (
           <text 
-            x="130" 
-            y="70" 
-            fontFamily="system-ui, -apple-system, sans-serif" 
+            x="180" 
+            y="85" 
+            fontFamily="Nunito, system-ui, -apple-system, sans-serif" 
             fontSize={currentSize.fontSize}
             fontWeight="700" 
-            fill="#14B8A6" 
-            dominantBaseline="middle"
+            fill="#2c3e50"
           >
             avukatajanda.com
+          </text>
+        )}
+        
+        {/* Alt Metin (İsteğe Göre) */}
+        {showSubtext && (
+          <text 
+            x="180" 
+            y="115" 
+            fontFamily="Nunito, system-ui, -apple-system, sans-serif" 
+            fontSize={currentSize.subFontSize}
+            fontWeight="600" 
+            fill="#7f8c8d"
+          >
+            Profesyonel Avukat Ajanda Sistemi
           </text>
         )}
       </svg>

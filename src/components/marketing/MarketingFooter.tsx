@@ -40,7 +40,7 @@ export function MarketingFooter() {
           {/* Logo and description */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <Logo size="lg" />
+              <Logo variant="header" theme="dark" />
             </Link>
             <p className="text-sm text-gray-400 mb-4">
               Hukuk bürolarının dijital dönüşümü için tasarlanmış, 

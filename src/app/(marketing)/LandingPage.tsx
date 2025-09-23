@@ -100,13 +100,13 @@ export default function LandingPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register">
-                <Button size="lg" className="bg-primary hover:bg-primary-600 text-lg px-8 py-6">
+                <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-white text-lg px-8 py-6">
                   Ücretsiz Deneyin
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               <Link href="/demo">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary-300 hover:bg-primary-50">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary-400 text-primary-700 hover:bg-primary-50">
                   Demo İzle
                 </Button>
               </Link>

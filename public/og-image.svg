@@ -1,48 +1,50 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" fill="none">
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <!-- Gradient arka plan -->
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#F0FDFA;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#CCFBF1;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#E8F5E9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8E6C9;stop-opacity:1" />
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   
-  <!-- Logo - Ortada büyük -->
-  <g transform="translate(400, 200)">
-    <!-- Terazi kolu (üst çizgi) -->
-    <line x1="0" y1="30" x2="160" y2="30" stroke="#14B8A6" stroke-width="6"/>
+  <!-- Büyük Logo - Ortada -->
+  <g transform="translate(390,180)" stroke="#2ecc71" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Terazi Kirişi -->
+    <path d="M0,0 L240,0" stroke-width="10"/>
     
-    <!-- Sol zincir -->
-    <line x1="0" y1="30" x2="0" y2="90" stroke="#14B8A6" stroke-width="4"/>
-    <!-- Sağ zincir -->
-    <line x1="160" y1="30" x2="160" y2="90" stroke="#14B8A6" stroke-width="4"/>
+    <!-- Pivot -->
+    <circle cx="120" cy="0" r="8" fill="#2ecc71"/>
     
-    <!-- Gözler (yuvarlak panlar) -->
-    <circle cx="0" cy="90" r="12" fill="#14B8A6"/>
-    <circle cx="160" cy="90" r="12" fill="#14B8A6"/>
+    <!-- Zincirler -->
+    <line x1="40" y1="0" x2="40" y2="80" stroke-width="7"/>
+    <line x1="200" y1="0" x2="200" y2="80" stroke-width="7"/>
     
-    <!-- Gülümseme (eğri ağız) -->
-    <path d="M20 110 Q80 150 140 110" stroke="#14B8A6" stroke-width="4" stroke-linecap="round"/>
+    <!-- Kefeler (Gözler) -->
+    <circle cx="40" cy="80" r="12" fill="#2ecc71" stroke="none"/>
+    <circle cx="200" cy="80" r="12" fill="#2ecc71" stroke="none"/>
+    
+    <!-- Gülümseme -->
+    <path d="M20 100 Q120 170 220 100" stroke="#2ecc71" stroke-width="8"/>
   </g>
   
   <!-- Ana başlık -->
-  <text x="600" y="400" 
-        font-family="system-ui, -apple-system, sans-serif" 
+  <text x="600" y="420" 
+        font-family="Nunito, system-ui, -apple-system, sans-serif" 
         font-size="56" 
         font-weight="700" 
-        fill="#14B8A6" 
+        fill="#2c3e50" 
         text-anchor="middle">
     avukatajanda.com
   </text>
   
   <!-- Alt başlık -->
-  <text x="600" y="460" 
-        font-family="system-ui, -apple-system, sans-serif" 
+  <text x="600" y="480" 
+        font-family="Nunito, system-ui, -apple-system, sans-serif" 
         font-size="28" 
-        font-weight="400" 
-        fill="#0D9488" 
+        font-weight="600" 
+        fill="#7f8c8d" 
         text-anchor="middle">
-    Hukuk Büronuz İçin Akıllı Çözüm
+    Profesyonel Avukat Ajanda Sistemi
   </text>
 </svg>
