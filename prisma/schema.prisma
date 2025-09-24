@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String
+  address   String?
+  tcNo      String?  @unique
+  cases     Case[]
+  invoices  Invoice[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Case {
+  id          String    @id @default(cuid())
+  title       String
+  caseNumber  String?   @unique
+  type        String
+  status      String    @default("ACTIVE")
+  description String?
+  clientId    String
+  client      Client    @relation(fields: [clientId], references: [id])
+  hearings    Hearing[]
+  documents   Document[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Hearing {
+  id        String   @id @default(cuid())
+  date      DateTime
+  location  String
+  notes     String?
+  caseId    String
+  case      Case     @relation(fields: [caseId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  type      String
+  url       String
+  caseId    String
+  case      Case     @relation(fields: [caseId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Invoice {
+  id        String   @id @default(cuid())
+  amount    Float
+  status    String   @default("PENDING")
+  dueDate   DateTime
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
