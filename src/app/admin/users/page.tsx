@@ -11,8 +11,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Users, UserCheck, UserX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Users, UserCheck, UserX, RefreshCw } from 'lucide-react';
 import { apiService } from '@/services';
+import { DebugPanel } from './debug-panel';
 
 interface User {
   id: number;
@@ -63,6 +65,10 @@ export default function AdminUsersPage() {
           <h1 className="text-3xl font-bold">Kullanıcı Yönetimi</h1>
           <p className="text-gray-600 mt-1">Kayıtlı kullanıcıları görüntüleyin ve yönetin</p>
         </div>
+        <Button onClick={loadUsers} variant="outline">
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Yenile
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -171,6 +177,8 @@ export default function AdminUsersPage() {
           </ul>
         </CardContent>
       </Card>
+
+      <DebugPanel />
     </div>
   );
 }
