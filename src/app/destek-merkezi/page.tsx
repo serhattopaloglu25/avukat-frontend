@@ -70,7 +70,7 @@ export default function SupportCenterPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">

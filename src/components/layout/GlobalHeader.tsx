@@ -23,8 +23,8 @@ export function GlobalHeader() {
   const pathname = usePathname();
 
   // Dashboard ve auth sayfalarında header'ı gösterme
-  const shouldShowHeader = !pathname.startsWith('/dashboard') && 
-                          !pathname.startsWith('/clients') && 
+  const shouldShowHeader = !pathname.startsWith('/dashboard') &&
+                          !pathname.startsWith('/clients') &&
                           !pathname.startsWith('/cases') &&
                           !pathname.startsWith('/events') &&
                           !pathname.startsWith('/invoices') &&
@@ -50,7 +50,7 @@ export function GlobalHeader() {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
+
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -65,22 +65,28 @@ export function GlobalHeader() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-      scrolled 
-        ? "bg-white/95 backdrop-blur-md shadow-sm h-16 border-gray-200" 
-        : "bg-white/90 backdrop-blur-sm h-[72px] border-gray-100"
-    )}>
+      "bg-white/95 backdrop-blur-md shadow-sm border-gray-200"
+    )}
+    style={{ height: '72px' }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <nav className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image
-              src="/brand/avukatajanda-logo.svg"
-              alt="AvukatAjanda"
-              width={240}
-              height={80}
-              priority
-              className="h-12 sm:h-14 w-auto"
-            />
+            <div className="h-full flex items-center py-1">
+              <Image
+                src="/brand/avukatajanda-logo.png"
+                alt="AvukatAjanda"
+                width={1400}
+                height={280}
+                priority
+                className="w-auto header-logo-responsive"
+                style={{
+                  height: '70px',
+                  width: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -91,8 +97,8 @@ export function GlobalHeader() {
                 href={item.href}
                 className={cn(
                   "text-sm font-medium transition-all duration-200 py-2 border-b-2",
-                  pathname === item.href 
-                    ? "text-primary border-primary" 
+                  pathname === item.href
+                    ? "text-primary border-primary"
                     : "text-gray-600 border-transparent hover:text-primary hover:border-primary/50"
                 )}
               >
@@ -106,7 +112,7 @@ export function GlobalHeader() {
             <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-primary">
               Giriş Yap
             </Link>
-            <Button 
+            <Button
               onClick={handleTryFree}
               className="bg-primary hover:bg-primary/90"
             >
@@ -132,7 +138,7 @@ export function GlobalHeader() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div 
+          <div
             id="mobile-menu"
             className="lg:hidden fixed inset-x-0 top-[60px] bottom-0 bg-white border-t z-50"
           >
@@ -145,8 +151,8 @@ export function GlobalHeader() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
                       "text-sm font-medium py-2 px-3 rounded-lg transition-colors",
-                      pathname === item.href 
-                        ? "bg-primary/10 text-primary" 
+                      pathname === item.href
+                        ? "bg-primary/10 text-primary"
                         : "text-gray-600 hover:bg-gray-50"
                     )}
                   >
@@ -154,14 +160,14 @@ export function GlobalHeader() {
                   </Link>
                 ))}
                 <div className="mt-3 pt-3 border-t flex flex-col gap-3">
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     onClick={() => setMobileMenuOpen(false)}
                     className="text-sm font-medium text-center py-2 px-3 rounded-lg border border-gray-300 hover:bg-gray-50"
                   >
                     Giriş Yap
                   </Link>
-                  <Button 
+                  <Button
                     onClick={handleTryFree}
                     className="w-full bg-primary hover:bg-primary/90"
                   >

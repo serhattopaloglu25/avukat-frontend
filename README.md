@@ -1,4 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).## Analytics Setup
+# AvukatAjanda - Frontend
+
+> 🚨 **CRITICAL: Before making ANY changes, read [PRODUCTION_INFO.md](../PRODUCTION_INFO.md) in the parent directory!**
+
+This is the **PRODUCTION** Next.js project for AvukatAjanda (https://avukatajanda.com).
+
+## ⚠️ Important Notes
+
+- **Current Version:** v2.1.0 (UI/UX Güncellemeleri + Branding Refresh)
+- **Previous Deployment:** dpl_BaPTfi58d (commit: 06e0fee)
+- **Live Site:** https://avukatajanda.com
+- **Vercel Project:** https://vercel.com/serhat-topaloglus-projects/avukat-frontend
+
+**NEVER make changes without reading [PRODUCTION_INFO.md](../PRODUCTION_INFO.md) first!**
+
+## 📋 Recent Updates
+
+### Version 2.1.0 (9 Kasım 2025)
+- ✅ **Logo Güncellemesi**: Responsive logo scaling (Desktop 2.5x, Tablet 1.8x, Mobile 1.2x)
+- ✅ **Fixed Header**: 72px sabit yükseklikte header tasarımı
+- ✅ **Renk Şeması**: Ana renk #2ECC71 (parlak zümrüt yeşili) ile güncellendi
+- ✅ **Mobile Responsive**: Tüm ekran boyutları için optimize edilmiş tasarım
+- ✅ **Favicon Refresh**: Yeni branding ile favicon ve PWA icon güncellemeleri
+
+📖 Detaylı bilgi için: [RELEASE_NOTES_v2.1.md](./RELEASE_NOTES_v2.1.md)
+
+### Version 2.0.0 (1 Kasım 2025)
+- ✅ **Dinamik Dashboard**: Gerçek zamanlı istatistikler ve otomatik güncelleme
+- ✅ **Emsal Dava Sorgulama**: 28 detaylı emsal dava ile kapsamlı arama sistemi
+- ✅ **Gelişmiş Filtreleme**: Dava türü, mahkeme, tarih aralığı filtreleri
+- ✅ **Detaylı Karar Metinleri**: Her dava için yasal açıdan doğru tam metin
+
+📖 Detaylı bilgi için: [RELEASE_NOTES_v2.0.md](./RELEASE_NOTES_v2.0.md)
+
+## Analytics Setup
 
 ### Environment Variables
 

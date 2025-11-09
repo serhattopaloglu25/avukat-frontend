@@ -113,8 +113,8 @@ export default function FeaturesPage() {
   return (
     <div className="min-h-screen bg-white">
       <MarketingHeader />
-      
-      <main className="pt-20">
+
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -168,7 +168,7 @@ export default function FeaturesPage() {
                     <ul className="space-y-3 mb-6">
                       {category.details.map((detail) => (
                         <li key={detail} className="flex items-start gap-3">
-                          <svg className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>
                           <span className="text-gray-700">{detail}</span>
@@ -241,7 +241,7 @@ export default function FeaturesPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-r from-blue-600 to-green-600 rounded-3xl p-12 text-center"
+              className="bg-gradient-to-r from-blue-600 to-primary rounded-3xl p-12 text-center"
             >
               <h2 className="text-3xl font-bold text-white mb-4">
                 Tüm Bu Özellikleri Ücretsiz Deneyin

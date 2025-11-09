@@ -37,21 +37,28 @@ export function MarketingHeader() {
 
   return (
     <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      scrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-3" : "bg-white py-4"
-    )}>
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-sm"
+    )}
+    style={{ height: '72px', display: 'flex', alignItems: 'center' }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image
-              src="/brand/avukatajanda-logo.svg"
-              alt="AvukatAjanda"
-              width={160}
-              height={40}
-              priority
-              className="h-8 sm:h-10 w-auto"
-            />
+            <div className="h-full flex items-center py-1">
+              <Image
+                src="/brand/avukatajanda-logo.png"
+                alt="AvukatAjanda"
+                width={1400}
+                height={280}
+                priority
+                className="w-auto header-logo-responsive"
+                style={{
+                  height: '70px',
+                  width: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

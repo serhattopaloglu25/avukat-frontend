@@ -41,7 +41,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white">
       <MarketingHeader />
       
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,11 +94,11 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="bg-green-50 rounded-2xl p-8"
+                className="bg-primary-50 rounded-2xl p-8"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-green-100 rounded-xl">
-                    <Eye className="h-8 w-8 text-green-600" />
+                  <div className="p-3 bg-primary-100 rounded-xl">
+                    <Eye className="h-8 w-8 text-primary" />
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900">Vizyonumuz</h2>
                 </div>
@@ -217,8 +217,8 @@ export default function AboutPage() {
               <div className="bg-white rounded-2xl p-8 shadow-sm">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
-                      <Shield className="h-6 w-6 text-green-600" />
+                    <div className="p-2 bg-primary-100 rounded-lg flex-shrink-0">
+                      <Shield className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-2">
@@ -274,7 +274,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-r from-blue-600 to-green-600 rounded-3xl p-12 text-center"
+              className="bg-gradient-to-r from-blue-600 to-primary rounded-3xl p-12 text-center"
             >
               <h2 className="text-3xl font-bold text-white mb-4">
                 Dijital Dönüşüm Yolculuğunuza Başlayın

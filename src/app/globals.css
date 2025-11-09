@@ -171,3 +171,25 @@
     }
   }
 }
+
+/* Responsive Logo Scaling */
+@media (min-width: 1024px) {
+  .header-logo-responsive {
+    transform: scale(2.5);
+    transform-origin: left center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .header-logo-responsive {
+    transform: scale(1.8);
+    transform-origin: left center;
+  }
+}
+
+@media (max-width: 767px) {
+  .header-logo-responsive {
+    transform: scale(1.2);
+    transform-origin: left center;
+  }
+}

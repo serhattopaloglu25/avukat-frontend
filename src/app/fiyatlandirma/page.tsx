@@ -11,8 +11,8 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-white">
       <MarketingHeader />
-      
-      <main className="pt-20">
+
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,7 +91,7 @@ export default function PricingPage() {
                       </div>
                       
                       {plan.trial && (
-                        <p className="text-sm text-green-600 mt-2">
+                        <p className="text-sm text-primary mt-2">
                           {plan.trial} gün ücretsiz deneme
                         </p>
                       )}
@@ -100,7 +100,7 @@ export default function PricingPage() {
                     <ul className="space-y-3 mb-8">
                       {plan.features.included.slice(0, 8).map((feature) => (
                         <li key={feature} className="flex items-start gap-3">
-                          <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                          <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700 text-sm">{feature}</span>
                         </li>
                       ))}
@@ -165,7 +165,7 @@ export default function PricingPage() {
                         </td>
                         <td className="px-6 py-4 text-center text-sm">
                           {feature.bireysel === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
+                            <Check className="h-5 w-5 text-primary mx-auto" />
                           ) : feature.bireysel === '—' ? (
                             <X className="h-5 w-5 text-gray-400 mx-auto" />
                           ) : (
@@ -174,7 +174,7 @@ export default function PricingPage() {
                         </td>
                         <td className="px-6 py-4 text-center text-sm">
                           {feature.buro === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
+                            <Check className="h-5 w-5 text-primary mx-auto" />
                           ) : feature.buro === '—' ? (
                             <X className="h-5 w-5 text-gray-400 mx-auto" />
                           ) : (
@@ -183,7 +183,7 @@ export default function PricingPage() {
                         </td>
                         <td className="px-6 py-4 text-center text-sm">
                           {feature.kurumsal === '✓' ? (
-                            <Check className="h-5 w-5 text-green-600 mx-auto" />
+                            <Check className="h-5 w-5 text-primary mx-auto" />
                           ) : feature.kurumsal === '—' ? (
                             <X className="h-5 w-5 text-gray-400 mx-auto" />
                           ) : (
@@ -237,7 +237,7 @@ export default function PricingPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-blue-600 to-green-600">
+        <section className="py-16 bg-gradient-to-r from-blue-600 to-primary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-4">
