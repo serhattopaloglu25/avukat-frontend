@@ -6,7 +6,7 @@ This is the **PRODUCTION** Next.js project for AvukatAjanda (https://avukatajand
 
 ## ⚠️ Important Notes
 
-- **Current Version:** v2.1.0 (UI/UX Güncellemeleri + Branding Refresh)
+- **Current Version:** v2.2.0 (Kullanıcı Yönetimi + Kayıt Sistemi)
 - **Previous Deployment:** dpl_BaPTfi58d (commit: 06e0fee)
 - **Live Site:** https://avukatajanda.com
 - **Vercel Project:** https://vercel.com/serhat-topaloglus-projects/avukat-frontend
@@ -14,6 +14,17 @@ This is the **PRODUCTION** Next.js project for AvukatAjanda (https://avukatajand
 **NEVER make changes without reading [PRODUCTION_INFO.md](../PRODUCTION_INFO.md) first!**
 
 ## 📋 Recent Updates
+
+### Version 2.2.0 (9 Kasım 2025)
+- ✅ **Register Modal**: Kayıt formu artık modal olarak açılıyor
+- ✅ **LocalStorage Entegrasyonu**: Kullanıcı kayıtları localStorage'da tutuluyor
+- ✅ **Türkçeleştirme**: Tüm placeholder'lar Türkçe ("Ahmet Yılmaz")
+- ✅ **Email Kontrolü**: Tekrar kayıt engelleme
+- ✅ **Şifre Validasyonu**: Minimum 6 karakter + eşleşme kontrolü
+- ✅ **Admin Users Panel**: Kayıtlı kullanıcıları görüntüleme sayfası (/admin/users)
+- ✅ **Login İyileştirmesi**: Kayıtlı kullanıcılar giriş yapabiliyor
+
+📖 Detaylı bilgi için: [RELEASE_NOTES_v2.2.md](./RELEASE_NOTES_v2.2.md)
 
 ### Version 2.1.0 (9 Kasım 2025)
 - ✅ **Logo Güncellemesi**: Responsive logo scaling (Desktop 2.5x, Tablet 1.8x, Mobile 1.2x)

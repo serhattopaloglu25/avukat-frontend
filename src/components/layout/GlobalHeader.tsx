@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import { RegisterModal } from '@/components/auth/RegisterModal';
 
 const navigation = [
   { name: 'Özellikler', href: '/ozellikler' },
@@ -20,6 +21,7 @@ const navigation = [
 export function GlobalHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const pathname = usePathname();
 
   // Dashboard ve auth sayfalarında header'ı gösterme
@@ -59,7 +61,7 @@ export function GlobalHeader() {
   if (!shouldShowHeader) return null;
 
   const handleTryFree = () => {
-    window.location.href = '/register';
+    setRegisterModalOpen(true);
   };
 
   return (
@@ -179,6 +181,8 @@ export function GlobalHeader() {
           </div>
         )}
       </div>
+
+      <RegisterModal open={registerModalOpen} onOpenChange={setRegisterModalOpen} />
     </header>
   );
 }

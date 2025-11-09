@@ -219,35 +219,82 @@ export class MockApiService {
   }
 
   async login(email: string, password: string) {
+    // Check demo account
     if (email === 'demo@avukatajanda.com' && password === 'demo123') {
       const token = 'mock-token-' + Date.now();
       this.setToken(token);
       return Promise.resolve({
         access_token: token,
         token_type: 'bearer',
-        user: { 
-          id: 1, 
-          email, 
+        user: {
+          id: 1,
+          email,
           name: 'Demo User',
           is_active: true,
           created_at: '2024-01-01'
         }
       });
     }
+
+    // Check registered users
+    const users = this.loadData('users', []);
+    const user = users.find((u: any) => u.email === email && u.password === password);
+
+    if (user) {
+      const token = 'mock-token-' + Date.now();
+      this.setToken(token);
+      return Promise.resolve({
+        access_token: token,
+        token_type: 'bearer',
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          is_active: user.is_active,
+          created_at: user.created_at
+        }
+      });
+    }
+
     throw new Error('Geçersiz email veya şifre');
   }
 
   async register(data: any) {
+    // Save user to localStorage
+    const users = this.loadData('users', []);
+
+    // Check if email already exists
+    const existingUser = users.find((u: any) => u.email === data.email);
+    if (existingUser) {
+      throw new Error('Bu e-posta adresi zaten kayıtlı!');
+    }
+
+    const newUser = {
+      id: Date.now(),
+      name: data.name,
+      email: data.email,
+      password: data.password, // In real app, this would be hashed
+      is_active: true,
+      created_at: new Date().toISOString()
+    };
+
+    users.push(newUser);
+    this.saveData('users', users);
+
     const token = 'mock-token-' + Date.now();
     this.setToken(token);
+
+    this.addActivity('Yeni kullanıcı kaydı: ' + newUser.name, 'user', newUser.id);
+
     return Promise.resolve({
       access_token: token,
       token_type: 'bearer',
-      user: { 
-        id: Date.now(), 
-        ...data,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
         is_active: true,
-        created_at: new Date().toISOString()
+        created_at: newUser.created_at
       }
     });
   }
@@ -289,6 +336,19 @@ export class MockApiService {
     return null;
   }
 
+  // Get all users (for admin panel)
+  async getUsers() {
+    const users = this.loadData('users', []);
+    // Remove passwords from response for security
+    return Promise.resolve(users.map((u: any) => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      is_active: u.is_active,
+      created_at: u.created_at
+    })));
+  }
+
   // Clear all mock data
   clearAllData() {
     if (typeof window !== 'undefined') {
@@ -296,6 +356,8 @@ export class MockApiService {
       localStorage.removeItem(this.getStorageKey('cases'));
       localStorage.removeItem(this.getStorageKey('events'));
       localStorage.removeItem(this.getStorageKey('invoices'));
+      localStorage.removeItem(this.getStorageKey('users'));
+      localStorage.removeItem(this.getStorageKey('activities'));
     }
   }
 }

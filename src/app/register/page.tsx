@@ -29,7 +29,12 @@ export default function RegisterPage() {
       setError('Şifreler eşleşmiyor!');
       return;
     }
-    
+
+    if (formData.password.length < 6) {
+      setError('Şifre en az 6 karakter olmalıdır!');
+      return;
+    }
+
     try {
       setLoading(true);
       await apiService.register({
@@ -77,7 +82,7 @@ export default function RegisterPage() {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Ahmet Yılmaz"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
