@@ -113,11 +113,7 @@ export default function PricingPage() {
                     </ul>
                     
                     <Button
-                      className={`w-full ${
-                        plan.badge === 'En Popüler'
-                          ? 'bg-primary hover:bg-primary/90'
-                          : 'bg-gray-900 hover:bg-gray-800'
-                      }`}
+                      className="w-full bg-primary hover:bg-primary/90"
                       onClick={() => window.location.href = '/register'}
                     >
                       {plan.id === 'kurumsal' ? 'İletişime Geç' : 'Ücretsiz Başla'}
@@ -249,7 +245,7 @@ export default function PricingPage() {
               </p>
               <Button
                 size="lg"
-                className="bg-white text-primary hover:bg-gray-100"
+                className="bg-white text-primary hover:bg-primary/10 hover:border hover:border-primary"
                 onClick={() => window.location.href = '/register'}
               >
                 Ücretsiz Denemeye Başla
